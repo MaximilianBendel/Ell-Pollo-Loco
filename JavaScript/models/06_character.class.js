@@ -9,8 +9,9 @@ class Character extends MoveableObject {
     ];
     currentImage = 0;
     world;
-    speed = 3;
+    speed = 5;
     direction = 'right';
+    walking_sound = new Audio('Audio/walking.mp3');
 
     constructor() {
         super().loadImg('img_pollo_locco/img/2_character_pepe/2_walk/W-21.png'); // Lädt das Standbild des Charakters
@@ -32,14 +33,18 @@ class Character extends MoveableObject {
     }
 
     moveCharacter() {
-        if (this.world.keyboard.RIGHT) {
+        this.walking_sound.pause(); // Pausiert den Laufsound
+        if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
             this.x += this.speed; // Bewegt den Charakter nach rechts
             this.direction = 'right'; // Aktualisiert die Richtung
+            this.walking_sound.play(); // Spielt den Laufsound ab
         }
-        if (this.world.keyboard.LEFT) {
+        if (this.world.keyboard.LEFT && this.x > -720) {
             this.x -= this.speed; // Bewegt den Charakter nach links
             this.direction = 'left'; // Aktualisiert die Richtung
+            this.walking_sound.play(); // Spielt den Laufsound ab
         }
+        this.world.camera_x = -this.x +100; // Bewegt die Kamera mit dem Charakter
     }
 
     updateAnimation() {
@@ -50,6 +55,7 @@ class Character extends MoveableObject {
             this.currentImage++;
         }
     }
+
 
     draw(ctx) {
         if (this.direction === 'left') {
