@@ -10,35 +10,35 @@ class Character extends MoveableObject {
     currentImage = 0;
     world;
     speed = 3;
-    direction = 'right'; // Neue Eigenschaft zur Verfolgung der Richtung
+    direction = 'right';
 
     constructor() {
-        super().loadImg('img_pollo_locco/img/2_character_pepe/2_walk/W-21.png');
-        this.loadImages(this.Images_walking);
+        super().loadImg('img_pollo_locco/img/2_character_pepe/2_walk/W-21.png'); // Lädt das Standbild des Charakters
+        this.loadImages(this.Images_walking); // Lädt die Laufbilder des Charakters
         this.x = 0;
         this.height = 200;
-        this.y = 440 - this.height;
-        this.animate();
+        this.y = 440 - this.height; // Setzt die y-Position
+        this.animate(); // Startet die Animation des Charakters
     }
 
     animate() {
         setInterval(() => {
-            this.moveCharacter();
-        }, 1000 / 60); // 60 FPS for smoother movement
+            this.moveCharacter(); // Bewegt den Charakter
+        }, 1000 / 60); // 60 FPS für flüssigere Bewegung
 
         setInterval(() => {
-            this.updateAnimation();
-        }, 200); // 5 FPS for slower animation
+            this.updateAnimation(); // Aktualisiert die Animation des Charakters
+        }, 200); // 5 FPS für langsamere Animation
     }
 
     moveCharacter() {
         if (this.world.keyboard.RIGHT) {
-            this.x += this.speed;
-            this.direction = 'right'; // Richtung aktualisieren
+            this.x += this.speed; // Bewegt den Charakter nach rechts
+            this.direction = 'right'; // Aktualisiert die Richtung
         }
         if (this.world.keyboard.LEFT) {
-            this.x -= this.speed;
-            this.direction = 'left'; // Richtung aktualisieren
+            this.x -= this.speed; // Bewegt den Charakter nach links
+            this.direction = 'left'; // Aktualisiert die Richtung
         }
     }
 
@@ -46,19 +46,19 @@ class Character extends MoveableObject {
         if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
             let i = this.currentImage % this.Images_walking.length;
             let path = this.Images_walking[i];
-            this.img = this.imageCache[path];
+            this.img = this.imageCache[path]; // Setzt das aktuelle Bild
             this.currentImage++;
         }
     }
 
     draw(ctx) {
         if (this.direction === 'left') {
-            ctx.save();
-            ctx.scale(-1, 1);
+            ctx.save(); // Speichert den aktuellen Zustand des Canvas
+            ctx.scale(-1, 1); // Spiegelt das Bild horizontal
             ctx.drawImage(this.img, -this.x - this.width, this.y, this.width, this.height);
-            ctx.restore();
+            ctx.restore(); // Stellt den gespeicherten Zustand wieder her
         } else {
-            ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+            ctx.drawImage(this.img, this.x, this.y, this.width, this.height); // Zeichnet das Bild normal
         }
     }
 

@@ -7,7 +7,7 @@ class Keyboard {
         this.SPACE = false;
         this.D = false;
     }
-    // Methode zum aktualisieren des Tastaturzustands
+
     updateKeyState(key, isPressed) {
         switch (key) {
             case 'ArrowLeft':

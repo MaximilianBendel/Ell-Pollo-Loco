@@ -1,13 +1,13 @@
 class World {
-    character = new Character();
+    character = new Character(); // Initialisiert einen neuen Charakter
     enemies = [
         new Chicken(),
         new Chicken(),
         new Chicken()
-    ];
+    ]; // Initialisiert drei Feinde (Hühner)
     clouds = [
         new Cloud()
-    ];
+    ]; // Initialisiert eine Wolke
     canvas;
     ctx;
     BackGroundObjects = [
@@ -15,56 +15,55 @@ class World {
         new BackGroundObject('img_pollo_locco/img/5_background/layers/3_third_layer/1.png', 0),
         new BackGroundObject('img_pollo_locco/img/5_background/layers/2_second_layer/1.png', 0),
         new BackGroundObject('img_pollo_locco/img/5_background/layers/1_first_layer/1.png', 0)
-        
-    ];
+    ]; // Initialisiert die Hintergrundobjekte
     keyboard;
+
     constructor(canvas, keyboard) {
-        this.ctx = canvas.getContext('2d');
-        this.canvas = canvas;
-        this.keyboard = keyboard;
-        this.draw();
-        this.setWorld();
+        this.ctx = canvas.getContext('2d'); // Holt den 2D-Kontext des Canvas
+        this.canvas = canvas; // Setzt das Canvas
+        this.keyboard = keyboard; // Setzt das Keyboard
+        this.draw(); // Ruft die Zeichnen-Methode auf
+        this.setWorld(); // Setzt die Welt
     }
 
     setWorld() { 
-        this.character.world = this;
+        this.character.world = this; // Verbindet den Charakter mit der Welt
     }
 
     draw() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); // Löscht das Canvas
 
-        this.addObjectsToMap(this.BackGroundObjects);
-        this.addToMap(this.character);
-        this.addObjectsToMap(this.enemies);
-        this.addObjectsToMap(this.clouds);
+        this.addObjectsToMap(this.BackGroundObjects); // Fügt Hintergrundobjekte zur Karte hinzu
+        this.addToMap(this.character); // Fügt den Charakter zur Karte hinzu
+        this.addObjectsToMap(this.enemies); // Fügt die Feinde zur Karte hinzu
+        this.addObjectsToMap(this.clouds); // Fügt die Wolken zur Karte hinzu
         
-        // Draw wird immer wieder ausgeführt 
         let self = this;
         requestAnimationFrame(function () {
-            self.draw();
+            self.draw(); // Ruft draw() wiederholt auf, um Animation zu erstellen
         });
     }
 
     addToMap(movableObject) {
         if (movableObject instanceof Character && movableObject.direction === 'left') {
-            this.ctx.save();
-            this.ctx.scale(-1, 1);
+            this.ctx.save(); // Speichert den aktuellen Zustand des Canvas
+            this.ctx.scale(-1, 1); // Spiegelt das Bild horizontal
             this.ctx.drawImage(
                 movableObject.img,
-                -movableObject.x - movableObject.width, // Negative x position for flipping
+                -movableObject.x - movableObject.width, // Negative x-Position zum Spiegeln
                 movableObject.y,
                 movableObject.width,
                 movableObject.height
             );
-            this.ctx.restore();
+            this.ctx.restore(); // Stellt den gespeicherten Zustand wieder her
         } else {
-            this.ctx.drawImage(movableObject.img, movableObject.x, movableObject.y, movableObject.width, movableObject.height);
+            this.ctx.drawImage(movableObject.img, movableObject.x, movableObject.y, movableObject.width, movableObject.height); // Zeichnet das Bild normal
         }
     }
 
     addObjectsToMap(objects) {
         objects.forEach(object => {
-            this.addToMap(object);
+            this.addToMap(object); // Fügt jedes Objekt zur Karte hinzu
         });
     }
 }
