@@ -17,10 +17,17 @@ class World {
         new BackGroundObject('img_pollo_locco/img/5_background/layers/1_first_layer/1.png', 0)
         
     ];
-    constructor(canvas) {
+    keyboard;
+    constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
+        this.keyboard = keyboard;
         this.draw();
+        this.setWorld();
+    }
+
+    setWorld() { 
+        this.character.world = this;
     }
 
     draw() {
@@ -31,8 +38,6 @@ class World {
         this.addObjectsToMap(this.enemies);
         this.addObjectsToMap(this.clouds);
         
-      
-        
         // Draw wird immer wieder ausgeführt 
         let self = this;
         requestAnimationFrame(function () {
@@ -40,8 +45,21 @@ class World {
         });
     }
 
-    addToMap(MovableObject) {
-        this.ctx.drawImage(MovableObject.img, MovableObject.x, MovableObject.y, MovableObject.width, MovableObject.height);
+    addToMap(movableObject) {
+        if (movableObject instanceof Character && movableObject.direction === 'left') {
+            this.ctx.save();
+            this.ctx.scale(-1, 1);
+            this.ctx.drawImage(
+                movableObject.img,
+                -movableObject.x - movableObject.width, // Negative x position for flipping
+                movableObject.y,
+                movableObject.width,
+                movableObject.height
+            );
+            this.ctx.restore();
+        } else {
+            this.ctx.drawImage(movableObject.img, movableObject.x, movableObject.y, movableObject.width, movableObject.height);
+        }
     }
 
     addObjectsToMap(objects) {
