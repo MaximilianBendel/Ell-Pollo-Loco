@@ -19,10 +19,10 @@ class Keyboard {
             case 'ArrowUp':
                 this.UP = isPressed;
                 break;
-            case 'ArrowDown':
+            case 'ArrowDown':   
                 this.DOWN = isPressed;
                 break;
-            case ' ':
+            case 'Space':
                 this.SPACE = isPressed;
                 break;
             case 'd':
