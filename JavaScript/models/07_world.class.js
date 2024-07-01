@@ -4,6 +4,10 @@ class World {
     clouds = level1.clouds; // Initialisiert eine Wolke
     BackGroundObjects = level1.BackGroundObjects; // Initialisiert die Hintergrundobjekte
     level = level1; // Initialisiert das Level
+    statusbar = new Statusbar(); // Initialisiert die Statusleiste
+    coinbar = new Coinbar(); // Initialisiert die Münzleiste
+    bottlebar = new Bottlebar(); // Initialisiert die Flaschenleiste
+    bottle = []; // Initialisiert die Flasche
 
     canvas;
     ctx;
@@ -17,18 +21,50 @@ class World {
         this.initializeBackgroundObjects(); // Initialisiert die Hintergrundobjekte
         this.draw(); // Ruft die Zeichnen-Methode auf
         this.setWorld(); // Setzt die Welt
+        this.run(); // Überprüft Kollisionen
     }
 
-    setWorld() { 
+    setWorld() {
         this.character.world = this; // Verbindet den Charakter mit der Welt
     }
+
+    run() {
+        setInterval(() => {
+            this.checkCollisions(); // Überprüft Kollisionen
+            this.checkThrowObject(); // Überprüft, ob die Flasche geworfen wird
+        }, 200);
+    }
+
+    checkCollisions() { 
+        this.level.enemies.forEach((enemy) => { // Iteriert über die Feinde
+            if (this.character.isColliding(enemy)) { // Überprüft, ob der Charakter mit einem Feind kollidiert
+                this.character.hit(); // Ruft die hit-Methode des beweglichen Objekts auf
+                this.statusbar.setPercentage(this.character.lifepoints); // Aktualisiert die Statusleiste
+                console.log('Collision with Character!', this.character.lifepoints);
+            }
+        });
+    }
+
+    checkThrowObject() {
+        if (this.keyboard.D && this.bottle.length < 30) { // Verhindert das Spammen von Flaschen
+            let newBottle = new ThrowableObject(this.character.x + 50, this.character.y + 100);
+            this.bottle.push(newBottle);
+        }
+    }
+    
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); // Löscht das Canvas
         this.ctx.translate(this.camera_x, 0); // Verschiebt die Kamera
 
         this.addObjectsToMap(this.BackGroundObjects); // Fügt Hintergrundobjekte zur Karte hinzu
+        this.ctx.translate(-this.camera_x, 0); // Verschiebt die Kamera zurück
+        this.addToMap(this.statusbar); // Fügt die Statusleiste zur Karte hinzu
+        this.addToMap(this.coinbar); // Fügt die Münzleiste zur Karte hinzu
+        this.addToMap(this.bottlebar); // Fügt die Flaschenleiste zur Karte hinzu
+        this.ctx.translate(this.camera_x, 0); // Verschiebt die Kamera
         this.addToMap(this.character); // Fügt den Charakter zur Karte hinzu
+        this.addObjectsToMap(this.bottle); // Fügt die Flasche zur Karte hinzu
         this.addObjectsToMap(this.enemies); // Fügt die Feinde zur Karte hinzu
         this.addObjectsToMap(this.clouds); // Fügt die Wolken zur Karte hinzu
         this.ctx.translate(-this.camera_x, 0); // Setzt die Kamera zurück
@@ -51,9 +87,13 @@ class World {
             );
             this.ctx.restore(); // Stellt den gespeicherten Zustand wieder her
         } else {
-            this.ctx.drawImage(movableObject.img, movableObject.x, movableObject.y, movableObject.width, movableObject.height); // Zeichnet das Bild normal
+            movableObject.draw(this.ctx); // Zeichnet das Objekt
+        }
+        if (typeof movableObject.drawFrame === 'function') {
+            movableObject.drawFrame(this.ctx); // Zeichnet den Rahmen
         }
     }
+    
 
     addObjectsToMap(objects) {
         objects.forEach(object => {
@@ -73,10 +113,10 @@ class World {
             'img_pollo_locco/img/5_background/layers/1_first_layer/1.png',
             'img_pollo_locco/img/5_background/layers/1_first_layer/2.png'
         ];
-    
+
         // Array von Startpositionen, multipliziert mit 719 für die Platzierung der Bilder
         const startPositions = [-2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
-    
+
         // Äußere Schleife iteriert über die Startpositionen
         for (let i = 0; i < startPositions.length; i++) {
             // Innere Schleife iteriert über die Layer-Array, zwei Elemente auf einmal (Schrittgröße 2)
@@ -87,5 +127,5 @@ class World {
                 this.BackGroundObjects.push(new BackGroundObject(layers[j + 1], startPositions[i] * 719 * 2 + 719));
             }
         }
-    }    
+    }
 }

@@ -31,6 +31,31 @@ class Character extends MoveableObject {
         'img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-19.png',
         'img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-20.png'
     ];
+    Images_jumping = [
+        'img_pollo_locco/img/2_character_pepe/3_jump/J-31.png',
+        'img_pollo_locco/img/2_character_pepe/3_jump/J-32.png',
+        'img_pollo_locco/img/2_character_pepe/3_jump/J-33.png',
+        'img_pollo_locco/img/2_character_pepe/3_jump/J-34.png',
+        'img_pollo_locco/img/2_character_pepe/3_jump/J-35.png',
+        'img_pollo_locco/img/2_character_pepe/3_jump/J-36.png',
+        'img_pollo_locco/img/2_character_pepe/3_jump/J-37.png',
+        'img_pollo_locco/img/2_character_pepe/3_jump/J-38.png',
+        'img_pollo_locco/img/2_character_pepe/3_jump/J-39.png',
+    ];
+    Images_dead = [
+        'img_pollo_locco/img/2_character_pepe/5_dead/D-52.png',
+        'img_pollo_locco/img/2_character_pepe/5_dead/D-53.png',
+        'img_pollo_locco/img/2_character_pepe/5_dead/D-54.png',
+        'img_pollo_locco/img/2_character_pepe/5_dead/D-55.png',
+        'img_pollo_locco/img/2_character_pepe/5_dead/D-56.png',
+        'img_pollo_locco/img/2_character_pepe/5_dead/D-57.png'
+    ];
+    Images_hurt = [
+        'img_pollo_locco/img/2_character_pepe/4_hurt/H-41.png',
+        'img_pollo_locco/img/2_character_pepe/4_hurt/H-42.png',
+        'img_pollo_locco/img/2_character_pepe/4_hurt/H-43.png'
+    ];
+
     currentImage = 0;
     world;
     speed = 5;
@@ -38,16 +63,20 @@ class Character extends MoveableObject {
     walking_sound = new Audio('Audio/walking.mp3');
     snoring_sound = new Audio('Audio/snoring.mp3');
     idleTime = 0;
-    
+    isDeadAnimationStopped = false; // Neue Eigenschaft hinzugefügt
 
     constructor() {
         super().loadImg('img_pollo_locco/img/2_character_pepe/1_idle/idle/I-1.png'); // Lädt das Standbild des Charakters
         this.loadImages(this.Images_walking); // Lädt die Laufbilder des Charakters 
         this.loadImages(this.Images_idle); // Lädt die Standbilder des Charakters
         this.loadImages(this.Images_long_idle); // Lädt die Long-Idle-Bilder des Charakters
+        this.loadImages(this.Images_jumping); // Lädt die Sprungbilder des Charakters
+        this.loadImages(this.Images_dead); // Lädt die Todesbilder des Charakters
+        this.loadImages(this.Images_hurt); // Lädt die Verletzungs-Bilder des Charakters
+        this.applyGravity(); // Startet die Fallgeschwindigkeit des Charakters
         this.x = 0;
-        this.height = 200;
-        this.y = 440 - this.height; // Setzt die y-Position
+        this.height = 240;
+        this.y = 210;
         this.animate(); // Startet die Animation des Charakters
     }
 
@@ -64,48 +93,107 @@ class Character extends MoveableObject {
     moveCharacter() {
         this.walking_sound.pause(); // Pausiert den Laufsound
         if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-            this.x += this.speed; // Bewegt den Charakter nach rechts
-            this.direction = 'right'; // Aktualisiert die Richtung
-            this.walking_sound.play(); // Spielt den Laufsound ab
-            this.idleTime = 0; // Setzt die Idle-Zeit zurück
-            this.snoring_sound.pause(); // Pausiert den Schnarchsound
+            this.moveRightCharacter();
         }
         if (this.world.keyboard.LEFT && this.x > -720) {
-            this.x -= this.speed; // Bewegt den Charakter nach links
-            this.direction = 'left'; // Aktualisiert die Richtung
-            this.walking_sound.play(); // Spielt den Laufsound ab
-            this.idleTime = 0; // Setzt die Idle-Zeit zurück
-            this.snoring_sound.pause(); // Pausiert den Schnarchsound
+            this.moveLeftCharacter();
+        }
+        if (this.world.keyboard.SPACE && !this.isAboveGround()) { // Nur springen, wenn der Charakter nicht bereits in der Luft ist
+            this.jump(); // Startet den Sprung
+            this.startJumpingAnimation(); // Startet die Sprunganimation
         }
         this.world.camera_x = -this.x + 100; // Bewegt die Kamera mit dem Charakter
     }
 
+    moveRightCharacter() {
+        this.x += this.speed; // Bewegt den Charakter nach rechts
+        this.direction = 'right'; // Aktualisiert die Richtung
+        this.walking_sound.play(); // Spielt den Laufsound ab
+        this.idleTime = 0; // Setzt die Idle-Zeit zurück
+        this.snoring_sound.pause(); // Pausiert den Schnarchsound
+    }
+
+    moveLeftCharacter() {
+        this.x -= this.speed; // Bewegt den Charakter nach links
+        this.direction = 'left'; // Aktualisiert die Richtung
+        this.walking_sound.play(); // Spielt den Laufsound ab
+        this.idleTime = 0; // Setzt die Idle-Zeit zurück
+        this.snoring_sound.pause(); // Pausiert den Schnarchsound
+    }
+
+    startJumpingAnimation() {
+        if (this.jumpingAnimationInterval) { // Überprüft, ob die Sprunganimation bereits läuft
+            clearInterval(this.jumpingAnimationInterval); // Pausiert die Sprunganimation
+        }
+        this.jumpingAnimationInterval = setInterval(() => { // Startet die Sprunganimation
+            this.animateImages(this.Images_jumping); // Aktualisiert die Sprunganimation
+        }, 300);
+    }
+
+    stopJumpingAnimation() {
+        if (this.jumpingAnimationInterval) { // Überprüft, ob die Sprunganimation läuft
+            clearInterval(this.jumpingAnimationInterval); // Pausiert die Sprunganimation
+            this.jumpingAnimationInterval = null; // Setzt die Sprunganimation zurück
+        }
+    }
+
+    stopDeadAnimation() {
+        if (this.deadAnimationInterval) {
+            clearInterval(this.deadAnimationInterval); // Pausiert die Todesanimation
+            this.deadAnimationInterval = null; // Setzt die Todesanimation zurück
+        }
+        this.loadImg('img_pollo_locco/img/2_character_pepe/5_dead/D-56.png'); // Setzt das letzte Todesbild
+        this.isDeadAnimationStopped = true; // Setzt den Todesanimationsstatus
+    }
+
+
     updateAnimation() {
-        if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-            this.animateImages(this.Images_walking); // Startet die Laufanimation
-            this.idleTime = 0; // Setzt die Idle-Zeit zurück
-            this.snoring_sound.pause(); // Pausiert den Schnarchsound
-        } else {
-            this.idleTime += 200; // Erhöht die Idle-Zeit um 200 Millisekunden
-            if (this.idleTime >= 2000000) { // Wenn die Idle-Zeit 2 Sekunden überschreitet
-                this.animateImages(this.Images_long_idle); // Startet die Long-Idle-Animation
-                if (this.snoring_sound.paused) { // Spielt den Schnarchsound ab, falls er pausiert ist
-                    this.snoring_sound.play();
-                }
+        if (!this.isAboveGround()) {
+            this.speedY = 0;
+            this.stopJumpingAnimation();
+            if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+                this.animateImages(this.Images_walking);
+                this.idleTime = 0;
+                this.snoring_sound.pause();
             } else {
-                this.animateImages(this.Images_idle); // Startet die Idle-Animation
-                this.snoring_sound.pause(); // Pausiert den Schnarchsound
+                this.idleTime += 200;
+                if (this.idleTime >= 200000) {
+                    this.animateImages(this.Images_long_idle);
+                    if (this.snoring_sound.paused) {
+                        this.snoring_sound.play();
+                    }
+                } else {
+                    this.animateImages(this.Images_idle);
+                    this.snoring_sound.pause();
+                }
             }
+        } else {
+            this.animateImages(this.Images_jumping);
+        } if (this.isHurt()) {
+            this.animateImages(this.Images_hurt);
+        }
+        if (this.isDead()) {
+            if (!this.isDeadAnimationStopped) {
+                this.animateImages(this.Images_dead);
+                setTimeout(() => {
+                    this.stopDeadAnimation();
+                }, 400);
+            }
+            return; // Beendet die updateAnimation Methode vorzeitig, wenn der Charakter tot ist
         }
     }
 
     animateImages(images) {
+        if (this.isDeadAnimationStopped) {
+            return; // Beendet die Methode frühzeitig, wenn die Todesanimation gestoppt wurde
+        }
         this.currentImage++;
         if (this.currentImage >= images.length) {
             this.currentImage = 0;
         }
         this.img = this.imageCache[images[this.currentImage]];
     }
+
 
     draw(ctx) {
         if (this.direction === 'left') {
@@ -116,9 +204,5 @@ class Character extends MoveableObject {
         } else {
             ctx.drawImage(this.img, this.x, this.y, this.width, this.height); // Zeichnet das Bild normal
         }
-    }
-
-    jump() {
-        // Sprunglogik hinzufügen
     }
 }

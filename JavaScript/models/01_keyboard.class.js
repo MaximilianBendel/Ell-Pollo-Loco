@@ -22,7 +22,7 @@ class Keyboard {
             case 'ArrowDown':   
                 this.DOWN = isPressed;
                 break;
-            case 'Space':
+            case ' ':
                 this.SPACE = isPressed;
                 break;
             case 'd':

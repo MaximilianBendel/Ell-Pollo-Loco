@@ -11,13 +11,15 @@ class Chicken extends MoveableObject {
         this.x = 200 + Math.random() * 500; // Setzt eine zufällige x-Position
         this.height = 70;
         this.width = 60;
-        this.y = 440 - this.height; // Setzt die y-Position
+        this.y = 445 - this.height; // Setzt die y-Position
         this.animate(); // Startet die Animation des Huhns
         this.speed = 0.15 + Math.random() * 0.25; // Setzt eine zufällige Geschwindigkeit
     }
 
     animate() {
-        this.moveLeft(); // Startet die Bewegung nach links
+        setInterval(() => {
+            this.moveLeft(); // Startet die Bewegung nach links
+        }, 1000 / 60); // 60 FPS für flüssigere Bewegung
         setInterval(() => {
             this.animateImages(this.Images_walking); // Startet die Laufanimation
         }, 1000 / 6); // 6 FPS für Animation
