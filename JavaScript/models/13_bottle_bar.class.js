@@ -13,28 +13,33 @@ class Bottlebar extends Drawableobject {
     constructor() {
         super();
         this.loadImages(this.Images_statusbar_bottle);
-        this.setBottles(0);
+        this.setBottles(this.bottles);
         this.x = 20;
         this.y = 85;
         this.width = 200;
         this.height = 50;
     }
 
-
-    setBottles(bottles) { 
-        this.bottles = bottles; // Setzt die Anzahl der Münzen
-        if (this.bottles === 5) {
-            this.img = this.imageCache[this.Images_statusbar_bottle[5]]; // Setzt das Bild auf 5 Münzen  
-        } else if (this.bottles === 4) { 
-            this.img = this.imageCache[this.Images_statusbar_bottle[4]]; // Setzt das Bild auf 4 Münzen
-        } else if (this.bottles === 3) {
-            this.img = this.imageCache[this.Images_statusbar_bottle[3]]; // Setzt das Bild auf 3 Münzen
-        } else if (this.bottles === 2) {
-            this.img = this.imageCache[this.Images_statusbar_bottle[2]]; // Setzt das Bild auf 2 Münzen
-        } else if (this.bottles === 1) {
-            this.img = this.imageCache[this.Images_statusbar_bottle[1]]; // Setzt das Bild auf 1 Münze
-        } else if (this.bottles === 0)  {
-            this.img = this.imageCache[this.Images_statusbar_bottle[0]]; // Setzt das Bild auf 0 Münzen
+    setBottles(bottles) {
+        this.bottles = bottles; // Setzt die Anzahl der Flaschen
+        this.updateStatusBarImage(); // Update die Bildanzeige basierend auf der Anzahl
+    }
+    
+    updateStatusBarImage() {
+        if (this.bottles === 10) {
+            this.img = this.imageCache[this.Images_statusbar_bottle[5]]; 
+        } else if (this.bottles >= 8) { 
+            this.img = this.imageCache[this.Images_statusbar_bottle[4]];
+        } else if (this.bottles >= 6) {
+            this.img = this.imageCache[this.Images_statusbar_bottle[3]]; 
+        } else if (this.bottles >= 4) {
+            this.img = this.imageCache[this.Images_statusbar_bottle[2]]; 
+        } else if (this.bottles >= 2) {
+            this.img = this.imageCache[this.Images_statusbar_bottle[1]]; 
+        } else {
+            this.img = this.imageCache[this.Images_statusbar_bottle[0]]; 
         }
     }
+    
+    
 }

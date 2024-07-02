@@ -10,5 +10,18 @@ const level1 = new Level(
         new Cloud()
     ],
 
-    [] // BackGroundObjects
+    [], // BackGroundObjects
+
+    [
+        new CollectableBottles(),
+        new CollectableBottles(),
+        new CollectableBottles(),
+        new CollectableBottles(),
+        new CollectableBottles(),
+        new CollectableBottles(),
+        new CollectableBottles(),
+        new CollectableBottles(),
+        new CollectableBottles(),
+        new CollectableBottles()
+    ] // collectableBottles
 );

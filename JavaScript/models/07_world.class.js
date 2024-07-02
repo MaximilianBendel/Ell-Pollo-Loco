@@ -8,11 +8,13 @@ class World {
     coinbar = new Coinbar(); // Initialisiert die Münzleiste
     bottlebar = new Bottlebar(); // Initialisiert die Flaschenleiste
     bottle = []; // Initialisiert die Flasche
+    collectableBottles = level1.collectableBottles; // Initialisiert die sammelbaren Flaschen
 
     canvas;
     ctx;
     keyboard;
     camera_x = 0;
+    lastThrowTime = 0;  // Zeitpunkt des letzten Wurfs
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d'); // Holt den 2D-Kontext des Canvas
@@ -32,6 +34,7 @@ class World {
         setInterval(() => {
             this.checkCollisions(); // Überprüft Kollisionen
             this.checkThrowObject(); // Überprüft, ob die Flasche geworfen wird
+            this.checkCollisionsWithBottles(); // Überprüft Kollisionen mit Flaschen
         }, 200);
     }
 
@@ -45,12 +48,32 @@ class World {
         });
     }
 
+    checkCollisionsWithBottles() { 
+        this.level.collectableBottles.forEach((bottle) => { 
+            if (this.character.isColliding(bottle)) {
+                bottle.collectBottle(this.level.collectableBottles, this.bottlebar); // Korrekt: Ruft collectBottle auf dem kollidierenden Flaschenobjekt auf
+            }
+        });
+    }
+    
+
     checkThrowObject() {
-        if (this.keyboard.D && this.bottle.length < 30) { // Verhindert das Spammen von Flaschen
+        const currentTime = Date.now();
+        // Prüft, ob die 'D'-Taste gedrückt ist, die Länge von bottle weniger als 30 beträgt,
+        // ob bottlebar.bottles zwischen 1 und 10 liegt und ob 0,5 Sekunden seit dem letzten Wurf vergangen sind.
+        if (this.keyboard.D && this.bottle.length < 30 && this.bottlebar.bottles > 0 && this.bottlebar.bottles <= 10 && currentTime - this.lastThrowTime >= 500) {
             let newBottle = new ThrowableObject(this.character.x + 50, this.character.y + 100);
             this.bottle.push(newBottle);
+            
+            // Reduziert die Anzahl der Flaschen in bottlebar um 1, wenn eine Flasche geworfen wird.
+            this.bottlebar.bottles -= 1;
+            this.bottlebar.setBottles(this.bottlebar.bottles);  // Aktualisiert die Anzeige
+            
+            // Setzt den Zeitpunkt des letzten Wurfs auf die aktuelle Zeit.
+            this.lastThrowTime = currentTime;
         }
     }
+    
     
 
     draw() {
@@ -64,6 +87,7 @@ class World {
         this.addToMap(this.bottlebar); // Fügt die Flaschenleiste zur Karte hinzu
         this.ctx.translate(this.camera_x, 0); // Verschiebt die Kamera
         this.addToMap(this.character); // Fügt den Charakter zur Karte hinzu
+        this.addObjectsToMap(this.collectableBottles); // Fügt die sammelbaren Flaschen zur Karte hinzu
         this.addObjectsToMap(this.bottle); // Fügt die Flasche zur Karte hinzu
         this.addObjectsToMap(this.enemies); // Fügt die Feinde zur Karte hinzu
         this.addObjectsToMap(this.clouds); // Fügt die Wolken zur Karte hinzu

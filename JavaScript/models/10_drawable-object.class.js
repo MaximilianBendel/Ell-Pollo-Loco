@@ -33,6 +33,4 @@ class Drawableobject {
             ctx.stroke(); // Zeichnet den Pfad 
         }
     }
-
-    
 }
