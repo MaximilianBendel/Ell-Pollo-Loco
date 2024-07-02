@@ -1,10 +1,6 @@
 class Drawableobject {
     images;
     imageCache = {};
-    x = 120;
-    y = 320;
-    height = 150;
-    width = 100;
     currentImage = 0;
 
     loadImg(path) {
@@ -24,13 +20,5 @@ class Drawableobject {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height); // Zeichnet das Bild normal
     }    
     
-    drawFrame(ctx) {
-        if (this instanceof Character || this instanceof Chicken || this instanceof Endboss) {
-            ctx.beginPath(); // Beginnt einen neuen Pfad
-            ctx.lineWidth = 5; // Setzt die Linienbreite auf 2
-            ctx.strokeStyle = 'red'; // Setzt die Linienfarbe auf Rot
-            ctx.rect(this.x, this.y, this.width, this.height); // Zeichnet ein Rechteck
-            ctx.stroke(); // Zeichnet den Pfad 
-        }
-    }
+   
 }

@@ -63,7 +63,7 @@ class Character extends MoveableObject {
     walking_sound = new Audio('Audio/walking.mp3');
     snoring_sound = new Audio('Audio/snoring.mp3');
     idleTime = 0;
-    isDeadAnimationStopped = false; // Neue Eigenschaft hinzugefügt
+    isDeadAnimationStopped = false;
 
     constructor() {
         super().loadImg('img_pollo_locco/img/2_character_pepe/1_idle/idle/I-1.png'); // Lädt das Standbild des Charakters
@@ -76,6 +76,7 @@ class Character extends MoveableObject {
         this.applyGravity(); // Startet die Fallgeschwindigkeit des Charakters
         this.x = 0;
         this.height = 240;
+        this.width = 100;
         this.y = 210;
         this.animate(); // Startet die Animation des Charakters
     }
@@ -122,14 +123,18 @@ class Character extends MoveableObject {
     }
 
     startJumpingAnimation() {
-        if (this.jumpingAnimationInterval) { // Überprüft, ob die Sprunganimation bereits läuft
-            clearInterval(this.jumpingAnimationInterval); // Pausiert die Sprunganimation
+        if (this.jumpingAnimationInterval) {
+            clearInterval(this.jumpingAnimationInterval); // Stoppt bestehende Animation, falls vorhanden
         }
-        this.jumpingAnimationInterval = setInterval(() => { // Startet die Sprunganimation
+        this.currentImage = 0; // Startet von Anfang der Sprungbilder
+        this.jumpingAnimationInterval = setInterval(() => {
             this.animateImages(this.Images_jumping); // Aktualisiert die Sprunganimation
-        }, 300);
+            if (this.currentImage >= this.Images_jumping.length - 1) {
+                clearInterval(this.jumpingAnimationInterval); // Beendet die Animation, wenn das letzte Bild erreicht ist
+            }
+        }, 250); // 250 ms zwischen den Frames für eine gleichmäßige Animation
     }
-
+    
     stopJumpingAnimation() {
         if (this.jumpingAnimationInterval) { // Überprüft, ob die Sprunganimation läuft
             clearInterval(this.jumpingAnimationInterval); // Pausiert die Sprunganimation
@@ -145,7 +150,6 @@ class Character extends MoveableObject {
         this.loadImg('img_pollo_locco/img/2_character_pepe/5_dead/D-56.png'); // Setzt das letzte Todesbild
         this.isDeadAnimationStopped = true; // Setzt den Todesanimationsstatus
     }
-
 
     updateAnimation() {
         if (!this.isAboveGround()) {

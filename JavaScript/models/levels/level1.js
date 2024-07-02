@@ -7,7 +7,12 @@ const level1 = new Level(
     ],
 
     [ // clouds
-        new Cloud()
+        new Cloud(250, 25),
+        new Cloud(500, 50),
+        new Cloud(800, 25),
+        new Cloud(1200, 50),    
+        new Cloud(1700, 25),
+        new Cloud(2300, 50),
     ],
 
     [], // BackGroundObjects

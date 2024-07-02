@@ -4,7 +4,7 @@ class CollectableBottles extends Drawableobject {
 
     constructor() { 
         super().loadImg('img_pollo_locco/img/6_salsa_bottle/salsa_bottle.png');
-        this.height = 60;
+        this.height = 40;
         this.width = 50;
         this.setPosition();
     }
@@ -13,7 +13,7 @@ class CollectableBottles extends Drawableobject {
         let hasConflict;
         do {
             this.x = 100 + Math.random() * 1800;
-            this.y = 150 + Math.random() * 100;
+            this.y = 100 + Math.random() * 150;
             hasConflict = this.checkConflict();
         } while (hasConflict);
         CollectableBottles.allBottles.push(this);
@@ -21,7 +21,7 @@ class CollectableBottles extends Drawableobject {
 
     checkConflict() {
         const minDistance = 100; // Setze den gewünschten Mindestabstand
-        for (let bottle of CollectableBottles.allBottles) {
+        for (let bottle of CollectableBottles.allBottles) { 
             const distance = Math.sqrt((bottle.x - this.x) ** 2 + (bottle.y - this.y) ** 2);
             if (distance < minDistance) {
                 return true; // Es gibt einen Konflikt, wenn der Abstand zu klein ist

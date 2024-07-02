@@ -1,8 +1,8 @@
 class Cloud extends MoveableObject {
-    constructor() {
+    constructor(x,y) {
         super().loadImg('img_pollo_locco/img/5_background/layers/4_clouds/1.png'); // Lädt das Bild der Wolke
-        this.x = 0 + Math.random() * 500; // Setzt eine zufällige x-Position
-        this.y = 20;
+        this.x = x;
+        this.y = y;
         this.width = 500;
         this.height = 250;
         this.startMovingClouds(); // Startet die Bewegung der Wolken
