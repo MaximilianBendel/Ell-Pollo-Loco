@@ -112,6 +112,8 @@ class Character extends MoveableObject {
         this.walking_sound.play(); // Spielt den Laufsound ab
         this.idleTime = 0; // Setzt die Idle-Zeit zurück
         this.snoring_sound.pause(); // Pausiert den Schnarchsound
+        console.log("Character X-Position: ", this.x); // Log der X-Position
+
     }
 
     moveLeftCharacter() {

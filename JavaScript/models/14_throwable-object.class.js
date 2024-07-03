@@ -1,5 +1,7 @@
 class ThrowableObject extends MoveableObject {
 
+
+    throwSound = new Audio('Audio/throwbottle.mp3'); // Soundeffekt für das Werfen
     speedY = 30; // Geschwindigkeit in y-Richtung
     speedX = 20; // Geschwindigkeit in x-Richtung
 
@@ -28,6 +30,7 @@ class ThrowableObject extends MoveableObject {
             // Aufrufen der animateImages Methode um die Flaschenbilder zu animieren
             this.animateImages(this.Images_Bottle_rotating);
         }, 25); // Aktualisiere das Bild alle 100 Millisekunden
+        this.throwSound.play(); // Spiele den Soundeffekt ab    
     }
     
 

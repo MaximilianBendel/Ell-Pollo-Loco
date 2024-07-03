@@ -9,6 +9,7 @@ class World {
     bottlebar = new Bottlebar(); // Initialisiert die Flaschenleiste
     bottle = []; // Initialisiert die Flasche
     collectableBottles = level1.collectableBottles; // Initialisiert die sammelbaren Flaschen
+    collectableCoins = level1.collectableCoins; // Initialisiert die sammelbaren Münzen
 
     canvas;
     ctx;
@@ -23,6 +24,7 @@ class World {
         this.initializeBackgroundObjects(); // Initialisiert die Hintergrundobjekte
         this.draw(); // Ruft die Zeichnen-Methode auf
         this.setWorld(); // Setzt die Welt
+        this.setEndboss(); // Setzt den Endboss
         this.run(); // Überprüft Kollisionen
     }
 
@@ -30,22 +32,54 @@ class World {
         this.character.world = this; // Verbindet den Charakter mit der Welt
     }
 
-    run() {
-        setInterval(() => {
-            this.checkCollisions(); // Überprüft Kollisionen
-            this.checkThrowObject(); // Überprüft, ob die Flasche geworfen wird
-            this.checkCollisionsWithBottles(); // Überprüft Kollisionen mit Flaschen
-        }, 200);
-    }
-
-    checkCollisions() { 
-        this.level.enemies.forEach((enemy) => { // Iteriert über die Feinde
-            if (this.character.isColliding(enemy)) { // Überprüft, ob der Charakter mit einem Feind kollidiert
-                this.character.hit(); // Ruft die hit-Methode des beweglichen Objekts auf
-                this.statusbar.setPercentage(this.character.lifepoints); // Aktualisiert die Statusleiste
-                console.log('Collision with Character!', this.character.lifepoints);
+    setEndboss() {
+        // Wenn es weitere Endboss-Instanzen gibt, die aktualisiert werden müssen:
+        this.level.enemies.forEach(enemy => {
+            if (enemy instanceof Endboss) {
+                enemy.character = this.character;
             }
         });
+    }
+
+    run() {
+        setInterval(() => {
+            this.checkThrowObject(); // Überprüft, ob die Flasche geworfen wird
+            this.checkCollisionsWithBottles(); // Überprüft Kollisionen mit Flaschen
+            this.checkCollisionsWithCoins(); // Überprüft Kollisionen mit Münzen
+            this.checkEndbossTrigger(); // Überprüft die Position des Characters
+        }, 25);
+        this.checkCollisionsCharacter(); // Überprüft Kollisionen mit dem Charakter
+    }
+
+    checkCollisionsCharacter() { 
+        setInterval(() => {
+            this.checkCollisions(); // Überprüft Kollisionen
+        }, 250); // 1 Sekunde
+    }
+
+    checkEndbossTrigger() {
+        if (this.character.x > 1800) {
+            this.level.enemies.forEach(enemy => {
+                if (enemy instanceof Endboss) {
+                    enemy.startAnimation();
+                }
+            });
+        }
+    }
+    
+    checkCollisions() {
+        this.level.enemies.forEach((enemy) => {
+            if (this.character.isColliding(enemy)) {
+                this.character.hit();
+                this.statusbar.setPercentage(this.character.lifepoints);
+                console.log('Collision with Character!', this.character.lifepoints);
+            } else if (enemy instanceof Endboss && !enemy.isAttacking && enemy.isColliding(this.character)) {
+                enemy.startAttack(); // Startet die Angriffsanimation nur, wenn der Endboss nicht bereits angreift
+                this.character.hit();
+                this.statusbar.setPercentage(this.character.lifepoints);
+                console.log('Hit by Endboss!');
+            }
+            });
     }
 
     checkCollisionsWithBottles() { 
@@ -55,15 +89,23 @@ class World {
             }
         });
     }
+
+    checkCollisionsWithCoins() { 
+        this.level.collectableCoins.forEach((coin) => { 
+            if (this.character.isColliding(coin)) {
+                coin.collectCoin(this.level.collectableCoins, this.coinbar); // Korrekt: Ruft collectCoin auf dem kollidierenden Münzobjekt auf
+            }
+        });
+    }
     
 
     checkThrowObject() {
         const currentTime = Date.now();
         // Prüft, ob die 'D'-Taste gedrückt ist, die Länge von bottle weniger als 30 beträgt,
         // ob bottlebar.bottles zwischen 1 und 10 liegt und ob 0,5 Sekunden seit dem letzten Wurf vergangen sind.
-        if (this.keyboard.D && this.bottle.length < 30 && this.bottlebar.bottles > 0 && this.bottlebar.bottles <= 10 && currentTime - this.lastThrowTime >= 500) {
+        if (this.keyboard.D && this.bottlebar.bottles > 0 && this.bottlebar.bottles <= 10 && currentTime - this.lastThrowTime >= 500) {
             let newBottle = new ThrowableObject(this.character.x + 50, this.character.y + 100);
-            this.bottle.push(newBottle);
+            this.bottle.push(newBottle); 
             
             // Reduziert die Anzahl der Flaschen in bottlebar um 1, wenn eine Flasche geworfen wird.
             this.bottlebar.bottles -= 1;
@@ -87,6 +129,7 @@ class World {
         this.addToMap(this.bottlebar); // Fügt die Flaschenleiste zur Karte hinzu
         this.ctx.translate(this.camera_x, 0); // Verschiebt die Kamera
         this.addToMap(this.character); // Fügt den Charakter zur Karte hinzu
+        this.addObjectsToMap(this.collectableCoins); // Fügt die sammelbaren Münzen zur Karte hinzu
         this.addObjectsToMap(this.collectableBottles); // Fügt die sammelbaren Flaschen zur Karte hinzu
         this.addObjectsToMap(this.bottle); // Fügt die Flasche zur Karte hinzu
         this.addObjectsToMap(this.enemies); // Fügt die Feinde zur Karte hinzu

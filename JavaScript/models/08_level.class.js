@@ -3,12 +3,14 @@ class Level  {
     clouds;
     BackGroundObjects;
     collectableBottles;
+    collectableCoins;
     level_end_x = 1900; // Das Ende des Levels
 
-    constructor(enemies, clouds, BackGroundObjects, collectableBottles) {
+    constructor(enemies, clouds, BackGroundObjects, collectableBottles, collectableCoins) {
         this.enemies = enemies; 
         this.clouds = clouds;
         this.BackGroundObjects = BackGroundObjects;
         this.collectableBottles = collectableBottles;
+        this.collectableCoins = collectableCoins;
     }
 }
