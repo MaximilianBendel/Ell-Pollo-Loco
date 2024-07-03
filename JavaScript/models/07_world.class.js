@@ -60,12 +60,14 @@ class World {
     checkEndbossTrigger() {
         if (this.character.x > 1800) {
             this.level.enemies.forEach(enemy => {
-                if (enemy instanceof Endboss) {
+                if (enemy instanceof Endboss && !enemy.animationTriggered) {
                     enemy.startAnimation();
+                    enemy.animationTriggered = true; // Setzt die Zustandsvariable, um erneutes Starten zu verhindern
                 }
             });
         }
     }
+    
     
     checkCollisions() {
         this.level.enemies.forEach((enemy) => {
