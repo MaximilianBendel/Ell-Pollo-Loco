@@ -17,6 +17,7 @@ class World {
     camera_x = 0;
     lastThrowTime = 0;  // Zeitpunkt des letzten Wurfs
 
+
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d'); // Holt den 2D-Kontext des Canvas
         this.canvas = canvas; // Setzt das Canvas
@@ -44,6 +45,7 @@ class World {
     run() {
         setInterval(() => {
             this.checkThrowObject(); // Überprüft, ob die Flasche geworfen wird
+            this.checkEnemyCollisionWithBottle(); // Überprüft Kollisionen mit Flaschen
             this.checkCollisionsWithBottles(); // Überprüft Kollisionen mit Flaschen
             this.checkCollisionsWithCoins(); // Überprüft Kollisionen mit Münzen
             this.checkEndbossTrigger(); // Überprüft die Position des Characters
@@ -53,8 +55,35 @@ class World {
 
     checkCollisionsCharacter() { 
         setInterval(() => {
-            this.checkCollisions(); // Überprüft Kollisionen
-        }, 250); // 1 Sekunde
+            this.checkCollisionsWithEnemy(); // Überprüft Kollisionen mit Feinden
+            this.checkCollisionsWithEndboss(); // Überprüft Kollisionen mit dem Endboss
+        }, 250); // Überprüft Kollisionen alle 250 Millisekunden
+    }
+
+    checkCollisionsWithEnemy() {
+        this.enemies.forEach((enemy) => {
+            if (this.character.isColliding(enemy)) {
+                this.character.hit(5);
+                this.statusbar.setPercentage(this.character.lifepoints);
+                console.log('Collision with Character!', this.character.lifepoints);
+            } else if (enemy instanceof Endboss && !enemy.isAttacking && enemy.isColliding(this.character)) {
+                enemy.startAttack(); // Startet die Angriffsanimation nur, wenn der Endboss nicht bereits angreift
+                this.character.hit(5);
+                this.statusbar.setPercentage(this.character.lifepoints);
+                console.log('Hit by Endboss!');
+            }
+            }); 
+    }
+
+    checkCollisionsWithEndboss() {
+        this.enemies.forEach((enemy) => {
+                if (enemy instanceof Endboss && !enemy.isAttacking && enemy.isColliding(this.character)) {
+                enemy.startAttack(); // Startet die Angriffsanimation nur, wenn der Endboss nicht bereits angreift
+                this.character.hit(5);
+                this.statusbar.setPercentage(this.character.lifepoints);
+                console.log('Hit by Endboss!');
+            }
+            }); 
     }
 
     checkEndbossTrigger() {
@@ -67,22 +96,62 @@ class World {
             });
         }
     }
-    
-    
-    checkCollisions() {
-        this.level.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy)) {
-                this.character.hit();
-                this.statusbar.setPercentage(this.character.lifepoints);
-                console.log('Collision with Character!', this.character.lifepoints);
-            } else if (enemy instanceof Endboss && !enemy.isAttacking && enemy.isColliding(this.character)) {
-                enemy.startAttack(); // Startet die Angriffsanimation nur, wenn der Endboss nicht bereits angreift
-                this.character.hit();
-                this.statusbar.setPercentage(this.character.lifepoints);
-                console.log('Hit by Endboss!');
-            }
+
+    checkEnemyCollisionWithBottle() {
+        this.enemies.forEach((enemy) => {
+            this.bottle.forEach((bottle, index) => {
+                if (bottle.isColliding(enemy)) {
+                    if (enemy instanceof Chicken) {
+                        this.handleChickenHit(enemy, bottle, index);
+                    } else if (enemy instanceof Endboss && enemy.notHurtable) {
+                        this.handleEndbossHit(enemy, bottle, index);
+                    }
+                }
             });
+        });
     }
+    
+    handleChickenHit(enemy, bottle, index) {
+        enemy.hit(100); // Reduziert die Lebenspunkte des Feindes
+        console.log('Chicken Hit!');
+        bottle.bottleSplash(); // Ruft die Methode bottleSplash auf
+        this.removeBottleAfterDelay(index);
+    }
+    
+    handleEndbossHit(enemy, bottle, index) {
+        enemy.hit(20); // Reduziert die Lebenspunkte des Endbosses
+        enemy.isHurtAnimation(); // Setzt den Status des Endbosses auf verletzt
+        bottle.bottleSplash(); // Ruft die Methode bottleSplash auf
+        this.removeBottleAfterDelay(index);
+    }
+    
+    removeBottleAfterDelay(index) {
+        setTimeout(() => {
+            this.bottle.splice(index, 1); // Entfernt die Flasche aus dem Array
+        }, 250); // 250 Millisekunden
+    }
+    
+    
+    
+
+    checkThrowObject() {
+        const currentTime = Date.now();
+        // Prüft, ob die 'D'-Taste gedrückt ist, die Länge von bottle weniger als 30 beträgt,
+        // ob bottlebar.bottles zwischen 1 und 10 liegt und ob 0,5 Sekunden seit dem letzten Wurf vergangen sind.
+        if (this.keyboard.D && currentTime - this.lastThrowTime >= 1250) {
+            let newBottle = new ThrowableObject(this.character.x + 50, this.character.y + 100);
+            this.bottle.push(newBottle); 
+            
+            // Reduziert die Anzahl der Flaschen in bottlebar um 1, wenn eine Flasche geworfen wird.
+            this.bottlebar.bottles -= 1;
+            this.bottlebar.setBottles(this.bottlebar.bottles);  // Aktualisiert die Anzeige
+            
+            // Setzt den Zeitpunkt des letzten Wurfs auf die aktuelle Zeit.
+            this.lastThrowTime = currentTime;
+        }
+    }
+    
+    // this.bottlebar.bottles > 0 && this.bottlebar.bottles <= 10
 
     checkCollisionsWithBottles() { 
         this.level.collectableBottles.forEach((bottle) => { 
@@ -99,26 +168,7 @@ class World {
             }
         });
     }
-    
 
-    checkThrowObject() {
-        const currentTime = Date.now();
-        // Prüft, ob die 'D'-Taste gedrückt ist, die Länge von bottle weniger als 30 beträgt,
-        // ob bottlebar.bottles zwischen 1 und 10 liegt und ob 0,5 Sekunden seit dem letzten Wurf vergangen sind.
-        if (this.keyboard.D && this.bottlebar.bottles > 0 && this.bottlebar.bottles <= 10 && currentTime - this.lastThrowTime >= 500) {
-            let newBottle = new ThrowableObject(this.character.x + 50, this.character.y + 100);
-            this.bottle.push(newBottle); 
-            
-            // Reduziert die Anzahl der Flaschen in bottlebar um 1, wenn eine Flasche geworfen wird.
-            this.bottlebar.bottles -= 1;
-            this.bottlebar.setBottles(this.bottlebar.bottles);  // Aktualisiert die Anzeige
-            
-            // Setzt den Zeitpunkt des letzten Wurfs auf die aktuelle Zeit.
-            this.lastThrowTime = currentTime;
-        }
-    }
-    
-    
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); // Löscht das Canvas

@@ -64,6 +64,7 @@ class Character extends MoveableObject {
     snoring_sound = new Audio('Audio/snoring.mp3');
     idleTime = 0;
     isDeadAnimationStopped = false;
+    lifepoints = 100;
 
     constructor() {
         super().loadImg('img_pollo_locco/img/2_character_pepe/1_idle/idle/I-1.png'); // Lädt das Standbild des Charakters
@@ -112,8 +113,6 @@ class Character extends MoveableObject {
         this.walking_sound.play(); // Spielt den Laufsound ab
         this.idleTime = 0; // Setzt die Idle-Zeit zurück
         this.snoring_sound.pause(); // Pausiert den Schnarchsound
-        console.log("Character X-Position: ", this.x); // Log der X-Position
-
     }
 
     moveLeftCharacter() {

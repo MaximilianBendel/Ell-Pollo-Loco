@@ -47,12 +47,12 @@ class MoveableObject extends Drawableobject {
     isColliding(movableObject) {
         return this.x + this.width > movableObject.x &&
             this.y + this.height > movableObject.y &&
-            this.x < movableObject.x &&
-            this.y < movableObject.y;
+            this.x < movableObject.x + movableObject.width &&
+            this.y < movableObject.y + movableObject.height;
     }
 
-    hit() {
-        this.lifepoints -= 5;
+    hit(damage) {
+        this.lifepoints -= damage;
         if (this.lifepoints <= 0) {
             this.lifepoints = 0;
         } else {

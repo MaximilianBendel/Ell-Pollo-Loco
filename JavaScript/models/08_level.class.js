@@ -5,6 +5,7 @@ class Level  {
     collectableBottles;
     collectableCoins;
     level_end_x = 1900; // Das Ende des Levels
+    levelGround = 410; // Die Höhe des Bodens
 
     constructor(enemies, clouds, BackGroundObjects, collectableBottles, collectableCoins) {
         this.enemies = enemies; 
