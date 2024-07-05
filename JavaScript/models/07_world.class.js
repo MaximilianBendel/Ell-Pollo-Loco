@@ -7,6 +7,7 @@ class World {
     statusbar = new Statusbar(); // Initialisiert die Statusleiste
     coinbar = new Coinbar(); // Initialisiert die Münzleiste
     bottlebar = new Bottlebar(); // Initialisiert die Flaschenleiste
+    endbossbar = new Endbossbar(); // Initialisiert die Endbossleiste
     bottle = []; // Initialisiert die Flasche
     collectableBottles = level1.collectableBottles; // Initialisiert die sammelbaren Flaschen
     collectableCoins = level1.collectableCoins; // Initialisiert die sammelbaren Münzen
@@ -49,6 +50,7 @@ class World {
             this.checkCollisionsWithBottles(); // Überprüft Kollisionen mit Flaschen
             this.checkCollisionsWithCoins(); // Überprüft Kollisionen mit Münzen
             this.checkEndbossTrigger(); // Überprüft die Position des Characters
+            this.checkBottleHitGround(); // Überprüft, ob die Flasche den Boden berührt
         }, 25);
         this.checkCollisionsCharacter(); // Überprüft Kollisionen mit dem Charakter
     }
@@ -96,6 +98,16 @@ class World {
             });
         }
     }
+
+    checkBottleHitGround() { 
+        this.bottle.forEach((bottle, index) => { 
+            if (bottle.y >= 350) { 
+                bottle.bottleSplash();
+                this.removeBottleAfterDelay(index);
+            }
+        });
+    }
+    
 
     checkEnemyCollisionWithBottle() {
         this.enemies.forEach((enemy) => {
@@ -179,6 +191,7 @@ class World {
         this.addToMap(this.statusbar); // Fügt die Statusleiste zur Karte hinzu
         this.addToMap(this.coinbar); // Fügt die Münzleiste zur Karte hinzu
         this.addToMap(this.bottlebar); // Fügt die Flaschenleiste zur Karte hinzu
+        this.addToMap(this.endbossbar); // Fügt die Endbossleiste zur Karte hinzu
         this.ctx.translate(this.camera_x, 0); // Verschiebt die Kamera
         this.addToMap(this.character); // Fügt den Charakter zur Karte hinzu
         this.addObjectsToMap(this.collectableCoins); // Fügt die sammelbaren Münzen zur Karte hinzu

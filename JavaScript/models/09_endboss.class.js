@@ -53,6 +53,7 @@ class Endboss extends MoveableObject {
         'img_pollo_locco/img/4_enemie_boss_chicken/5_dead/G25.png',
         'img_pollo_locco/img/4_enemie_boss_chicken/5_dead/G26.png'
     ];
+  
 
     constructor() {
         super().loadImg('img_pollo_locco/img/4_enemie_boss_chicken/2_alert/G5.png');
@@ -120,12 +121,12 @@ class Endboss extends MoveableObject {
         this.isAttacking = true;
         this.stopMoving();
         let frameIndex = 0;
-    
+
         const attackInterval = setInterval(() => {
             this.animateImages(this.attackImages);
             frameIndex++;
             console.log('Attack frame:', frameIndex);
-    
+
             if (frameIndex >= this.attackImages.length) {
                 clearInterval(attackInterval);
                 this.isAttacking = false;
@@ -134,45 +135,45 @@ class Endboss extends MoveableObject {
             }
         }, 150);
     }
-    
+
     isHurtAnimation() {
         if (this.isHurt) return;
         this.isHurt = true;
         this.stopMoving();
         this.stopAttack();
         let frameIndex = 0;
-    
+
         const hurtInterval = setInterval(() => {
             if (this.notHurtable) {
                 this.animateImages(this.hurtImages);
                 frameIndex++;
                 console.log('Hurt frame:', frameIndex);
             }
-    
-                if (frameIndex >= this.hurtImages.length) {
-                    clearInterval(hurtInterval);
-                    this.isHurt = false;
-                    console.log('Endboss finished hurting!');
-                    this.startMoving();
-                    if (this.lifepoints <= 0) {
-                        this.isDeadAnimation();
-                    }
+
+            if (frameIndex >= this.hurtImages.length) {
+                clearInterval(hurtInterval);
+                this.isHurt = false;
+                console.log('Endboss finished hurting!');
+                this.startMoving();
+                if (this.lifepoints <= 0) {
+                    this.isDeadAnimation();
                 }
-            }, 150);
-        
+            }
+        }, 150);
+
     }
 
-    isDeadAnimation() { 
+    isDeadAnimation() {
         this.stopMoving();
         this.stopAttack();
         let frameIndex = 0;
-    
+
         const deadInterval = setInterval(() => {
-                this.animateImages(this.hurtImages);
-                this.animateImages(this.deadImages);
-                frameIndex++;
-                console.log('Dead frame:', frameIndex);
-    
+            this.animateImages(this.hurtImages);
+            this.animateImages(this.deadImages);
+            frameIndex++;
+            console.log('Dead frame:', frameIndex);
+
             if (frameIndex >= this.deadImages.length) {
                 clearInterval(deadInterval);
                 console.log('Endboss is dead!');
