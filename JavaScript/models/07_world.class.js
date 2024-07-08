@@ -52,6 +52,7 @@ class World {
             this.checkEndbossTrigger(); // Überprüft die Position des Characters
             this.checkBottleHitGround(); // Überprüft, ob die Flasche den Boden berührt
             this.updateEndbossBar(); // Aktualisiert die Endbossleiste
+            this.handleDeadEnemies(); // Entfernt tote Feinde
         }, 25);
         this.checkCollisionsCharacter(); // Überprüft Kollisionen mit dem Charakter
     }
@@ -65,7 +66,7 @@ class World {
 
     checkCollisionsWithEnemy() {
         this.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy)) {
+            if (this.character.isColliding(enemy) && enemy.lifepoints > 0) {
                 this.character.hit(5);
                 this.statusbar.setPercentage(this.character.lifepoints);
                 console.log('Collision with Character!', this.character.lifepoints);
@@ -125,10 +126,14 @@ class World {
     }
     
     handleChickenHit(enemy, bottle, index) {
-        enemy.hit(100); // Reduziert die Lebenspunkte des Feindes
-        console.log('Chicken Hit!');
-        bottle.bottleSplash(); // Ruft die Methode bottleSplash auf
-        this.removeBottleAfterDelay(index);
+        if (!enemy.isHitCooldown) {
+            enemy.hit(100); // Reduziert die Lebenspunkte des Feindes
+            bottle.bottleSplash(); // Ruft die Methode bottleSplash auf
+            this.removeBottleAfterDelay(index);
+            if (enemy.lifepoints <= 0) {
+                enemy.deadAnimation(enemy); // Startet die Todesanimation des Endbosses
+            }
+        }
     }
     
     handleEndbossHit(enemy, bottle, index) {
@@ -153,6 +158,15 @@ class World {
                 this.endbossbar.setPercentage(percentage);
             }
         });
+    }
+
+    handleDeadEnemies() {
+        // Iteriere rückwärts durch das Array, um das Entfernen während der Iteration zu ermöglichen
+        for (let i = this.enemies.length - 1; i >= 0; i--) {
+            if (this.enemies[i].isDead) {
+                this.enemies.splice(i, 1); // Entfernt den toten Feind sicher
+            }
+        }
     }
     
 

@@ -16,6 +16,7 @@ class Endboss extends MoveableObject {
     isHurt = false;
     notHurtable = false;
     isHitCooldown = false;
+    isDead = false;
 
     // Bild-Arrays
     alertImages = [
