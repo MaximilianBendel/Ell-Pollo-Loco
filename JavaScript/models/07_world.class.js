@@ -51,6 +51,7 @@ class World {
             this.checkCollisionsWithCoins(); // Überprüft Kollisionen mit Münzen
             this.checkEndbossTrigger(); // Überprüft die Position des Characters
             this.checkBottleHitGround(); // Überprüft, ob die Flasche den Boden berührt
+            this.updateEndbossBar(); // Aktualisiert die Endbossleiste
         }, 25);
         this.checkCollisionsCharacter(); // Überprüft Kollisionen mit dem Charakter
     }
@@ -131,10 +132,12 @@ class World {
     }
     
     handleEndbossHit(enemy, bottle, index) {
-        enemy.hit(20); // Reduziert die Lebenspunkte des Endbosses
-        enemy.isHurtAnimation(); // Setzt den Status des Endbosses auf verletzt
-        bottle.bottleSplash(); // Ruft die Methode bottleSplash auf
-        this.removeBottleAfterDelay(index);
+        if (!enemy.isHitCooldown) {
+            enemy.hit(20); // Reduziert die Lebenspunkte des Endbosses 
+            enemy.isHurtAnimation(); // Setzt den Status des Endbosses auf verletzt
+            bottle.bottleSplash(); // Ruft die Methode bottleSplash auf
+            this.removeBottleAfterDelay(index);
+        }
     }
     
     removeBottleAfterDelay(index) {
@@ -142,9 +145,17 @@ class World {
             this.bottle.splice(index, 1); // Entfernt die Flasche aus dem Array
         }, 250); // 250 Millisekunden
     }
+
+    updateEndbossBar() {
+        this.level.enemies.forEach(enemy => {
+            if (enemy instanceof Endboss) {
+                const percentage = enemy.lifepoints // Annahme: Endboss startet mit 100 Lifepoints
+                this.endbossbar.setPercentage(percentage);
+            }
+        });
+    }
     
-    
-    
+
 
     checkThrowObject() {
         const currentTime = Date.now();

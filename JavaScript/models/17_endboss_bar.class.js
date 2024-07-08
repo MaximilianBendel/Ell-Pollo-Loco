@@ -14,24 +14,28 @@ class Endbossbar extends Drawableobject {
     constructor() {
         super();
         this.loadImages(this.healthbarImages);
-        this.setPercentage(100);
+        this.setPercentage(this.percentage);
         this.x = 500;
         this.y = 5;
         this.width = 200;
         this.height = 50;
     }
 
-    setPercentage(percentage) {
-        this.percentage = percentage;
-        if (percentage >= 100) {
+    setPercentage(percentage) { 
+        this.percentage = percentage; // Setzt den Prozentsatz
+        this.updateStatusBarImage(percentage); // Aktualisiert das Bild basierend auf dem Prozentsatz
+    }
+
+    updateStatusBarImage() {
+        if (this.percentage >= 100) {
             this.img = this.imageCache[this.healthbarImages[5]];
-        } else if (percentage >= 80) {
+        } else if (this.percentage >= 80) {
             this.img = this.imageCache[this.healthbarImages[4]];
-        } else if (percentage >= 60) {
+        } else if (this.percentage >= 60) {
             this.img = this.imageCache[this.healthbarImages[3]];
-        } else if (percentage >= 40) {
+        } else if (this.percentage >= 40) {
             this.img = this.imageCache[this.healthbarImages[2]];
-        } else if (percentage >= 20) {
+        } else if (this.percentage >= 20) {
             this.img = this.imageCache[this.healthbarImages[1]];
         } else {
             this.img = this.imageCache[this.healthbarImages[0]];

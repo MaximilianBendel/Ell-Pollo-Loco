@@ -3,7 +3,7 @@ class Endboss extends MoveableObject {
     width = 300;
     y = -20;
     speed = 1;
-    lifepoints = 1000;
+    lifepoints = 100;
 
     // Statusvariablen
     firstContact = false;
@@ -15,6 +15,7 @@ class Endboss extends MoveableObject {
     alertAnimationPlayed = false;
     isHurt = false;
     notHurtable = false;
+    isHitCooldown = false;
 
     // Bild-Arrays
     alertImages = [
@@ -181,5 +182,16 @@ class Endboss extends MoveableObject {
                 this.notHurtable = false;
             }
         }, 150);
+    }
+
+    hit(damage) {
+        if (!this.isHitCooldown) {
+            this.lifepoints -= damage;
+            console.log('Endboss lifepoints:', this.lifepoints);
+            this.isHitCooldown = true;
+            setTimeout(() => {
+                this.isHitCooldown = false;
+            }, 1000); // Cooldown-Zeit von 1 Sekunde
+        }
     }
 }
