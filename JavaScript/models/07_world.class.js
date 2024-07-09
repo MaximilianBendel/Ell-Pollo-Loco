@@ -11,6 +11,7 @@ class World {
     bottle = []; // Initialisiert die Flasche
     collectableBottles = level1.collectableBottles; // Initialisiert die sammelbaren Flaschen
     collectableCoins = level1.collectableCoins; // Initialisiert die sammelbaren Münzen
+    winscreen = new WinScreen();
 
     canvas;
     ctx;
@@ -53,9 +54,19 @@ class World {
             this.checkBottleHitGround(); // Überprüft, ob die Flasche den Boden berührt
             this.updateEndbossBar(); // Aktualisiert die Endbossleiste
             this.handleDeadEnemies(); // Entfernt tote Feinde
+            this.checkIfWin();
         }, 25);
         this.checkCollisionsCharacter(); // Überprüft Kollisionen mit dem Charakter
     }
+
+    checkIfWin() {
+        this.enemies.forEach((enemy) => {
+            if (enemy instanceof Endboss && enemy.lifepoints <= 0) {
+                this.winscreen.ShowWinScreen = true;
+            }
+        });
+    }
+    
 
     checkCollisionsCharacter() { 
         setInterval(() => {
@@ -225,6 +236,7 @@ class World {
         this.addObjectsToMap(this.enemies); // Fügt die Feinde zur Karte hinzu
         this.addObjectsToMap(this.clouds); // Fügt die Wolken zur Karte hinzu
         this.ctx.translate(-this.camera_x, 0); // Setzt die Kamera zurück
+        this.addToMap(this.winscreen); // Fügt den Winscreen zur Karte hinzu
         let self = this;
         requestAnimationFrame(function () {
             self.draw(); // Ruft draw() wiederholt auf, um Animation zu erstellen
