@@ -5,7 +5,7 @@ class Cloud extends MoveableObject {
         this.y = y;
         this.width = 500;
         this.height = 250;
-        this.startMovingClouds(); // Startet die Bewegung der Wolken
+        //Moving clouds einfügen
     }
 
     startMovingClouds() {

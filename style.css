@@ -7,6 +7,56 @@ body {
     overflow: hidden;
 }
 
+.display-none {
+    display: none!important;
+}
+
+.display-block {
+    display: block!important;
+}
+
 canvas {
+    display: none;
+}
+
+.startMenuBox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 720px;
+    height: 480px;
+    background-image: url('./img_pollo_locco/img/9_intro_outro_screens/start/startscreen_1.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.MenuButtonsBox {
+    display: flex;
+    position: relative;
+    top: -40%;
+    width: 720px;
+    height: 100px;
+    justify-content: center;
+    align-items: center;
+}
+
+.WinScreenEnd {
+    width: 720px;
+    height: 480px;
     background-color: black;
+    display: none;
+}
+
+.WinScreenEndImageBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+.WinScreenEndImageBox img {
+    height: 200px;
+    width: 420px;
 }

@@ -17,7 +17,7 @@
     <script src="./JavaScript/models/15_bottles.class.js"></script>
     <script src="./JavaScript/models/16_coins.class.js"></script>
     <script src="./JavaScript/models/17_endboss_bar.class.js"></script>
-    <script src="./JavaScript/models/18_win_screen.class.js"></script>
+
     <script src="./JavaScript/models/07_world.class.js"></script>
     <script src="./JavaScript/models/03_background.class.js"></script>
     <script src="./JavaScript/models/01_keyboard.class.js"></script>
@@ -26,9 +26,25 @@
     <script src="./JavaScript/models/levels/level1.js"></script>
     <script src="./JavaScript/game.js"></script>
 </head>
-<body onload="init()">
-    <canvas id="canvas" width="720" height="480">
+<body>
+    <div id="startMenuBox" class="startMenuBox">
+        <div class="MenuButtonsBox">
+            <button onclick="init()">
+                Start
+            </button>
+        </div>
+    </div>
 
+    <canvas id="canvas" width="720" height="480">
     </canvas>
+
+    <div class="WinScreenEnd" id="WinScreenEnd">
+        <div class="WinScreenEndImageBox">
+            <img src="./img_pollo_locco/img/9_intro_outro_screens/win/won_2.png" alt="Win Screen">
+        </div>
+        <button onclick="restartGame()" id="restartButton">Restart</button>
+    </div>
+    
+    </div>
 </body>
 </html>

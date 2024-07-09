@@ -55,7 +55,6 @@ class Endboss extends MoveableObject {
         'img_pollo_locco/img/4_enemie_boss_chicken/5_dead/G25.png',
         'img_pollo_locco/img/4_enemie_boss_chicken/5_dead/G26.png'
     ];
-  
 
     constructor() {
         super().loadImg('img_pollo_locco/img/4_enemie_boss_chicken/2_alert/G5.png');
@@ -124,13 +123,13 @@ class Endboss extends MoveableObject {
         this.stopMoving();
         let frameIndex = 0;
 
-        const attackInterval = setInterval(() => {
+        this.attackInterval = setInterval(() => {
             this.animateImages(this.attackImages);
             frameIndex++;
             console.log('Attack frame:', frameIndex);
 
             if (frameIndex >= this.attackImages.length) {
-                clearInterval(attackInterval);
+                clearInterval(this.attackInterval);
                 this.isAttacking = false;
                 console.log('Endboss finished attacking!');
                 this.startMoving();
@@ -145,7 +144,7 @@ class Endboss extends MoveableObject {
         this.stopAttack();
         let frameIndex = 0;
 
-        const hurtInterval = setInterval(() => {
+        this.hurtInterval = setInterval(() => {
             if (this.notHurtable) {
                 this.animateImages(this.hurtImages);
                 frameIndex++;
@@ -153,7 +152,7 @@ class Endboss extends MoveableObject {
             }
 
             if (frameIndex >= this.hurtImages.length) {
-                clearInterval(hurtInterval);
+                clearInterval(this.hurtInterval);
                 this.isHurt = false;
                 console.log('Endboss finished hurting!');
                 this.startMoving();
@@ -162,7 +161,6 @@ class Endboss extends MoveableObject {
                 }
             }
         }, 150);
-
     }
 
     isDeadAnimation() {
@@ -170,14 +168,14 @@ class Endboss extends MoveableObject {
         this.stopAttack();
         let frameIndex = 0;
 
-        const deadInterval = setInterval(() => {
+        this.deadInterval = setInterval(() => {
             this.animateImages(this.hurtImages);
             this.animateImages(this.deadImages);
             frameIndex++;
             console.log('Dead frame:', frameIndex);
 
             if (frameIndex >= this.deadImages.length) {
-                clearInterval(deadInterval);
+                clearInterval(this.deadInterval);
                 console.log('Endboss is dead!');
                 this.loadImg('img_pollo_locco/img/4_enemie_boss_chicken/5_dead/G26.png');
                 this.notHurtable = false;
@@ -194,5 +192,19 @@ class Endboss extends MoveableObject {
                 this.isHitCooldown = false;
             }, 1000); // Cooldown-Zeit von 1 Sekunde
         }
+    }
+
+    stopAllAnimations() {
+        clearInterval(this.animationInterval);
+        clearInterval(this.moveInterval);
+        clearInterval(this.walkingAnimationInterval);
+        clearInterval(this.attackInterval);
+        clearInterval(this.hurtInterval);
+        clearInterval(this.deadInterval);
+        this.isAnimating = false;
+        this.isMoving = false;
+        this.isAttacking = false;
+        this.isHurt = false;
+        this.notHurtable = false;
     }
 }

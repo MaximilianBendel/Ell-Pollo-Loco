@@ -1,4 +1,4 @@
-const level1 = new Level(
+let level1 = new Level(
     [ // enemies
         new Chicken(),
         new Chicken(),

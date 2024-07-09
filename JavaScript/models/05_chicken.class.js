@@ -35,18 +35,20 @@ class Chicken extends MoveableObject {
         }, 1000 / 6); // 6 FPS für Animation
     }
     
+    stopAllAnimations() {
+        clearInterval(this.moveLeftInterval); // Stoppt die Bewegung
+        clearInterval(this.walkingImagesInterval); // Stoppt die Laufanimation
+    }
 
     deadAnimation(index) {
         if (this.lifepoints === 0) {
-            clearInterval(this.moveLeftInterval); // Stoppt die Bewegung
-            clearInterval(this.walkingImagesInterval); // Stoppt die Animation
+            this.stopAllAnimations(); // Stoppt alle Animationen
             this.img = this.imageCache[this.Images_dead[0]]; // Setzt das Todesbild
             setTimeout(() => {
                 this.isDead = true; // Markiert das Objekt als tot
             }, 1000); // 1 Sekunde Verzögerung
         }
     }
-    
 
     hit(damage) {
         if (!this.isHitCooldown) {

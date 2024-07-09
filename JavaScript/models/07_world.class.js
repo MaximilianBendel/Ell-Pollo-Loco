@@ -11,13 +11,17 @@ class World {
     bottle = []; // Initialisiert die Flasche
     collectableBottles = level1.collectableBottles; // Initialisiert die sammelbaren Flaschen
     collectableCoins = level1.collectableCoins; // Initialisiert die sammelbaren Münzen
-    winscreen = new WinScreen();
+    WinEndScreen = document.getElementById('WinScreenEnd');
+    canvas = document.getElementById('canvas');
 
     canvas;
     ctx;
     keyboard;
     camera_x = 0;
     lastThrowTime = 0;  // Zeitpunkt des letzten Wurfs
+    winScreen = false;
+
+
 
 
     constructor(canvas, keyboard) {
@@ -62,13 +66,43 @@ class World {
     checkIfWin() {
         this.enemies.forEach((enemy) => {
             if (enemy instanceof Endboss && enemy.lifepoints <= 0) {
-                this.winscreen.ShowWinScreen = true;
+                this.winScreen = true;
             }
         });
-    }
+        if (this.winScreen) {
+            setTimeout(() => {
+                this.stoppAllAnimations();
+            }, 1500);
+            
     
+            // Zeigt den Siegesschirm nach einer kurzen Verzögerung an
+            setTimeout(() => {
+                this.showWinScreenEnd();
+            }, 2500); // Anpassbare Zeitverzögerung (1000 ms = 1 Sekunde)
+        }
 
-    checkCollisionsCharacter() { 
+    }
+
+    stoppAllAnimations() { 
+        // Setzt den Status für den Siegesschirm
+        this.winScreen = true;
+    
+        // Stoppt alle Animationen für Feinde und den Charakter
+        this.enemies.forEach(enemy => {
+            if (enemy instanceof Endboss || enemy instanceof Chicken) {
+                enemy.stopAllAnimations();
+            }
+        });
+        this.character.stoppAllAnimations();
+    }
+
+    showWinScreenEnd() {
+        canvas.classList.remove('display-block');
+        this.WinEndScreen.style.display = 'block';
+    }
+
+
+    checkCollisionsCharacter() {
         setInterval(() => {
             this.checkCollisionsWithEnemy(); // Überprüft Kollisionen mit Feinden
             this.checkCollisionsWithEndboss(); // Überprüft Kollisionen mit dem Endboss
@@ -87,18 +121,18 @@ class World {
                 this.statusbar.setPercentage(this.character.lifepoints);
                 console.log('Hit by Endboss!');
             }
-            }); 
+        });
     }
 
     checkCollisionsWithEndboss() {
         this.enemies.forEach((enemy) => {
-                if (enemy instanceof Endboss && !enemy.isAttacking && enemy.isColliding(this.character)) {
+            if (enemy instanceof Endboss && !enemy.isAttacking && enemy.isColliding(this.character)) {
                 enemy.startAttack(); // Startet die Angriffsanimation nur, wenn der Endboss nicht bereits angreift
                 this.character.hit(5);
                 this.statusbar.setPercentage(this.character.lifepoints);
                 console.log('Hit by Endboss!');
             }
-            }); 
+        });
     }
 
     checkEndbossTrigger() {
@@ -112,15 +146,15 @@ class World {
         }
     }
 
-    checkBottleHitGround() { 
-        this.bottle.forEach((bottle, index) => { 
-            if (bottle.y >= 350) { 
+    checkBottleHitGround() {
+        this.bottle.forEach((bottle, index) => {
+            if (bottle.y >= 350) {
                 bottle.bottleSplash();
                 this.removeBottleAfterDelay(index);
             }
         });
     }
-    
+
 
     checkEnemyCollisionWithBottle() {
         this.enemies.forEach((enemy) => {
@@ -135,7 +169,7 @@ class World {
             });
         });
     }
-    
+
     handleChickenHit(enemy, bottle, index) {
         if (!enemy.isHitCooldown) {
             enemy.hit(100); // Reduziert die Lebenspunkte des Feindes
@@ -146,7 +180,7 @@ class World {
             }
         }
     }
-    
+
     handleEndbossHit(enemy, bottle, index) {
         if (!enemy.isHitCooldown) {
             enemy.hit(20); // Reduziert die Lebenspunkte des Endbosses 
@@ -155,7 +189,7 @@ class World {
             this.removeBottleAfterDelay(index);
         }
     }
-    
+
     removeBottleAfterDelay(index) {
         setTimeout(() => {
             this.bottle.splice(index, 1); // Entfernt die Flasche aus dem Array
@@ -179,7 +213,7 @@ class World {
             }
         }
     }
-    
+
 
 
     checkThrowObject() {
@@ -188,29 +222,29 @@ class World {
         // ob bottlebar.bottles zwischen 1 und 10 liegt und ob 0,5 Sekunden seit dem letzten Wurf vergangen sind.
         if (this.keyboard.D && currentTime - this.lastThrowTime >= 1250) {
             let newBottle = new ThrowableObject(this.character.x + 50, this.character.y + 100);
-            this.bottle.push(newBottle); 
-            
+            this.bottle.push(newBottle);
+
             // Reduziert die Anzahl der Flaschen in bottlebar um 1, wenn eine Flasche geworfen wird.
             this.bottlebar.bottles -= 1;
             this.bottlebar.setBottles(this.bottlebar.bottles);  // Aktualisiert die Anzeige
-            
+
             // Setzt den Zeitpunkt des letzten Wurfs auf die aktuelle Zeit.
             this.lastThrowTime = currentTime;
         }
     }
-    
+
     // this.bottlebar.bottles > 0 && this.bottlebar.bottles <= 10
 
-    checkCollisionsWithBottles() { 
-        this.level.collectableBottles.forEach((bottle) => { 
+    checkCollisionsWithBottles() {
+        this.level.collectableBottles.forEach((bottle) => {
             if (this.character.isColliding(bottle)) {
                 bottle.collectBottle(this.level.collectableBottles, this.bottlebar); // Korrekt: Ruft collectBottle auf dem kollidierenden Flaschenobjekt auf
             }
         });
     }
 
-    checkCollisionsWithCoins() { 
-        this.level.collectableCoins.forEach((coin) => { 
+    checkCollisionsWithCoins() {
+        this.level.collectableCoins.forEach((coin) => {
             if (this.character.isColliding(coin)) {
                 coin.collectCoin(this.level.collectableCoins, this.coinbar); // Korrekt: Ruft collectCoin auf dem kollidierenden Münzobjekt auf
             }
@@ -236,7 +270,6 @@ class World {
         this.addObjectsToMap(this.enemies); // Fügt die Feinde zur Karte hinzu
         this.addObjectsToMap(this.clouds); // Fügt die Wolken zur Karte hinzu
         this.ctx.translate(-this.camera_x, 0); // Setzt die Kamera zurück
-        this.addToMap(this.winscreen); // Fügt den Winscreen zur Karte hinzu
         let self = this;
         requestAnimationFrame(function () {
             self.draw(); // Ruft draw() wiederholt auf, um Animation zu erstellen
@@ -262,7 +295,7 @@ class World {
             movableObject.drawFrame(this.ctx); // Zeichnet den Rahmen
         }
     }
-    
+
 
     addObjectsToMap(objects) {
         objects.forEach(object => {
