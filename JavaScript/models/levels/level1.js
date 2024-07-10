@@ -5,8 +5,9 @@ function initLevel() {
     level1 = new Level(
         [ // enemies
             new Chicken(),
-            new Chicken(),
-            new Chicken(),
+            new Chicken(400),
+            new Chicken(800),
+            new Chicken(1200),
             new Endboss()
         ],
 
@@ -47,5 +48,4 @@ function initLevel() {
             new Coins()
         ] // Coins
     );
-
 }

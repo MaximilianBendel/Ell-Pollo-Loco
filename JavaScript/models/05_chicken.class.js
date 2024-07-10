@@ -1,5 +1,4 @@
 class Chicken extends MoveableObject {
-
     lifepoints = 100; // Setzt die Lebenspunkte
     isHitCooldown = false; // Setzt den Treffer-Cooldown
     isDead = false; // Markiert das Objekt als lebendig
@@ -13,16 +12,16 @@ class Chicken extends MoveableObject {
         'img_pollo_locco/img/3_enemies_chicken/chicken_small/2_dead/dead.png'
     ];
 
-    constructor() {
+    constructor(x) {
         super().loadImg('img_pollo_locco/img/3_enemies_chicken/chicken_small/1_walk/1_w.png'); // Lädt das Standbild des Huhns
         this.loadImages(this.Images_walking); // Lädt die Laufbilder des Huhns
         this.loadImages(this.Images_dead); // Lädt die Todesbilder des Huhns
-        this.x = 200 + Math.random() * 500; // Setzt eine zufällige x-Position
+        this.x = x; // Setzt die x-Position
         this.height = 70;
         this.width = 60;
         this.y = 445 - this.height; // Setzt die y-Position
+        this.speed = 0.15 + Math.random() * 0.5; // Setzt eine zufällige Geschwindigkeit
         this.animate(); // Startet die Animation des Huhns
-        this.speed = 0.15 + Math.random() * 0.25; // Setzt eine zufällige Geschwindigkeit
     }
 
     animate() {
@@ -40,7 +39,7 @@ class Chicken extends MoveableObject {
         clearInterval(this.walkingImagesInterval); // Stoppt die Laufanimation
     }
 
-    deadAnimation(index) {
+    deadAnimation() {
         if (this.lifepoints === 0) {
             this.stopAllAnimations(); // Stoppt alle Animationen
             this.img = this.imageCache[this.Images_dead[0]]; // Setzt das Todesbild
@@ -59,5 +58,4 @@ class Chicken extends MoveableObject {
             }, 1000); // Cooldown-Zeit von 1 Sekunde
         }
     }
-
 }

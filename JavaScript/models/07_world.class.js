@@ -288,12 +288,10 @@ class World {
             if (this.character.isColliding(enemy) && enemy.lifepoints > 0) {
                 this.character.hit(5);
                 this.statusbar.setPercentage(this.character.lifepoints);
-                console.log('Collision with Character!', this.character.lifepoints);
             } else if (enemy instanceof Endboss && !enemy.isAttacking && enemy.isColliding(this.character)) {
                 enemy.startAttack(); // Startet die Angriffsanimation nur, wenn der Endboss nicht bereits angreift
                 this.character.hit(5);
                 this.statusbar.setPercentage(this.character.lifepoints);
-                console.log('Hit by Endboss!');
             }
         });
     }
@@ -304,7 +302,6 @@ class World {
                 enemy.startAttack(); // Startet die Angriffsanimation nur, wenn der Endboss nicht bereits angreift
                 this.character.hit(5);
                 this.statusbar.setPercentage(this.character.lifepoints);
-                console.log('Hit by Endboss!');
             }
         });
     }
