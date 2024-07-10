@@ -22,6 +22,9 @@ class Chicken extends MoveableObject {
         this.y = 445 - this.height; // Setzt die y-Position
         this.speed = 0.15 + Math.random() * 0.5; // Setzt eine zufällige Geschwindigkeit
         this.animate(); // Startet die Animation des Huhns
+        // add Sounds
+        this.hitSound = new Audio('Audio/smallchickendies.mp3'); // Soundeffekt für den Treffer
+        soundManager.addSound('smallchickendies', this.hitSound); // Registriert den Soundeffekt
     }
 
     animate() {
@@ -42,6 +45,7 @@ class Chicken extends MoveableObject {
     deadAnimation() {
         if (this.lifepoints === 0) {
             this.stopAllAnimations(); // Stoppt alle Animationen
+            soundManager.playSound('smallchickendies'); // Spielt den Soundeffekt ab
             this.img = this.imageCache[this.Images_dead[0]]; // Setzt das Todesbild
             setTimeout(() => {
                 this.isDead = true; // Markiert das Objekt als tot

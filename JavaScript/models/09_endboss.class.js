@@ -64,9 +64,15 @@ class Endboss extends MoveableObject {
         this.loadImages(this.hurtImages);
         this.loadImages(this.deadImages);
         this.x = 2100;
+        // add Sounds 
+        this.introSound = new Audio('Audio/endbossIntroSound.mp3');
+        this.hurtSound = new Audio('Audio/endbosshitwithbottle.mp3');
+        soundManager.addSound('endbossIntroSound', this.introSound);
+        soundManager.addSound('endbosshitwithbottle', this.hurtSound);
     }
 
     startAnimation() {
+        soundManager.playnormalSound('endbossIntroSound');
         if (this.isAnimating) return;
         this.isAnimating = true;
         let frameIndex = 0;
@@ -143,7 +149,7 @@ class Endboss extends MoveableObject {
         this.stopMoving();
         this.stopAttack();
         let frameIndex = 0;
-
+        soundManager.playnormalSound('endbosshitwithbottle');
         this.hurtInterval = setInterval(() => {
             if (this.notHurtable) {
                 this.animateImages(this.hurtImages);
@@ -172,11 +178,9 @@ class Endboss extends MoveableObject {
             this.animateImages(this.hurtImages);
             this.animateImages(this.deadImages);
             frameIndex++;
-            console.log('Dead frame:', frameIndex);
 
             if (frameIndex >= this.deadImages.length) {
                 clearInterval(this.deadInterval);
-                console.log('Endboss is dead!');
                 this.loadImg('img_pollo_locco/img/4_enemie_boss_chicken/5_dead/G26.png');
                 this.notHurtable = false;
             }
