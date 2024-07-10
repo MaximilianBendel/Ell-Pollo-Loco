@@ -12,6 +12,8 @@ class World {
     bottle = []; // Initialisiert die Flasche
     collectableBottles = level1.collectableBottles; // Initialisiert die sammelbaren Flaschen
     collectableCoins = level1.collectableCoins; // Initialisiert die sammelbaren Münzen
+
+    // Statusvariablen
     WinEndScreen = document.getElementById('WinScreenEnd');
     LoseEndScreen = document.getElementById('LoseScreenEnd');
     canvas = document.getElementById('canvas');
@@ -255,7 +257,7 @@ class World {
                 soundManager.pauseSound('gamemusic');
                 soundManager.playnormalSound('winlevel');
                 this.showWinScreenEnd();
-            }, 2500); // Anpassbare Zeitverzögerung (1000 ms = 1 Sekunde)
+            }, 2500); 
         }
     }
 
@@ -278,18 +280,14 @@ class World {
 
     checkCollisionsCharacter() {
         setInterval(() => {
-            this.checkCollisionsWithEnemy(); // Überprüft Kollisionen mit Feinden
+            this.checkCollisionsWithChicken(); // Überprüft Kollisionen mit Feinden
             this.checkCollisionsWithEndboss(); // Überprüft Kollisionen mit dem Endboss
         }, 250); // Überprüft Kollisionen alle 250 Millisekunden
     }
 
-    checkCollisionsWithEnemy() {
+    checkCollisionsWithChicken() {
         this.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy) && enemy.lifepoints > 0) {
-                this.character.hit(5);
-                this.statusbar.setPercentage(this.character.lifepoints);
-            } else if (enemy instanceof Endboss && !enemy.isAttacking && enemy.isColliding(this.character)) {
-                enemy.startAttack(); // Startet die Angriffsanimation nur, wenn der Endboss nicht bereits angreift
                 this.character.hit(5);
                 this.statusbar.setPercentage(this.character.lifepoints);
             }

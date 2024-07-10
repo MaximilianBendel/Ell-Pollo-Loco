@@ -16,7 +16,7 @@ function startGame() {
     init(); // Initialisiert das Spiel
 }
 
-function init() { 
+function init() {
     canvas = document.getElementById('canvas'); // Holt das Canvas-Element aus dem DOM
     world = new World(canvas, keyboard); // Initialisiert die Welt mit Canvas und Keyboard
     soundManager.playnormalSound('gamemusic'); // Spielt den Hintergrundsound ab
@@ -33,3 +33,6 @@ window.addEventListener('keydown', function (e) {
 window.addEventListener('keyup', function (e) {
     keyboard.updateKeyState(e.key, false); // Aktualisiert den Tastaturzustand bei Loslassen der Taste
 });
+
+
+

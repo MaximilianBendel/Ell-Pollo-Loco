@@ -63,11 +63,20 @@ canvas {
     cursor: pointer;
 }
 
-.startImg:hover {
+.unmuteImg {
+    width: 52px;
+    display: flex;
+    position: relative;
+    top: -40%;
+    left: 13%;
+    cursor: pointer;
+}
+
+.startImg:hover  {
     animation: hoverEffect 0.6s infinite alternate;
 }
 
-.keyboardImg:hover {
+.keyboardImg:hover, .unmuteImg:hover {
     animation: hoverEffectKeyBoard 0.6s ease-in-out forwards;
 } 
 

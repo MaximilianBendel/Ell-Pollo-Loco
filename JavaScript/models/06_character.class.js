@@ -78,12 +78,6 @@ class Character extends MoveableObject {
         this.width = 100;
         this.y = 210;
 
-        // Sounds registrieren
-        this.walking_sound = new Audio('Audio/walking.mp3');
-        this.snoring_sound = new Audio('Audio/snoring.mp3');
-        soundManager.addSound('walking', this.walking_sound);
-        soundManager.addSound('snoring', this.snoring_sound);
-
         this.initAnimations(); 
     }
 
