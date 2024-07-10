@@ -1,4 +1,5 @@
 class World {
+    // Klassen-Eigenschaften
     character = new Character(); // Initialisiert einen neuen Charakter
     enemies = level1.enemies; // Initialisiert Feinde
     clouds = level1.clouds; // Initialisiert eine Wolke
@@ -14,7 +15,6 @@ class World {
     WinEndScreen = document.getElementById('WinScreenEnd');
     LoseEndScreen = document.getElementById('LoseScreenEnd');
     canvas = document.getElementById('canvas');
-
     canvas;
     ctx;
     keyboard;
@@ -24,7 +24,7 @@ class World {
     loseScreen = false;
     runInterval = true;
 
-
+    // Konstruktor
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d'); // Holt den 2D-Kontext des Canvas
         this.canvas = canvas; // Setzt das Canvas
@@ -36,12 +36,12 @@ class World {
         this.run(); // Überprüft Kollisionen
     }
 
+    // Methoden zur Initialisierung
     setWorld() {
         this.character.world = this; // Verbindet den Charakter mit der Welt
     }
 
     setEndboss() {
-        // Wenn es weitere Endboss-Instanzen gibt, die aktualisiert werden müssen:
         this.level.enemies.forEach(enemy => {
             if (enemy instanceof Endboss) {
                 enemy.character = this.character;
@@ -49,6 +49,27 @@ class World {
         });
     }
 
+    initializeBackgroundObjects() {
+        const layers = [
+            'img_pollo_locco/img/5_background/layers/air.png',
+            'img_pollo_locco/img/5_background/layers/air.png',
+            'img_pollo_locco/img/5_background/layers/3_third_layer/1.png',
+            'img_pollo_locco/img/5_background/layers/3_third_layer/2.png',
+            'img_pollo_locco/img/5_background/layers/2_second_layer/1.png',
+            'img_pollo_locco/img/5_background/layers/2_second_layer/2.png',
+            'img_pollo_locco/img/5_background/layers/1_first_layer/1.png',
+            'img_pollo_locco/img/5_background/layers/1_first_layer/2.png'
+        ];
+        const startPositions = [-2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+        for (let i = 0; i < startPositions.length; i++) {
+            for (let j = 0; j < layers.length; j += 2) {
+                this.BackGroundObjects.push(new BackGroundObject(layers[j], startPositions[i] * 719 * 2));
+                this.BackGroundObjects.push(new BackGroundObject(layers[j + 1], startPositions[i] * 719 * 2 + 719));
+            }
+        }
+    }
+
+    // Spiel-Logik
     run() {
         if (this.runInterval) {
             clearInterval(this.runInterval);
@@ -58,7 +79,7 @@ class World {
             this.checkEnemyCollisionWithBottle(); // Überprüft Kollisionen mit Flaschen
             this.checkCollisionsWithBottles(); // Überprüft Kollisionen mit Flaschen
             this.checkCollisionsWithCoins(); // Überprüft Kollisionen mit Münzen
-            this.checkEndbossTrigger(); // Überprüft die Position des Characters
+            this.checkEndbossTrigger(); // Überprüft die Position des Characters zum Endboss triggern
             this.checkBottleHitGround(); // Überprüft, ob die Flasche den Boden berührt
             this.updateEndbossBar(); // Aktualisiert die Endbossleiste
             this.handleDeadEnemies(); // Entfernt tote Feinde
@@ -68,29 +89,145 @@ class World {
         this.checkCollisionsCharacter(); // Überprüft Kollisionen mit dem Charakter
     }
 
-    checkIfLose() { 
+    checkThrowObject() {
+        const currentTime = Date.now();
+        if (this.keyboard.D && currentTime - this.lastThrowTime >= 2000) {
+            let newBottle = new ThrowableObject(this.character.x + 50, this.character.y + 100);
+            this.bottle.push(newBottle);
+            this.bottlebar.bottles -= 1;
+            this.bottlebar.setBottles(this.bottlebar.bottles);  // Aktualisiert die Anzeige
+            this.lastThrowTime = currentTime;
+        }
+    }
+
+    checkEnemyCollisionWithBottle() {
+        this.enemies.forEach((enemy) => {
+            this.bottle.forEach((bottle, index) => {
+                if (bottle.isColliding(enemy)) {
+                    if (enemy instanceof Chicken) {
+                        this.handleChickenHit(enemy, bottle, index);
+                    } else if (enemy instanceof Endboss && enemy.notHurtable) {
+                        this.handleEndbossHit(enemy, bottle, index);
+                    }
+                }
+            });
+        });
+    }
+
+    handleChickenHit(enemy, bottle) {
+        if (!enemy.isHitCooldown) {
+            enemy.hit(100); // Reduziert die Lebenspunkte des Feindes
+            bottle.bottleSplash(); // Ruft die Methode bottleSplash auf
+            if (enemy.lifepoints <= 0) {
+                enemy.deadAnimation(enemy); // Startet die Todesanimation des Endbosses
+            }
+        }
+    }
+
+    handleEndbossHit(enemy, bottle) {
+        if (!enemy.isHitCooldown) {
+            enemy.hit(100); // Reduziert die Lebenspunkte des Endbosses 
+            enemy.isHurtAnimation(); // Setzt den Status des Endbosses auf verletzt
+            bottle.bottleSplash(); // Ruft die Methode bottleSplash auf
+        }
+    }
+
+    checkBottleHitGround() {
+        this.bottle.forEach((bottle, index) => {
+            if (bottle.y >= 350) {
+                if (!this.isBottleCollidingWithEnemy(bottle)) {
+                    bottle.playGlasSplashSound();
+                }
+                bottle.bottleSplash();
+                this.removeBottleAfterDelay(index);
+            }
+        });
+    }
+
+    isBottleCollidingWithEnemy(bottle) {
+        return this.enemies.some((enemy) => {
+            if (bottle.isColliding(enemy)) {
+                if (enemy instanceof Chicken) {
+                    this.handleChickenHit(enemy, bottle);
+                } else if (enemy instanceof Endboss && enemy.notHurtable) {
+                    this.handleEndbossHit(enemy, bottle);
+                }
+                return true; // Kollision gefunden
+            }
+            return false; // Keine Kollision
+        });
+    }
+
+    removeBottleAfterDelay(index) {
+        setTimeout(() => {
+            this.bottle.splice(index, 1); // Entfernt die Flasche aus dem Array
+        }, 250); // 250 Millisekunden
+    }
+
+    checkCollisionsWithBottles() {
+        if (!this.collectableBottles) return; // Beendet die Methode, wenn collectableBottles null ist
+        this.collectableBottles.forEach((bottle) => {
+            if (this.character.isColliding(bottle)) {
+                bottle.collectBottle(this.collectableBottles, this.bottlebar); // Ruft collectBottle auf dem kollidierenden Flaschenobjekt auf
+            }
+        });
+    }
+
+    checkCollisionsWithCoins() {
+        if (!this.collectableCoins) return; // Beendet die Methode, wenn collectableCoins null ist
+        this.collectableCoins.forEach((coin) => {
+            if (this.character.isColliding(coin)) {
+                coin.collectCoin(this.collectableCoins, this.coinbar); // Ruft collectCoin auf dem kollidierenden Münzobjekt auf
+            }
+        });
+    }
+
+    checkEndbossTrigger() {
+        if (this.character && this.character.x > 1800) {
+            this.level.enemies.forEach(enemy => {
+                if (enemy instanceof Endboss && !enemy.animationTriggered) {
+                    enemy.startAnimation();
+                    enemy.animationTriggered = true; // Setzt die Zustandsvariable, um erneutes Starten zu verhindern
+                }
+            });
+        }
+    }
+
+    updateEndbossBar() {
+        this.level.enemies.forEach(enemy => {
+            if (enemy instanceof Endboss) {
+                const percentage = enemy.lifepoints // Annahme: Endboss startet mit 100 Lifepoints
+                this.endbossbar.setPercentage(percentage);
+            }
+        });
+    }
+
+    handleDeadEnemies() {
+        for (let i = this.enemies.length - 1; i >= 0; i--) {
+            if (this.enemies[i].isDead) {
+                this.enemies.splice(i, 1); // Entfernt den toten Feind sicher
+            }
+        }
+    }
+
+    checkIfLose() {
         if (this.character.lifepoints <= 0) {
             this.loseScreen = true;
             if (this.loseScreen) {
                 setTimeout(() => {
                     this.stoppAllAnimations();
                 }, 1500);
-
-
                 setTimeout(() => {
                     this.showLoseScreenEnd();
                 }, 2500);
             }
         }
-
     }
 
     showLoseScreenEnd() {
-        canvas.classList.remove('display-block');
+        this.canvas.classList.remove('display-block');
         this.LoseEndScreen.style.display = 'block';
     }
-
-    
 
     checkIfWin() {
         this.enemies.forEach((enemy) => {
@@ -102,40 +239,28 @@ class World {
             setTimeout(() => {
                 this.stoppAllAnimations();
             }, 1500);
-            
-    
-            // Zeigt den Siegesschirm nach einer kurzen Verzögerung an
             setTimeout(() => {
                 this.showWinScreenEnd();
             }, 2500); // Anpassbare Zeitverzögerung (1000 ms = 1 Sekunde)
         }
-
     }
 
-    stoppAllAnimations() { 
-        // Setzt den Status für den Siegesschirm
+    stoppAllAnimations() {
         this.winScreen = true;
-    
-        // Stoppt alle Animationen für Feinde und den Charakter
-            this.enemies.forEach(enemy => {
-                if (enemy instanceof Endboss || enemy instanceof Chicken) {
-                    enemy.stopAllAnimations();
-                }
-            });
-            this.character.stoppAllAnimations();
+        this.enemies.forEach(enemy => {
+            if (enemy instanceof Endboss || enemy instanceof Chicken) {
+                enemy.stopAllAnimations();
+            }
+        });
+        this.character.stoppAllAnimations();
         clearInterval(this.runInterval); // Stoppt die Run Funktionen
         this.runInterval = false;
     }
-    
-    
-    
-    
 
     showWinScreenEnd() {
-        canvas.classList.remove('display-block');
+        this.canvas.classList.remove('display-block');
         this.WinEndScreen.style.display = 'block';
     }
-
 
     checkCollisionsCharacter() {
         setInterval(() => {
@@ -170,132 +295,13 @@ class World {
         });
     }
 
-    checkEndbossTrigger() {
-        if (this.character && this.character.x > 1800) {
-            this.level.enemies.forEach(enemy => {
-                if (enemy instanceof Endboss && !enemy.animationTriggered) {
-                    enemy.startAnimation();
-                    enemy.animationTriggered = true; // Setzt die Zustandsvariable, um erneutes Starten zu verhindern
-                }
-            });
-        }
-    }
-    
-
-    checkBottleHitGround() {
-        this.bottle.forEach((bottle, index) => {
-            if (bottle.y >= 350) {
-                bottle.bottleSplash();
-                this.removeBottleAfterDelay(index);
-            }
-        });
-    }
-
-
-    checkEnemyCollisionWithBottle() {
-        this.enemies.forEach((enemy) => {
-            this.bottle.forEach((bottle, index) => {
-                if (bottle.isColliding(enemy)) {
-                    if (enemy instanceof Chicken) {
-                        this.handleChickenHit(enemy, bottle, index);
-                    } else if (enemy instanceof Endboss && enemy.notHurtable) {
-                        this.handleEndbossHit(enemy, bottle, index);
-                    }
-                }
-            });
-        });
-    }
-
-    handleChickenHit(enemy, bottle, index) {
-        if (!enemy.isHitCooldown) {
-            enemy.hit(100); // Reduziert die Lebenspunkte des Feindes
-            bottle.bottleSplash(); // Ruft die Methode bottleSplash auf
-            this.removeBottleAfterDelay(index);
-            if (enemy.lifepoints <= 0) {
-                enemy.deadAnimation(enemy); // Startet die Todesanimation des Endbosses
-            }
-        }
-    }
-
-    handleEndbossHit(enemy, bottle, index) {
-        if (!enemy.isHitCooldown) {
-            enemy.hit(100); // Reduziert die Lebenspunkte des Endbosses 
-            enemy.isHurtAnimation(); // Setzt den Status des Endbosses auf verletzt
-            bottle.bottleSplash(); // Ruft die Methode bottleSplash auf
-            this.removeBottleAfterDelay(index);
-        }
-    }
-
-    removeBottleAfterDelay(index) {
-        setTimeout(() => {
-            this.bottle.splice(index, 1); // Entfernt die Flasche aus dem Array
-        }, 250); // 250 Millisekunden
-    }
-
-    updateEndbossBar() {
-        this.level.enemies.forEach(enemy => {
-            if (enemy instanceof Endboss) {
-                const percentage = enemy.lifepoints // Annahme: Endboss startet mit 100 Lifepoints
-                this.endbossbar.setPercentage(percentage);
-            }
-        });
-    }
-
-    handleDeadEnemies() {
-        // Iteriere rückwärts durch das Array, um das Entfernen während der Iteration zu ermöglichen
-        for (let i = this.enemies.length - 1; i >= 0; i--) {
-            if (this.enemies[i].isDead) {
-                this.enemies.splice(i, 1); // Entfernt den toten Feind sicher
-            }
-        }
-    }
-
-    checkThrowObject() {
-        const currentTime = Date.now();
-        // Prüft, ob die 'D'-Taste gedrückt ist, die Länge von bottle weniger als 30 beträgt,
-        // ob bottlebar.bottles zwischen 1 und 10 liegt und ob 0,5 Sekunden seit dem letzten Wurf vergangen sind.
-        if (this.keyboard.D && currentTime - this.lastThrowTime >= 1250) {
-            let newBottle = new ThrowableObject(this.character.x + 50, this.character.y + 100);
-            this.bottle.push(newBottle);
-
-            // Reduziert die Anzahl der Flaschen in bottlebar um 1, wenn eine Flasche geworfen wird.
-            this.bottlebar.bottles -= 1;
-            this.bottlebar.setBottles(this.bottlebar.bottles);  // Aktualisiert die Anzeige
-
-            // Setzt den Zeitpunkt des letzten Wurfs auf die aktuelle Zeit.
-            this.lastThrowTime = currentTime;
-        }
-    }
-
-    // this.bottlebar.bottles > 0 && this.bottlebar.bottles <= 10
-
-    checkCollisionsWithBottles() {
-        if (!this.collectableBottles) return; // Beendet die Methode, wenn collectableBottles null ist
-        this.collectableBottles.forEach((bottle) => {
-            if (this.character.isColliding(bottle)) {
-                bottle.collectBottle(this.collectableBottles, this.bottlebar); // Korrekt: Ruft collectBottle auf dem kollidierenden Flaschenobjekt auf
-            }
-        });
-    }
-    
-
-    checkCollisionsWithCoins() {
-        if (!this.collectableCoins) return; // Beendet die Methode, wenn collectableCoins null ist
-        this.collectableCoins.forEach((coin) => {
-            if (this.character.isColliding(coin)) {
-                coin.collectCoin(this.collectableCoins, this.coinbar); // Korrekt: Ruft collectCoin auf dem kollidierenden Münzobjekt auf
-            }
-        });
-    }
-    
-
-
+    // Zeichnen und Aktualisieren
     draw() {
         if (this.isClearing || !this.ctx) return; // Beendet die Methode, wenn die Welt gelöscht wird oder ctx null ist
-    
+
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); // Löscht das Canvas
         this.ctx.translate(this.camera_x, 0); // Verschiebt die Kamera
-    
+
         this.addObjectsToMap(this.BackGroundObjects); // Fügt Hintergrundobjekte zur Karte hinzu
         this.ctx.translate(-this.camera_x, 0); // Verschiebt die Kamera zurück
         this.addToMap(this.statusbar); // Fügt die Statusleiste zur Karte hinzu
@@ -315,7 +321,6 @@ class World {
             self.draw(); // Ruft draw() wiederholt auf, um Animation zu erstellen
         });
     }
-    
 
     addToMap(movableObject) {
         if (movableObject instanceof Character && movableObject.direction === 'left') {
@@ -337,38 +342,9 @@ class World {
         }
     }
 
-
     addObjectsToMap(objects) {
         objects.forEach(object => {
             this.addToMap(object); // Fügt jedes Objekt zur Karte hinzu
         });
-    }
-
-    initializeBackgroundObjects() {
-        // Array von Bildpfaden für die verschiedenen Layer
-        const layers = [
-            'img_pollo_locco/img/5_background/layers/air.png',
-            'img_pollo_locco/img/5_background/layers/air.png',
-            'img_pollo_locco/img/5_background/layers/3_third_layer/1.png',
-            'img_pollo_locco/img/5_background/layers/3_third_layer/2.png',
-            'img_pollo_locco/img/5_background/layers/2_second_layer/1.png',
-            'img_pollo_locco/img/5_background/layers/2_second_layer/2.png',
-            'img_pollo_locco/img/5_background/layers/1_first_layer/1.png',
-            'img_pollo_locco/img/5_background/layers/1_first_layer/2.png'
-        ];
-
-        // Array von Startpositionen, multipliziert mit 719 für die Platzierung der Bilder
-        const startPositions = [-2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
-
-        // Äußere Schleife iteriert über die Startpositionen
-        for (let i = 0; i < startPositions.length; i++) {
-            // Innere Schleife iteriert über die Layer-Array, zwei Elemente auf einmal (Schrittgröße 2)
-            for (let j = 0; j < layers.length; j += 2) {
-                // Fügt ein neues BackGroundObject mit dem Bild aus layers[j] und der berechneten Position hinzu
-                this.BackGroundObjects.push(new BackGroundObject(layers[j], startPositions[i] * 719 * 2));
-                // Fügt ein neues BackGroundObject mit dem nächsten Bild aus layers[j + 1] und der berechneten Position + 719 hinzu
-                this.BackGroundObjects.push(new BackGroundObject(layers[j + 1], startPositions[i] * 719 * 2 + 719));
-            }
-        }
     }
 }

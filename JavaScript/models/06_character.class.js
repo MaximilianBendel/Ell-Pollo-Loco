@@ -166,7 +166,7 @@ class Character extends MoveableObject {
                 soundManager.pauseSound('snoring');
             } else {
                 this.idleTime += 200;
-                if (this.idleTime >= 2000) {
+                if (this.idleTime >= 8000) {
                     this.animateImages(this.Images_long_idle);
                     soundManager.playnormalSound('snoring');
                 } else {

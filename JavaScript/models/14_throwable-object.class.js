@@ -1,9 +1,9 @@
 class ThrowableObject extends MoveableObject {
 
-    throwSound = new Audio('Audio/throwbottle.mp3'); // Soundeffekt für das Werfen
     speedY = 30; // Geschwindigkeit in y-Richtung
     speedX = 20; // Geschwindigkeit in x-Richtung
     Bottleisrotating = false; // Statusvariable für die Flaschenrotation
+
 
 
     Images_Bottle_rotating = [
@@ -30,6 +30,10 @@ class ThrowableObject extends MoveableObject {
         this.height = 60;
         this.width = 50;
         this.throw();
+        this.throwSound = new Audio('Audio/throwbottle.mp3'); // Soundeffekt für das Werfen
+        this.hitBottleSound = new Audio('Audio/glassplash.mp3'); // Soundeffekt für das Treffen der Flasche
+        soundManager.addSound('throwbottle', this.throwSound); // Registriert den Soundeffekt
+        soundManager.addSound('glassbottlehit', this.hitBottleSound); // Registriert den Soundeffekt
     }
 
     throw() {
@@ -42,7 +46,7 @@ class ThrowableObject extends MoveableObject {
             // Aufrufen der animateImages Methode um die Flaschenbilder zu animieren
             this.animateImages(this.Images_Bottle_rotating);
         }, 25); // Aktualisiere das Bild alle 25 Millisekunden
-        this.throwSound.play(); // Spiele den Soundeffekt ab    
+        soundManager.playSound('throwbottle'); // Spielt den Soundeffekt ab
     }
 
     stopRotation() {
@@ -59,6 +63,10 @@ class ThrowableObject extends MoveableObject {
                 clearInterval(splashInterval); // Stoppt die Animation
             }
         }, 100); // Aktualisiere das Bild alle 100 Millisekunden
+    }
+
+    playGlasSplashSound() {
+        soundManager.playnormalSound('glassbottlehit'); // Spielt den Soundeffekt ab
     }
 
 }
