@@ -60,8 +60,6 @@ class Character extends MoveableObject {
     world;
     speed = 5;
     direction = 'right';
-    walking_sound = new Audio('Audio/walking.mp3');
-    snoring_sound = new Audio('Audio/snoring.mp3');
     idleTime = 0;
     isDeadAnimationStopped = false;
     lifepoints = 100;
@@ -79,6 +77,13 @@ class Character extends MoveableObject {
         this.height = 240;
         this.width = 100;
         this.y = 210;
+
+        // Sounds registrieren
+        this.walking_sound = new Audio('Audio/walking.mp3');
+        this.snoring_sound = new Audio('Audio/snoring.mp3');
+        soundManager.addSound('walking', this.walking_sound);
+        soundManager.addSound('snoring', this.snoring_sound);
+
         this.initAnimations(); 
     }
 
@@ -92,7 +97,7 @@ class Character extends MoveableObject {
     }
 
     moveCharacter() {
-        this.walking_sound.pause(); 
+        soundManager.pauseSound('walking'); 
         if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
             this.moveRightCharacter();
         }
@@ -109,17 +114,17 @@ class Character extends MoveableObject {
     moveRightCharacter() {
         this.x += this.speed; 
         this.direction = 'right'; 
-        this.walking_sound.play(); 
+        soundManager.playnormalSound('walking'); 
         this.idleTime = 0; 
-        this.snoring_sound.pause(); 
+        soundManager.pauseSound('snoring'); 
     }
 
     moveLeftCharacter() {
         this.x -= this.speed; 
         this.direction = 'left'; 
-        this.walking_sound.play(); 
+        soundManager.playnormalSound('walking'); 
         this.idleTime = 0; 
-        this.snoring_sound.pause(); 
+        soundManager.pauseSound('snoring'); 
     }
 
     startJumpingAnimation() {
@@ -158,17 +163,15 @@ class Character extends MoveableObject {
             if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
                 this.animateImages(this.Images_walking);
                 this.idleTime = 0;
-                this.snoring_sound.pause();
+                soundManager.pauseSound('snoring');
             } else {
                 this.idleTime += 200;
-                if (this.idleTime >= 200000) {
+                if (this.idleTime >= 2000) {
                     this.animateImages(this.Images_long_idle);
-                    if (this.snoring_sound.paused) {
-                        this.snoring_sound.play();
-                    }
+                    soundManager.playnormalSound('snoring');
                 } else {
                     this.animateImages(this.Images_idle);
-                    this.snoring_sound.pause();
+                    soundManager.pauseSound('snoring');
                 }
             }
         } else {
@@ -217,7 +220,7 @@ class Character extends MoveableObject {
                 this.animationIntervals[key] = null; 
             }
         }
-        this.walking_sound.pause();
-        this.snoring_sound.pause();
+        soundManager.pauseSound('walking');
+        soundManager.pauseSound('snoring');
     }
 }

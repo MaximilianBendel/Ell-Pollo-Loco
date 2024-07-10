@@ -1,12 +1,13 @@
 class CollectableBottles extends Drawableobject {
     static allBottles = []; // Speichert alle Instanzen
-    collectBottleSound = new Audio('Audio/collectfbottle.mp3');
 
     constructor() { 
         super().loadImg('img_pollo_locco/img/6_salsa_bottle/salsa_bottle.png');
         this.height = 40;
         this.width = 50;
         this.setPosition();
+        this.collectBottleSound = new Audio('Audio/collectfbottle.mp3');
+        soundManager.addSound('collectBottle', this.collectBottleSound);
     }
 
     setPosition() {
@@ -20,7 +21,7 @@ class CollectableBottles extends Drawableobject {
     }
 
     checkConflict() {
-        const minDistance = 100; // Setze den gewünschten Mindestabstand
+        const minDistance = 150; // Setze den gewünschten Mindestabstand
         for (let bottle of CollectableBottles.allBottles) { 
             const distance = Math.sqrt((bottle.x - this.x) ** 2 + (bottle.y - this.y) ** 2);
             if (distance < minDistance) {
@@ -31,22 +32,9 @@ class CollectableBottles extends Drawableobject {
     }
 
     collectBottle(collectableBottles, bottlebar) {
-        this.playSound();
+        soundManager.playSound('collectBottle', 300);
         bottlebar.bottles += 1;
         bottlebar.setBottles(bottlebar.bottles);
         collectableBottles.splice(collectableBottles.indexOf(this), 1);
     }
-
-    playSound() {
-        this.collectBottleSound.currentTime = 0; // Stellt sicher, dass das Audio von Anfang an spielt
-        this.collectBottleSound.play();
-        // Stoppt die Wiedergabe nach 0,5 Sekunden
-        setTimeout(() => {
-            this.collectBottleSound.pause();
-            this.collectBottleSound.currentTime = 0; // Setzt die Zeit zurück, damit das nächste Mal von Anfang an gespielt wird
-        }, 500);
-    }   
-    
-    
-    
 }

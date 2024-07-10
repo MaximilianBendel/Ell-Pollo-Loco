@@ -12,6 +12,7 @@ class World {
     collectableBottles = level1.collectableBottles; // Initialisiert die sammelbaren Flaschen
     collectableCoins = level1.collectableCoins; // Initialisiert die sammelbaren Münzen
     WinEndScreen = document.getElementById('WinScreenEnd');
+    LoseEndScreen = document.getElementById('LoseScreenEnd');
     canvas = document.getElementById('canvas');
 
     canvas;
@@ -20,8 +21,8 @@ class World {
     camera_x = 0;
     lastThrowTime = 0;  // Zeitpunkt des letzten Wurfs
     winScreen = false;
-
-
+    loseScreen = false;
+    runInterval = true;
 
 
     constructor(canvas, keyboard) {
@@ -49,7 +50,10 @@ class World {
     }
 
     run() {
-        setInterval(() => {
+        if (this.runInterval) {
+            clearInterval(this.runInterval);
+        }
+        this.runInterval = setInterval(() => {
             this.checkThrowObject(); // Überprüft, ob die Flasche geworfen wird
             this.checkEnemyCollisionWithBottle(); // Überprüft Kollisionen mit Flaschen
             this.checkCollisionsWithBottles(); // Überprüft Kollisionen mit Flaschen
@@ -59,9 +63,34 @@ class World {
             this.updateEndbossBar(); // Aktualisiert die Endbossleiste
             this.handleDeadEnemies(); // Entfernt tote Feinde
             this.checkIfWin();
+            this.checkIfLose();
         }, 25);
         this.checkCollisionsCharacter(); // Überprüft Kollisionen mit dem Charakter
     }
+
+    checkIfLose() { 
+        if (this.character.lifepoints <= 0) {
+            this.loseScreen = true;
+            if (this.loseScreen) {
+                setTimeout(() => {
+                    this.stoppAllAnimations();
+                }, 1500);
+
+
+                setTimeout(() => {
+                    this.showLoseScreenEnd();
+                }, 2500);
+            }
+        }
+
+    }
+
+    showLoseScreenEnd() {
+        canvas.classList.remove('display-block');
+        this.LoseEndScreen.style.display = 'block';
+    }
+
+    
 
     checkIfWin() {
         this.enemies.forEach((enemy) => {
@@ -88,13 +117,19 @@ class World {
         this.winScreen = true;
     
         // Stoppt alle Animationen für Feinde und den Charakter
-        this.enemies.forEach(enemy => {
-            if (enemy instanceof Endboss || enemy instanceof Chicken) {
-                enemy.stopAllAnimations();
-            }
-        });
-        this.character.stoppAllAnimations();
+            this.enemies.forEach(enemy => {
+                if (enemy instanceof Endboss || enemy instanceof Chicken) {
+                    enemy.stopAllAnimations();
+                }
+            });
+            this.character.stoppAllAnimations();
+        clearInterval(this.runInterval); // Stoppt die Run Funktionen
+        this.runInterval = false;
     }
+    
+    
+    
+    
 
     showWinScreenEnd() {
         canvas.classList.remove('display-block');
@@ -136,7 +171,7 @@ class World {
     }
 
     checkEndbossTrigger() {
-        if (this.character.x > 1800) {
+        if (this.character && this.character.x > 1800) {
             this.level.enemies.forEach(enemy => {
                 if (enemy instanceof Endboss && !enemy.animationTriggered) {
                     enemy.startAnimation();
@@ -145,6 +180,7 @@ class World {
             });
         }
     }
+    
 
     checkBottleHitGround() {
         this.bottle.forEach((bottle, index) => {
@@ -183,7 +219,7 @@ class World {
 
     handleEndbossHit(enemy, bottle, index) {
         if (!enemy.isHitCooldown) {
-            enemy.hit(20); // Reduziert die Lebenspunkte des Endbosses 
+            enemy.hit(100); // Reduziert die Lebenspunkte des Endbosses 
             enemy.isHurtAnimation(); // Setzt den Status des Endbosses auf verletzt
             bottle.bottleSplash(); // Ruft die Methode bottleSplash auf
             this.removeBottleAfterDelay(index);
@@ -214,8 +250,6 @@ class World {
         }
     }
 
-
-
     checkThrowObject() {
         const currentTime = Date.now();
         // Prüft, ob die 'D'-Taste gedrückt ist, die Länge von bottle weniger als 30 beträgt,
@@ -236,26 +270,32 @@ class World {
     // this.bottlebar.bottles > 0 && this.bottlebar.bottles <= 10
 
     checkCollisionsWithBottles() {
-        this.level.collectableBottles.forEach((bottle) => {
+        if (!this.collectableBottles) return; // Beendet die Methode, wenn collectableBottles null ist
+        this.collectableBottles.forEach((bottle) => {
             if (this.character.isColliding(bottle)) {
-                bottle.collectBottle(this.level.collectableBottles, this.bottlebar); // Korrekt: Ruft collectBottle auf dem kollidierenden Flaschenobjekt auf
+                bottle.collectBottle(this.collectableBottles, this.bottlebar); // Korrekt: Ruft collectBottle auf dem kollidierenden Flaschenobjekt auf
             }
         });
     }
+    
 
     checkCollisionsWithCoins() {
-        this.level.collectableCoins.forEach((coin) => {
+        if (!this.collectableCoins) return; // Beendet die Methode, wenn collectableCoins null ist
+        this.collectableCoins.forEach((coin) => {
             if (this.character.isColliding(coin)) {
-                coin.collectCoin(this.level.collectableCoins, this.coinbar); // Korrekt: Ruft collectCoin auf dem kollidierenden Münzobjekt auf
+                coin.collectCoin(this.collectableCoins, this.coinbar); // Korrekt: Ruft collectCoin auf dem kollidierenden Münzobjekt auf
             }
         });
     }
+    
 
 
     draw() {
+        if (this.isClearing || !this.ctx) return; // Beendet die Methode, wenn die Welt gelöscht wird oder ctx null ist
+    
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); // Löscht das Canvas
         this.ctx.translate(this.camera_x, 0); // Verschiebt die Kamera
-
+    
         this.addObjectsToMap(this.BackGroundObjects); // Fügt Hintergrundobjekte zur Karte hinzu
         this.ctx.translate(-this.camera_x, 0); // Verschiebt die Kamera zurück
         this.addToMap(this.statusbar); // Fügt die Statusleiste zur Karte hinzu
@@ -275,6 +315,7 @@ class World {
             self.draw(); // Ruft draw() wiederholt auf, um Animation zu erstellen
         });
     }
+    
 
     addToMap(movableObject) {
         if (movableObject instanceof Character && movableObject.direction === 'left') {

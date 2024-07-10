@@ -1,45 +1,51 @@
-let level1 = new Level(
-    [ // enemies
-        new Chicken(),
-        new Chicken(),
-        new Chicken(),
-        new Endboss()
-    ],
+let level1;
 
-    [ // clouds
-        new Cloud(250, 25),
-        new Cloud(500, 50),
-        new Cloud(800, 25),
-        new Cloud(1200, 50),    
-        new Cloud(1700, 25),
-        new Cloud(2300, 50),
-    ],
 
-    [], // BackGroundObjects
+function initLevel() {
+    level1 = new Level(
+        [ // enemies
+            new Chicken(),
+            new Chicken(),
+            new Chicken(),
+            new Endboss()
+        ],
 
-    [
-        new CollectableBottles(),
-        new CollectableBottles(),
-        new CollectableBottles(),
-        new CollectableBottles(),
-        new CollectableBottles(),
-        new CollectableBottles(),
-        new CollectableBottles(),
-        new CollectableBottles(),
-        new CollectableBottles(),
-        new CollectableBottles()
-    ], // collectableBottles
+        [ // clouds
+            new Cloud(250, 25),
+            new Cloud(500, 50),
+            new Cloud(800, 25),
+            new Cloud(1200, 50),
+            new Cloud(1700, 25),
+            new Cloud(2300, 50),
+        ],
 
-    [
-        new Coins(),
-        new Coins(),
-        new Coins(),
-        new Coins(),
-        new Coins(),
-        new Coins(),
-        new Coins(),
-        new Coins(),
-        new Coins(),
-        new Coins()
-    ] // Coins
-);
+        [], // BackGroundObjects
+
+        [
+            new CollectableBottles(),
+            new CollectableBottles(),
+            new CollectableBottles(),
+            new CollectableBottles(),
+            new CollectableBottles(),
+            new CollectableBottles(),
+            new CollectableBottles(),
+            new CollectableBottles(),
+            new CollectableBottles(),
+            new CollectableBottles()
+        ], // collectableBottles
+
+        [
+            new Coins(),
+            new Coins(),
+            new Coins(),
+            new Coins(),
+            new Coins(),
+            new Coins(),
+            new Coins(),
+            new Coins(),
+            new Coins(),
+            new Coins()
+        ] // Coins
+    );
+
+}
