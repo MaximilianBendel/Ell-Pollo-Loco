@@ -64,11 +64,6 @@ class Endboss extends MoveableObject {
         this.loadImages(this.hurtImages);
         this.loadImages(this.deadImages);
         this.x = 2100;
-        // add Sounds 
-        this.introSound = new Audio('Audio/endbossIntroSound.mp3');
-        this.hurtSound = new Audio('Audio/endbosshitwithbottle.mp3');
-        soundManager.addSound('endbossIntroSound', this.introSound);
-        soundManager.addSound('endbosshitwithbottle', this.hurtSound);
     }
 
     startAnimation() {

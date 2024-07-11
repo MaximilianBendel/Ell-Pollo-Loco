@@ -36,7 +36,6 @@ class World {
         this.setWorld(); // Setzt die Welt
         this.setEndboss(); // Setzt den Endboss
         this.run(); // Überprüft Kollisionen
-        this.addAllSounds(); // Fügt alle Sounds hinzu
     }
 
     // Methoden zur Initialisierung
@@ -70,15 +69,6 @@ class World {
                 this.BackGroundObjects.push(new BackGroundObject(layers[j + 1], startPositions[i] * 719 * 2 + 719));
             }
         }
-    }
-
-    addAllSounds() {
-        this.winLevelSound = new Audio('Audio/winlevel.mp3'); // Soundeffekt für das Gewinnen des Levels
-        this.loseLevelSound = new Audio('Audio/loselevel.mp3'); // Soundeffekt für das Verlieren des Levels
-        this.gameMusic = new Audio('Audio/gamemusicloop.mp3'); // Hintergrundmusik
-        soundManager.addSound('winlevel', this.winLevelSound); // Registriert den Soundeffekt
-        soundManager.addSound('loselevel', this.loseLevelSound); // Registriert den Soundeffekt
-        soundManager.addSound('gamemusic', this.gameMusic); // Registriert den Soundeffekt
     }
 
     // Spiel-Logik

@@ -22,9 +22,6 @@ class Chicken extends MoveableObject {
         this.y = 445 - this.height; // Setzt die y-Position
         this.speed = 0.15 + Math.random() * 0.5; // Setzt eine zufällige Geschwindigkeit
         this.animate(); // Startet die Animation des Huhns
-        // add Sounds
-        this.hitSound = new Audio('Audio/smallchickendies.mp3'); // Soundeffekt für den Treffer
-        soundManager.addSound('smallchickendies', this.hitSound); // Registriert den Soundeffekt
     }
 
     animate() {

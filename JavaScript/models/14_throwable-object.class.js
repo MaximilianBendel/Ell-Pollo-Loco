@@ -30,10 +30,6 @@ class ThrowableObject extends MoveableObject {
         this.height = 60;
         this.width = 50;
         this.throw();
-        this.throwSound = new Audio('Audio/throwbottle.mp3'); // Soundeffekt für das Werfen
-        this.hitBottleSound = new Audio('Audio/glassplash.mp3'); // Soundeffekt für das Treffen der Flasche
-        soundManager.addSound('throwbottle', this.throwSound); // Registriert den Soundeffekt
-        soundManager.addSound('glassbottlehit', this.hitBottleSound); // Registriert den Soundeffekt
     }
 
     throw() {

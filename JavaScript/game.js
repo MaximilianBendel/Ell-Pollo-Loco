@@ -19,7 +19,6 @@ function startGame() {
 function init() {
     canvas = document.getElementById('canvas'); // Holt das Canvas-Element aus dem DOM
     world = new World(canvas, keyboard); // Initialisiert die Welt mit Canvas und Keyboard
-    soundManager.playnormalSound('gamemusic'); // Spielt den Hintergrundsound ab
 }
 
 function restartGame() {

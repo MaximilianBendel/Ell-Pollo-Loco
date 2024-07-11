@@ -77,7 +77,6 @@ class Character extends MoveableObject {
         this.height = 240;
         this.width = 100;
         this.y = 210;
-
         this.initAnimations(); 
     }
 
