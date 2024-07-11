@@ -26,11 +26,11 @@
     <script src="./JavaScript/models/levels/level1.js"></script>
     <script src="./JavaScript/game.js"></script>
 </head>
-<body onload="loadMusic()">
+<body>
     <div id="startMenuBox" class="startMenuBox">
-            <img onclick="startGame()" class="startImg" src="./img_pollo_locco/img/startschild.png" alt="Image 1">
-            <img class="keyboardImg" src="./img_pollo_locco/img/keyboard.png" alt="Image 1">
-            <img onclick="muteAll()" class="unmuteImg" src="./img_pollo_locco/img/MusicUnmute.png" alt="Image 1">
+        <img onclick="startGame()" class="startImg" src="./img_pollo_locco/img/startschild.png" alt="Start Image">
+        <img class="keyboardImg" src="./img_pollo_locco/img/keyboard.png" alt="Keyboard Image">
+        <img onclick="toggleSound()" class="unmuteImg" id="toggleSoundButton" src="./img_pollo_locco/img/MusicUnmute.png" alt="Unmute Image">
     </div>
 
     <canvas id="canvas" width="720" height="480"></canvas>
