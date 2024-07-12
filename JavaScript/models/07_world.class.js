@@ -93,7 +93,7 @@ class World {
 
     checkThrowObject() {
         const currentTime = Date.now();
-        if (this.keyboard.D && currentTime - this.lastThrowTime >= 2000) {
+        if (this.keyboard.D && currentTime - this.lastThrowTime >= 2000 || this.keyboard.THROW_BTN && currentTime - this.lastThrowTime >= 2000) {
             let newBottle = new ThrowableObject(this.character.x + 50, this.character.y + 100);
             this.bottle.push(newBottle);
             this.bottlebar.bottles -= 1;
@@ -237,6 +237,7 @@ class World {
         this.enemies.forEach((enemy) => {
             if (enemy instanceof Endboss && enemy.lifepoints <= 0) {
                 this.winScreen = true;
+                showMobileButtonsStatus = false;
             }
         });
         if (this.winScreen) {
@@ -261,6 +262,17 @@ class World {
         this.character.stoppAllAnimations();
         clearInterval(this.runInterval); // Stoppt die Run Funktionen
         this.runInterval = false;
+    }
+
+
+    activateAllAnimations() { 
+        this.enemies.forEach(enemy => {
+            if (enemy instanceof Endboss || enemy instanceof Chicken) {
+                enemy.activateAllAnimations();
+            }
+        });
+        this.character.activateAllAnimations();
+        this.run(); // Startet die Run Funktionen
     }
 
     showWinScreenEnd() {

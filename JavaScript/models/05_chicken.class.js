@@ -39,6 +39,10 @@ class Chicken extends MoveableObject {
         clearInterval(this.walkingImagesInterval); // Stoppt die Laufanimation
     }
 
+    activateAllAnimations() {
+        this.animate(); // Startet die Animation
+    }
+
     deadAnimation() {
         if (this.lifepoints === 0) {
             this.stopAllAnimations(); // Stoppt alle Animationen

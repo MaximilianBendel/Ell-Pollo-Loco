@@ -91,13 +91,13 @@ class Character extends MoveableObject {
 
     moveCharacter() {
         soundManager.pauseSound('walking');
-        if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+        if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x || this.world.keyboard.RIGHT_BTN && this.x < this.world.level.level_end_x) {
             this.moveRightCharacter();
         }
-        if (this.world.keyboard.LEFT && this.x > -720) {
+        if (this.world.keyboard.LEFT && this.x > -720 || this.world.keyboard.LEFT_BTN && this.x > -720) {
             this.moveLeftCharacter();
         }
-        if (this.world.keyboard.SPACE && !this.isAboveGround()) {
+        if (this.world.keyboard.SPACE && !this.isAboveGround() || this.world.keyboard.JUMP_BTN && !this.isAboveGround()) {
             this.jump();
             this.startJumpingAnimation();
         }
@@ -151,7 +151,7 @@ class Character extends MoveableObject {
         if (!this.isAboveGround()) {
             this.speedY = 0;
             this.stopJumpingAnimation();
-            if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+            if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.RIGHT_BTN || this.world.keyboard.LEFT_BTN) {
                 this.animateImages(this.Images_walking);
                 this.idleTime = 0;
                 soundManager.pauseSound('snoring');
@@ -213,5 +213,11 @@ class Character extends MoveableObject {
         }
         soundManager.pauseSound('walking');
         soundManager.pauseSound('snoring');
+    }
+
+    
+
+    activateAllAnimations() {
+        this.initAnimations();
     }
 }

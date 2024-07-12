@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,8 +27,11 @@
     <script src="./JavaScript/models/levels/level1.js"></script>
     <script src="./JavaScript/game.js"></script>
 </head>
+<body onload="checkOrientation()">
+    <div id="rotateDeviceMessage" class="rotate-device-message">
+        <p>Bitte drehen Sie Ihr Gerät</p>
+    </div>
 
-<body>
     <canvas id="canvas" width="720" height="480"></canvas>
 
     <div id="startMenuBox" class="startMenuBox">
@@ -43,7 +45,6 @@
         </div>
         <div class="startButtonWrapper">
             <img onclick="startGame()" class="startImg" src="./img_pollo_locco/img/startschild.png" alt="Start Image">
-
         </div>
     </div>
 
@@ -70,18 +71,18 @@
         </div>
         <div class="KeyBoardIntroductionWrapper">
             <div class="KeyBoardIntroductionFirstBox">
-                <span class="KeyBoardIntroductionText">Animations</span>
-                <span class="KeyBoardIntroductionText">KeyBindings</span>
+                <span class="KeyBoardIntroductionText">Animationen</span>
+                <span class="KeyBoardIntroductionText">Tastenbelegung</span>
             </div>
             <div class="AnimationKeybindingsBox">
                 <img src="./img_pollo_locco/img/2_character_pepe/2_walk/W-26.png" alt="">
-                <span>Arrow Left/Arrow right</span>
+                <span>Pfeil Links/Pfeil Rechts</span>
                 <span>A / D</span>
             </div>
             <div class="AnimationKeybindingsBox">
                 <img src="./img_pollo_locco/img/2_character_pepe/3_jump/J-36.png" alt="">
-                <span>SpaceBar</span>
-                <span>Arrow Up</span>
+                <span>Leertaste</span>
+                <span>Pfeil Hoch</span>
             </div>
             <div class="AnimationKeybindingsBox">
                 <img src="./img_pollo_locco/img/6_salsa_bottle/salsa_bottle.png" alt="">
@@ -90,6 +91,10 @@
             </div>
         </div>
     </div>
-</body>
 
+    <button style="display: none;" id="leftButton" class="control-button">Left</button>
+    <button style="display: none;" id="rightButton" class="control-button">Right</button>
+    <button style="display: none;" id="jumpButton" class="control-button">Jump</button>
+    <button style="display: none;" id="throwButton" class="control-button">Throw</button>
+</body>
 </html>
