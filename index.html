@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>El Pollo Loco</title>
     <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./font.css">
     <script src="./JavaScript/models/10_drawable-object.class.js"></script>
     <script src="./JavaScript/models/02_movable-object.class.js"></script>
     <script src="./JavaScript/models/18_soundmanager.class.js"></script>
@@ -26,27 +28,68 @@
     <script src="./JavaScript/models/levels/level1.js"></script>
     <script src="./JavaScript/game.js"></script>
 </head>
-<body>
-    <div id="startMenuBox" class="startMenuBox">
-        <img onclick="startGame()" class="startImg" src="./img_pollo_locco/img/startschild.png" alt="Start Image">
-        <img class="keyboardImg" src="./img_pollo_locco/img/keyboard.png" alt="Keyboard Image">
-        <img onclick="toggleSound()" class="unmuteImg" id="toggleSoundButton" src="./img_pollo_locco/img/MusicUnmute.png" alt="Unmute Image">
-    </div>
 
+<body>
     <canvas id="canvas" width="720" height="480"></canvas>
+
+    <div id="startMenuBox" class="startMenuBox">
+        <div class="settingsButtonsWrapper">
+            <div class="settingsButtonsFlexBox">
+                <img onclick="toggleSound()" class="unmuteImg" id="toggleSoundButton"
+                    src="./img_pollo_locco/img/MusicUnmute.png" alt="Unmute Image">
+                <img onclick="openKeyboardMenu()" class="keyboardImg" src="./img_pollo_locco/img/keyboard.png"
+                    alt="Keyboard Image">
+            </div>
+        </div>
+        <div class="startButtonWrapper">
+            <img onclick="startGame()" class="startImg" src="./img_pollo_locco/img/startschild.png" alt="Start Image">
+
+        </div>
+    </div>
 
     <div class="WinScreenEnd" id="WinScreenEnd">
         <div class="WinScreenEndImageBox">
             <img src="./img_pollo_locco/img/9_intro_outro_screens/win/won_2.png" alt="Win Screen">
+            <img class="restartButton" onclick="restartGame()" id="restartButton"
+                src="img_pollo_locco/img/resetImage.png" alt="">
         </div>
-        <button onclick="restartGame()" id="restartButton">Restart</button>
     </div>
 
     <div class="LoseScreenEnd" id="LoseScreenEnd">
         <div class="WinScreenEndImageBox">
             <img src="./img_pollo_locco/img/9_intro_outro_screens/game_over/oh no you lost!.png" alt="Lose Screen">
+            <img class="restartButton" onclick="restartGame()" id="restartButton"
+                src="img_pollo_locco/img/resetImage.png" alt="">
         </div>
-        <button onclick="restartGame()" id="restartButton">Restart</button>
+    </div>
+
+    <div id="keyboardMenu" class="keyboardMenu" style="display: none;">
+        <div class="keyboardMenuButtons">
+            <img onclick="closeKeyboardMenu()" class="keyboardImg" src="./img_pollo_locco/img/keyboard.png"
+                alt="Keyboard Image">
+        </div>
+        <div class="KeyBoardIntroductionWrapper">
+            <div class="KeyBoardIntroductionFirstBox">
+                <span class="KeyBoardIntroductionText">Animations</span>
+                <span class="KeyBoardIntroductionText">KeyBindings</span>
+            </div>
+            <div class="AnimationKeybindingsBox">
+                <img src="./img_pollo_locco/img/2_character_pepe/2_walk/W-26.png" alt="">
+                <span>Arrow Left/Arrow right</span>
+                <span>A / D</span>
+            </div>
+            <div class="AnimationKeybindingsBox">
+                <img src="./img_pollo_locco/img/2_character_pepe/3_jump/J-36.png" alt="">
+                <span>SpaceBar</span>
+                <span>Arrow Up</span>
+            </div>
+            <div class="AnimationKeybindingsBox">
+                <img src="./img_pollo_locco/img/6_salsa_bottle/salsa_bottle.png" alt="">
+                <span>D</span>
+                <span>F</span>
+            </div>
+        </div>
     </div>
 </body>
+
 </html>

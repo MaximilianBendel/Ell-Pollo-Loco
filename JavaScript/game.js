@@ -33,5 +33,14 @@ window.addEventListener('keyup', function (e) {
     keyboard.updateKeyState(e.key, false); // Aktualisiert den Tastaturzustand bei Loslassen der Taste
 });
 
+function openKeyboardMenu() {
+    document.getElementById('startMenuBox').classList.add('display-none');
+    document.getElementById('keyboardMenu').style.display = 'block';
+}
+
+function closeKeyboardMenu() {
+    document.getElementById('startMenuBox').classList.remove('display-none');
+    document.getElementById('keyboardMenu').style.display = 'none';
+}
 
 

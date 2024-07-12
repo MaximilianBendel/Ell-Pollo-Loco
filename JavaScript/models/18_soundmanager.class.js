@@ -16,7 +16,6 @@ class SoundManager {
 
     addSound(name, sound) {
         if (!this.audioContext) {
-            console.error("AudioContext has not been initialized");
             return;
         }
         const track = this.audioContext.createMediaElementSource(sound);
@@ -31,13 +30,11 @@ class SoundManager {
     }
 
     playSound(name, delay = 500) {
-        console.log(`Attempting to play sound: ${name}`);
         const currentTime = Date.now();
         if (!this.isMuted && this.sounds[name] && currentTime - this.lastPlayTime[name] > delay) {
             const soundObject = this.sounds[name];
             soundObject.sound.currentTime = 0;
             soundObject.sound.play();
-            console.log(`Sound played: ${name}`);
             this.lastPlayTime[name] = currentTime;
             setTimeout(() => {
                 soundObject.sound.pause();
@@ -47,10 +44,8 @@ class SoundManager {
     }
 
     playnormalSound(name) {
-        console.log(`Attempting to play normal sound: ${name}`);
         if (!this.isMuted && this.sounds[name]) {
             this.sounds[name].sound.play();
-            console.log(`Normal sound played: ${name}`);
         }
     }
 
@@ -81,7 +76,6 @@ class SoundManager {
     resumeAudioContext() {
         if (this.audioContext.state === 'suspended') {
             return this.audioContext.resume().then(() => {
-                console.log('AudioContext resumed');
             });
         } else {
             return Promise.resolve();
@@ -142,22 +136,16 @@ async function loadBackGroundMusic() {
 }
 
 function toggleSound() {
-    console.log("Toggle sound called. Current mute status: ", soundManager.isMuted);
 
     soundManager.initAudioContext().then(() => {
-        console.log("AudioContext initialized or resumed.");
 
         if (soundManager.isMuted) {
             soundManager.unmuteAll();
             document.getElementById('toggleSoundButton').src = './img_pollo_locco/img/MusicMute.png';
-            console.log("Sound unmuted.");
             loadMusic();
         } else {
             soundManager.muteAll();
             document.getElementById('toggleSoundButton').src = './img_pollo_locco/img/MusicUnmute.png';
-            console.log("Sound muted.");
         }
-    }).catch((error) => {
-        console.error('Error initializing audio context:', error);
     });
 }

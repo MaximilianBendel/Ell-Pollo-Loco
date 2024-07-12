@@ -9,6 +9,8 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
+    margin: 0;
+    font-family: 'Slackey';
 }
 
 .display-none {
@@ -25,14 +27,13 @@ canvas {
 
 .startMenuBox {
     display: flex;
-    align-items: center;
-    justify-content: center;
     width: 720px;
     height: 480px;
-    background-image: url('./img_pollo_locco/img/9_intro_outro_screens/start/startscreen_1.png');
+    background-image: url(./img_pollo_locco/img/9_intro_outro_screens/start/startscreen_1.png);
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
+    flex-direction: column;
 }
 
 .MenuButtonsBox {
@@ -47,43 +48,33 @@ canvas {
     width: 154px;
     cursor: pointer;
     transition: transform 0.3s;
-    display: flex;
-    position: relative;
-    border-radius: 28px;
-    top: 29%;
-    right: 18%;
 }
 
 .keyboardImg {
     width: 50px;
-    display: flex;
-    position: relative;
-    top: -40%;
-    left: 30%;
     cursor: pointer;
 }
 
 .unmuteImg {
     width: 52px;
-    display: flex;
-    position: relative;
-    top: -40%;
-    left: 13%;
     cursor: pointer;
 }
 
-.startImg:hover  {
+.startImg:hover {
     animation: hoverEffect 0.6s infinite alternate;
 }
 
-.keyboardImg:hover, .unmuteImg:hover {
-    animation: hoverEffectKeyBoard 0.6s ease-in-out forwards;
-} 
+.keyboardImg:hover,
+.unmuteImg:hover,
+.restartButton:hover {
+    animation: hoverEffectKeyBoard 0.6s infinite alternate;
+}
 
 @keyframes hoverEffectKeyBoard {
     0% {
         transform: scale(1);
     }
+
     100% {
         transform: scale(1.2);
     }
@@ -93,27 +84,202 @@ canvas {
     0% {
         transform: scale(1);
     }
+
     100% {
         transform: scale(1.1);
     }
 }
 
-.WinScreenEnd, .LoseScreenEnd {
+.WinScreenEnd,
+.LoseScreenEnd {
     width: 720px;
     height: 480px;
-    background-color: black;
+    background-image: url(./img_pollo_locco/img/backgroundImageForKeyBoardIntroduction.png);
     display: none;
 }
 
-.WinScreenEndImageBox, .LoseScreenEndImageBox {
+.WinScreenEndImageBox,
+.LoseScreenEndImageBox {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
-    width: 100%;
+    flex-direction: column;
 }
 
-.WinScreenEndImageBox img, .LoseScreenEndImageBox img {
-    height: 200px;
-    width: 420px;
+.WinScreenEndImageBox img,
+.LoseScreenEndImageBox img {
+    height: 480px;
+    width: 720px;
+}
+
+.keyboardMenu {
+    height: 480px;
+    width: 720px;
+    background-image: url(./img_pollo_locco/img/backgroundImageForKeyBoardIntroduction.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.settingsButtonsWrapper {
+    /* display: flex; */
+    display: flex;
+    justify-content: end;
+    /* position: relative; */
+    margin-right: 50px;
+    margin-top: 25px;
+}
+
+.settingsButtonsFlexBox {
+    display: flex;
+    justify-content: space-between;
+    width: 150px;
+}
+
+.startButtonWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 720px - 51px;
+    margin-top: 30%;
+    margin-left: 22%;
+}
+
+.keyboardMenuButtons {
+    display: flex;
+    justify-content: end;
+    margin-right: 50px;
+    margin-top: 25px;
+}
+
+.KeyBoardIntroductionWrapper {
+    display: flex;
+    margin: 20px 70px 0px 70px;
+    flex-direction: column;
+}
+
+.AnimationKeybindingsBox span {
+    width: 60px;
+    white-space: nowrap;
+    font-weight: 700;
+}
+
+.KeyBoardIntroductionWrapper div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.KeyBoardIntroductionWrapper img {
+    width: 60px;
+}
+
+.KeyBoardIntroductionFirstBox {
+    display: flex;
+    justify-content: space-between !important;
+    padding: 10px;
+}
+
+.KeyBoardIntroductionText {
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.restartButton {
+    margin-top: -120px;
+    width: 110px !important;
+    height: auto !important;
+    display: flex;
+    cursor: pointer;
+}
+
+@media only screen and (max-width:720px) {
+    canvas {
+        width: 100%;
+    }
+
+    .startMenuBox {
+        width: 100%;
+    }
+
+    .startButtonWrapper {
+        margin-top: 22%;
+    }
+
+    .keyboardMenu {
+        width: 100%;
+    }
+
+    .WinScreenEnd {
+        width: 100%;
+    }
+
+    .LoseScreenEnd {
+        width: 100%;
+    }
+
+    .WinScreenEndImageBox img, .LoseScreenEndImageBox img {
+        width: 100%;
+    }
+
+    .KeyBoardIntroductionText {
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    .KeyBoardIntroductionWrapper img {
+        width: 50px;
+    }
+
+    .KeyBoardIntroductionWrapper {
+        display: flex;
+        margin: 0px 70px 0px 70px;
+        flex-direction: column;
+    }
+}
+
+@media only screen and (max-height:480px) {
+    canvas {
+        height: 100vh;
+        width: 100vw;
+    }
+
+    .startMenuBox {
+        height: 100vh;
+    }
+
+    .startButtonWrapper {
+        margin-top: 22%;
+    }
+
+    .keyboardMenu {
+        height: 100vh;
+    }
+
+    .WinScreenEnd {
+        height: 100vh;
+    }
+
+    .LoseScreenEnd {
+        height: 100vh;
+    }
+
+    .WinScreenEndImageBox img, .LoseScreenEndImageBox img {
+        height: 100vh;
+    }
+
+    .KeyBoardIntroductionText {
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    .KeyBoardIntroductionWrapper img {
+        width: 50px;
+    }
+
+    .KeyBoardIntroductionWrapper {
+        display: flex;
+        margin: 0px 70px 0px 70px;
+        flex-direction: column;
+    }
 }

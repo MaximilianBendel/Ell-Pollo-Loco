@@ -65,74 +65,72 @@ class Character extends MoveableObject {
     lifepoints = 100;
 
     constructor() {
-        super().loadImg('img_pollo_locco/img/2_character_pepe/1_idle/idle/I-1.png'); 
-        this.loadImages(this.Images_walking); 
-        this.loadImages(this.Images_idle); 
-        this.loadImages(this.Images_long_idle); 
-        this.loadImages(this.Images_jumping); 
-        this.loadImages(this.Images_dead); 
-        this.loadImages(this.Images_hurt); 
-        this.applyGravity(); 
+        super().loadImg('img_pollo_locco/img/2_character_pepe/1_idle/idle/I-1.png');
+        this.loadImages(this.Images_walking);
+        this.loadImages(this.Images_idle);
+        this.loadImages(this.Images_long_idle);
+        this.loadImages(this.Images_jumping);
+        this.loadImages(this.Images_dead);
+        this.loadImages(this.Images_hurt);
+        this.applyGravity();
         this.x = 0;
         this.height = 240;
         this.width = 100;
         this.y = 210;
-        this.initAnimations(); 
+        this.initAnimations();
     }
 
     initAnimations() {
         this.animationIntervals = {
             moveCharacter: setInterval(() => this.moveCharacter(), 1000 / 60),
             updateAnimation: setInterval(() => this.updateAnimation(), 200),
-            jumpingAnimationInterval: null, 
-            deadAnimationInterval: null, 
+            jumpingAnimationInterval: setInterval(() => this.startJumpingAnimation(), 250),
+            deadAnimationInterval: null,
         };
     }
 
     moveCharacter() {
-        soundManager.pauseSound('walking'); 
+        soundManager.pauseSound('walking');
         if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
             this.moveRightCharacter();
         }
         if (this.world.keyboard.LEFT && this.x > -720) {
             this.moveLeftCharacter();
         }
-        if (this.world.keyboard.SPACE && !this.isAboveGround()) { 
-            this.jump(); 
-            this.startJumpingAnimation(); 
+        if (this.world.keyboard.SPACE && !this.isAboveGround()) {
+            this.jump();
+            this.startJumpingAnimation();
         }
-        this.world.camera_x = -this.x + 100; 
+        this.world.camera_x = -this.x + 100;
     }
 
     moveRightCharacter() {
-        this.x += this.speed; 
-        this.direction = 'right'; 
-        soundManager.playnormalSound('walking'); 
-        this.idleTime = 0; 
-        soundManager.pauseSound('snoring'); 
+        this.x += this.speed;
+        this.direction = 'right';
+        soundManager.playnormalSound('walking');
+        this.idleTime = 0;
+        soundManager.pauseSound('snoring');
     }
 
     moveLeftCharacter() {
-        this.x -= this.speed; 
-        this.direction = 'left'; 
-        soundManager.playnormalSound('walking'); 
-        this.idleTime = 0; 
-        soundManager.pauseSound('snoring'); 
+        this.x -= this.speed;
+        this.direction = 'left';
+        soundManager.playnormalSound('walking');
+        this.idleTime = 0;
+        soundManager.pauseSound('snoring');
     }
 
     startJumpingAnimation() {
         if (this.animationIntervals.jumpingAnimationInterval) {
             clearInterval(this.animationIntervals.jumpingAnimationInterval);
         }
-        this.animationIntervals.jumpingAnimationInterval = setInterval(() => {
-            this.animateImages(this.Images_jumping);
-            if (this.currentImage >= this.Images_jumping.length - 1) {
-                clearInterval(this.animationIntervals.jumpingAnimationInterval);
-                this.animationIntervals.jumpingAnimationInterval = null;
-            }
-        }, 250);
+        this.animateImages(this.Images_jumping); 
+        if (this.currentImage >= this.Images_jumping.length - 1) {
+            console.log(this.currentImage);
+            clearInterval(this.animationIntervals.jumpingAnimationInterval);
+        }
     }
-    
+
     stopJumpingAnimation() {
         if (this.animationIntervals.jumpingAnimationInterval) {
             clearInterval(this.animationIntervals.jumpingAnimationInterval);
@@ -145,8 +143,8 @@ class Character extends MoveableObject {
             clearInterval(this.animationIntervals.deadAnimationInterval);
             this.animationIntervals.deadAnimationInterval = null;
         }
-        this.loadImg('img_pollo_locco/img/2_character_pepe/5_dead/D-56.png'); 
-        this.isDeadAnimationStopped = true; 
+        this.loadImg('img_pollo_locco/img/2_character_pepe/5_dead/D-56.png');
+        this.isDeadAnimationStopped = true;
     }
 
     updateAnimation() {
@@ -169,7 +167,7 @@ class Character extends MoveableObject {
             }
         } else {
             this.animateImages(this.Images_jumping);
-        } 
+        }
         if (this.isHurt()) {
             this.animateImages(this.Images_hurt);
         }
@@ -180,13 +178,13 @@ class Character extends MoveableObject {
                     this.stopDeadAnimation();
                 }, 400);
             }
-            return; 
+            return;
         }
     }
 
     animateImages(images) {
         if (this.isDeadAnimationStopped) {
-            return; 
+            return;
         }
         this.currentImage++;
         if (this.currentImage >= images.length) {
@@ -197,12 +195,12 @@ class Character extends MoveableObject {
 
     draw(ctx) {
         if (this.direction === 'left') {
-            ctx.save(); 
-            ctx.scale(-1, 1); 
+            ctx.save();
+            ctx.scale(-1, 1);
             ctx.drawImage(this.img, -this.x - this.width, this.y, this.width, this.height);
-            ctx.restore(); 
+            ctx.restore();
         } else {
-            ctx.drawImage(this.img, this.x, this.y, this.width, this.height); 
+            ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
         }
     }
 
@@ -210,7 +208,7 @@ class Character extends MoveableObject {
         for (let key in this.animationIntervals) {
             if (this.animationIntervals[key]) {
                 clearInterval(this.animationIntervals[key]);
-                this.animationIntervals[key] = null; 
+                this.animationIntervals[key] = null;
             }
         }
         soundManager.pauseSound('walking');
