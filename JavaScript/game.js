@@ -63,7 +63,7 @@ function checkOrientation() {
 }
 
 function showMobileButtons() {
-    if (showMobileButtonsStatus &&  window.innerHeight < window.innerWidth) {
+    if (showMobileButtonsStatus && window.innerHeight < window.innerWidth) {
         document.getElementById('leftButton').style.display = 'block';
         document.getElementById('rightButton').style.display = 'block';
         document.getElementById('jumpButton').style.display = 'block';
@@ -72,13 +72,12 @@ function showMobileButtons() {
 }
 
 function hideMobileButtons() {
-    if (window.innerWidth >= 720) { 
+    if (window.innerHeight >= 1025  || !showMobileButtonsStatus) {
         document.getElementById('leftButton').style.display = 'none';
-    document.getElementById('rightButton').style.display = 'none';
-    document.getElementById('jumpButton').style.display = 'none';
-    document.getElementById('throwButton').style.display = 'none';
+        document.getElementById('rightButton').style.display = 'none';
+        document.getElementById('jumpButton').style.display = 'none';
+        document.getElementById('throwButton').style.display = 'none';
     }
-    
 }
 
 function controlMobileButtons() {
@@ -91,14 +90,14 @@ function controlMobileButtons() {
 window.addEventListener('resize', checkOrientation);
 window.addEventListener('orientationchange', checkOrientation);
 
-function mobileEventListener() { 
-     // Event-Listener für mobile Buttons hinzufügen
-     document.getElementById('leftButton').addEventListener('touchstart', () => keyboard.updateButtonState('LEFT', true));
-     document.getElementById('leftButton').addEventListener('touchend', () => keyboard.updateButtonState('LEFT', false));
-     document.getElementById('rightButton').addEventListener('touchstart', () => keyboard.updateButtonState('RIGHT', true));
-     document.getElementById('rightButton').addEventListener('touchend', () => keyboard.updateButtonState('RIGHT', false));
-     document.getElementById('jumpButton').addEventListener('touchstart', () => keyboard.updateButtonState('JUMP', true));
-     document.getElementById('jumpButton').addEventListener('touchend', () => keyboard.updateButtonState('JUMP', false));
-     document.getElementById('throwButton').addEventListener('touchstart', () => keyboard.updateButtonState('THROW', true));
-     document.getElementById('throwButton').addEventListener('touchend', () => keyboard.updateButtonState('THROW', false));
+function mobileEventListener() {
+    // Event-Listener für mobile Buttons hinzufügen
+    document.getElementById('leftButton').addEventListener('touchstart', () => keyboard.updateButtonState('LEFT', true));
+    document.getElementById('leftButton').addEventListener('touchend', () => keyboard.updateButtonState('LEFT', false));
+    document.getElementById('rightButton').addEventListener('touchstart', () => keyboard.updateButtonState('RIGHT', true));
+    document.getElementById('rightButton').addEventListener('touchend', () => keyboard.updateButtonState('RIGHT', false));
+    document.getElementById('jumpButton').addEventListener('touchstart', () => keyboard.updateButtonState('JUMP', true));
+    document.getElementById('jumpButton').addEventListener('touchend', () => keyboard.updateButtonState('JUMP', false));
+    document.getElementById('throwButton').addEventListener('touchstart', () => keyboard.updateButtonState('THROW', true));
+    document.getElementById('throwButton').addEventListener('touchend', () => keyboard.updateButtonState('THROW', false));
 }

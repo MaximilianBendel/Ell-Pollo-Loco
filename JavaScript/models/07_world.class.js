@@ -215,6 +215,7 @@ class World {
     checkIfLose() {
         if (this.character.lifepoints <= 0) {
             this.loseScreen = true;
+            showMobileButtonsStatus = false;
             if (this.loseScreen) {
                 setTimeout(() => {
                     this.stoppAllAnimations();
