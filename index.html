@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>El Pollo Loco</title>
     <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="./font.css">
@@ -27,12 +27,19 @@
     <script src="./JavaScript/models/levels/level1.js"></script>
     <script src="./JavaScript/game.js"></script>
 </head>
+
 <body onload="checkOrientation()">
     <div id="rotateDeviceMessage" class="rotate-device-message">
         <p>Bitte drehen Sie Ihr Gerät</p>
     </div>
 
-    <canvas id="canvas" width="720" height="480"></canvas>
+    <div id="canvasContainer" class="canvas-container">
+        <canvas id="canvas" width="720" height="480"></canvas>
+        <button id="leftButton" class="control-button">Left</button>
+        <button id="rightButton" class="control-button">Right</button>
+        <button id="jumpButton" class="control-button">Jump</button>
+        <button id="throwButton" class="control-button">Throw</button>
+    </div>
 
     <div id="startMenuBox" class="startMenuBox">
         <div class="settingsButtonsWrapper">
@@ -91,10 +98,6 @@
             </div>
         </div>
     </div>
-
-    <button style="display: none;" id="leftButton" class="control-button">Left</button>
-    <button style="display: none;" id="rightButton" class="control-button">Right</button>
-    <button style="display: none;" id="jumpButton" class="control-button">Jump</button>
-    <button style="display: none;" id="throwButton" class="control-button">Throw</button>
 </body>
+
 </html>

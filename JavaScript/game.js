@@ -13,11 +13,11 @@ function startGame() {
     WinEndScreen.classList.remove('display-block');
     startScreen.classList.add('display-none');
     canvas.classList.add('display-block');
+    canvasContainer.classList.add('display-block');
     initLevel(); // Initialisiert das Level
     init(); // Initialisiert das Spiel
     GamePlays = true;
     showMobileButtonsStatus = true;
-    controlMobileButtons();
     mobileEventListener();
 }
 
@@ -50,7 +50,7 @@ function closeKeyboardMenu() {
 
 function checkOrientation() {
     const rotateMessage = document.getElementById('rotateDeviceMessage');
-    if (window.innerWidth <= 720 && window.innerHeight > window.innerWidth) {
+    if (window.innerWidth <= 720 && window.innerHeight + 110 > window.innerWidth) {
         rotateMessage.style.display = 'flex';
         document.getElementById('startMenuBox').classList.add('display-none');
     } else if (GamePlays) {
@@ -60,10 +60,11 @@ function checkOrientation() {
         rotateMessage.style.display = 'none';
         document.getElementById('startMenuBox').classList.remove('display-none');
     }
+    controlMobileButtons();
 }
 
 function showMobileButtons() {
-    if (showMobileButtonsStatus && window.innerHeight < window.innerWidth) {
+    if (showMobileButtonsStatus) {
         document.getElementById('leftButton').style.display = 'block';
         document.getElementById('rightButton').style.display = 'block';
         document.getElementById('jumpButton').style.display = 'block';
@@ -72,7 +73,7 @@ function showMobileButtons() {
 }
 
 function hideMobileButtons() {
-    if (window.innerHeight >= 1025  || !showMobileButtonsStatus) {
+    if (!showMobileButtonsStatus) {
         document.getElementById('leftButton').style.display = 'none';
         document.getElementById('rightButton').style.display = 'none';
         document.getElementById('jumpButton').style.display = 'none';
@@ -86,6 +87,8 @@ function controlMobileButtons() {
         hideMobileButtons();
     }, 100);
 }
+
+
 
 window.addEventListener('resize', checkOrientation);
 window.addEventListener('orientationchange', checkOrientation);

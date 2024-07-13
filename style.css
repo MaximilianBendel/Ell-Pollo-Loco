@@ -3,14 +3,53 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    width: 100vw;
-    overflow: hidden;
     background-image: url('./img_pollo_locco/img/test2.png');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
     margin: 0;
     font-family: 'Slackey';
+}
+
+.canvas-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: none;
+}
+
+.control-button {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    font-size: 18px;
+    text-align: center;
+    line-height: 50px;
+    border-radius: 25px;
+    z-index: 10;
+}
+
+#leftButton {
+    bottom: 20px;
+    left: 20px;
+}
+
+#rightButton {
+    bottom: 20px;
+    left: 90px;
+}
+
+#jumpButton {
+    bottom: 90px;
+    right: 20px;
+}
+
+#throwButton {
+    bottom: 20px;
+    right: 20px;
 }
 
 .display-none {
@@ -196,6 +235,10 @@ canvas {
         width: 100%;
     }
 
+    .canvas-container {
+        width: 100%;
+    }
+
     .startMenuBox {
         width: 100%;
     }
@@ -237,21 +280,17 @@ canvas {
     }
 }
 
-@media only screen and (min-aspect-ratio: 1/1) {
-    canvas {
-        width: 100%;
-        height: 100vh;
-    }
-}
-
 @media only screen and (max-height: 480px) {
     canvas {
-        height: 100vh;
-        width: 100vw;
+        height: 100%;
+    }
+
+    .canvas-container {
+        height: 100%;
     }
 
     .startMenuBox {
-        height: 100vh;
+        height: 100%;
     }
 
     .startButtonWrapper {
@@ -307,21 +346,3 @@ canvas {
     text-align: center;
     z-index: 1000;
 }
-
- /* Stil für die Buttons */
- .control-button {
-    width: 50px;
-    height: 50px;
-    position: absolute;
-    z-index: 1000;
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
-    font-size: 18px;
-    text-align: center;
-    line-height: 50px;
-    border-radius: 25px;
-}
-#leftButton { bottom: 20px; left: 20px; }
-#rightButton { bottom: 20px; left: 90px; }
-#jumpButton { bottom: 90px; right: 20px; }
-#throwButton { bottom: 20px; right: 20px; }
