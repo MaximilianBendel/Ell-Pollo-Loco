@@ -56,6 +56,7 @@ class Endboss extends MoveableObject {
         'img_pollo_locco/img/4_enemie_boss_chicken/5_dead/G26.png'
     ];
 
+
     constructor() {
         super().loadImg('img_pollo_locco/img/4_enemie_boss_chicken/2_alert/G5.png');
         this.loadImages(this.alertImages);
@@ -123,16 +124,12 @@ class Endboss extends MoveableObject {
         this.isAttacking = true;
         this.stopMoving();
         let frameIndex = 0;
-
         this.attackInterval = setInterval(() => {
             this.animateImages(this.attackImages);
             frameIndex++;
-            console.log('Attack frame:', frameIndex);
-
             if (frameIndex >= this.attackImages.length) {
                 clearInterval(this.attackInterval);
                 this.isAttacking = false;
-                console.log('Endboss finished attacking!');
                 this.startMoving();
             }
         }, 150);
