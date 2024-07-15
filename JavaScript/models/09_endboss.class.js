@@ -1,7 +1,5 @@
 class Endboss extends MoveableObject {
-    height = 500;
-    width = 300;
-    y = -20;
+    // Eigenschaften
     speed = 1;
     lifepoints = 100;
 
@@ -64,7 +62,14 @@ class Endboss extends MoveableObject {
         this.loadImages(this.attackImages);
         this.loadImages(this.hurtImages);
         this.loadImages(this.deadImages);
-        this.x = 2100;
+        this.x = 5700;
+        this.height = 500;
+        this.width = 300;
+        this.y = -20;
+        this.offsetX = 70; // Beispiel: verkleinert die Hitbox an allen Seiten
+        this.offsetY = 40;
+        this.offsetWidth = 120;
+        this.offsetHeight = 0;
     }
 
     startAnimation() {

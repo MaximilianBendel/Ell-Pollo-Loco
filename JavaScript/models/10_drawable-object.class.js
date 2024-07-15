@@ -19,5 +19,4 @@ class Drawableobject {
     draw(ctx) {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height); // Zeichnet das Bild normal
     }    
-    
 }

@@ -62,7 +62,7 @@ class World {
             'img_pollo_locco/img/5_background/layers/1_first_layer/1.png',
             'img_pollo_locco/img/5_background/layers/1_first_layer/2.png'
         ];
-        const startPositions = [-2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+        const startPositions = [-2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
         for (let i = 0; i < startPositions.length; i++) {
             for (let j = 0; j < layers.length; j += 2) {
                 this.BackGroundObjects.push(new BackGroundObject(layers[j], startPositions[i] * 719 * 2));
@@ -106,7 +106,7 @@ class World {
         this.enemies.forEach((enemy) => {
             this.bottle.forEach((bottle, index) => {
                 if (bottle.isColliding(enemy)) {
-                    if (enemy instanceof Chicken) {
+                    if (enemy instanceof Chicken || enemy instanceof brownChicken) {
                         this.handleChickenHit(enemy, bottle, index);
                     } else if (enemy instanceof Endboss && enemy.notHurtable) {
                         this.handleEndbossHit(enemy, bottle, index);
@@ -149,7 +149,7 @@ class World {
     isBottleCollidingWithEnemy(bottle) {
         return this.enemies.some((enemy) => {
             if (bottle.isColliding(enemy)) {
-                if (enemy instanceof Chicken) {
+                if (enemy instanceof Chicken || enemy instanceof brownChicken) {
                     this.handleChickenHit(enemy, bottle);
                 } else if (enemy instanceof Endboss && enemy.notHurtable) {
                     this.handleEndbossHit(enemy, bottle);
@@ -185,7 +185,7 @@ class World {
     }
 
     checkEndbossTrigger() {
-        if (this.character && this.character.x > 1800) {
+        if (this.character && this.character.x > 5450) {
             this.level.enemies.forEach(enemy => {
                 if (enemy instanceof Endboss && !enemy.animationTriggered) {
                     enemy.startAnimation();
@@ -256,24 +256,13 @@ class World {
     stoppAllAnimations() {
         this.winScreen = true;
         this.enemies.forEach(enemy => {
-            if (enemy instanceof Endboss || enemy instanceof Chicken) {
+            if (enemy instanceof Endboss || enemy instanceof Chicken || enemy instanceof brownChicken) {
                 enemy.stopAllAnimations();
             }
         });
         this.character.stoppAllAnimations();
         clearInterval(this.runInterval); // Stoppt die Run Funktionen
         this.runInterval = false;
-    }
-
-
-    activateAllAnimations() { 
-        this.enemies.forEach(enemy => {
-            if (enemy instanceof Endboss || enemy instanceof Chicken) {
-                enemy.activateAllAnimations();
-            }
-        });
-        this.character.activateAllAnimations();
-        this.run(); // Startet die Run Funktionen
     }
 
     showWinScreenEnd() {
@@ -290,7 +279,7 @@ class World {
 
     checkCollisionsWithChicken() {
         this.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy) && enemy.lifepoints > 0) {
+            if (enemy instanceof Chicken && enemy.lifepoints > 0 && this.character.isColliding(enemy) || enemy instanceof brownChicken && enemy.lifepoints > 0 && this.character.isColliding(enemy)) {
                 this.character.hit(5);
                 this.statusbar.setPercentage(this.character.lifepoints);
             }

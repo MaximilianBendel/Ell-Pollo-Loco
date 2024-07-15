@@ -90,17 +90,22 @@ async function loadMusic() {
     loadChickenSounds(); // Lädt die Huhn-Sounds
     loadEndbossSounds(); // Lädt die Endboss-Sounds
     loadBottleSounds(); // Lädt die Flaschen-Sounds
-    loadEndScreenSounds();
+    loadCollectSounds(); // Lädt die Sammel-Sounds
+    loadEndScreenSounds(); // Lädt die Endscreen-Sounds
     await loadBackGroundMusic();
     soundManager.playnormalSound('gamemusic'); // Spielt den Hintergrundsound ab
 }
 
 function loadCharacterSounds() {
+    jump_sound = new Audio('Audio/jumping.mp3');
+    hurt_sound = new Audio('Audio/hurtpepe.mp3');
     walking_sound = new Audio('Audio/walking.mp3');
     snoring_sound = new Audio('Audio/snoring.mp3');
+    soundManager.addSound('jumping', jump_sound);
+    soundManager.addSound('hurt', hurt_sound);
     soundManager.addSound('walking', walking_sound);
     soundManager.addSound('snoring', snoring_sound);
-    soundManager.setVolume('walking', 1.0); // 1.5 bedeutet 150% der ursprünglichen Lautstärke (maximaler Wert ist 2)
+    soundManager.setVolume('walking', 1.5); // 1.5 bedeutet 150% der ursprünglichen Lautstärke (maximaler Wert ist 2)
 }
 
 function loadChickenSounds() {
@@ -133,6 +138,14 @@ async function loadBackGroundMusic() {
     gameMusic = new Audio('Audio/gamemusicloop.mp3'); // Hintergrundmusik
     soundManager.addSound('gamemusic', gameMusic); // Registriert den Sounde
     soundManager.setVolume('gamemusic', 0.4);
+}
+
+function loadCollectSounds() {
+    collectBottleSound = new Audio('Audio/collectfbottle.mp3');
+    collectCoinSound = new Audio('Audio/collectcoins.mp3');
+    soundManager.addSound('collectBottle', collectBottleSound);
+    soundManager.addSound('collectCoin', collectCoinSound);
+    soundManager.setVolume('collectBottle', 1.5);
 }
 
 function toggleSound() {

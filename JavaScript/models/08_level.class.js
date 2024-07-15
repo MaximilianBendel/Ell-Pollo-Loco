@@ -4,7 +4,7 @@ class Level  {
     BackGroundObjects;
     collectableBottles;
     collectableCoins;
-    level_end_x = 1900; // Das Ende des Levels
+    level_end_x = 5500; // Das Ende des Levels
     levelGround = 410; // Die Höhe des Bodens
 
     constructor(enemies, clouds, BackGroundObjects, collectableBottles, collectableCoins) {

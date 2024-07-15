@@ -63,6 +63,7 @@ class Character extends MoveableObject {
     idleTime = 0;
     isDeadAnimationStopped = false;
     lifepoints = 100;
+   
 
     constructor() {
         super().loadImg('img_pollo_locco/img/2_character_pepe/1_idle/idle/I-1.png');
@@ -77,6 +78,10 @@ class Character extends MoveableObject {
         this.height = 240;
         this.width = 100;
         this.y = 210;
+        this.offsetX = 20; // Beispiel: verkleinert die Hitbox an allen Seiten
+        this.offsetY = 20;
+        this.offsetWidth = 20;
+        this.offsetHeight = 20;
         this.initAnimations();
     }
 
@@ -124,6 +129,7 @@ class Character extends MoveableObject {
         if (this.animationIntervals.jumpingAnimationInterval) {
             clearInterval(this.animationIntervals.jumpingAnimationInterval);
         }
+        soundManager.playnormalSound('jumping');
         this.animateImages(this.Images_jumping); 
         if (this.currentImage >= this.Images_jumping.length - 1) {
             console.log(this.currentImage);
@@ -169,6 +175,7 @@ class Character extends MoveableObject {
             this.animateImages(this.Images_jumping);
         }
         if (this.isHurt()) {
+            soundManager.playnormalSound('hurt');
             this.animateImages(this.Images_hurt);
         }
         if (this.isDead()) {
@@ -215,9 +222,9 @@ class Character extends MoveableObject {
         soundManager.pauseSound('snoring');
     }
 
-    
-
     activateAllAnimations() {
         this.initAnimations();
     }
+
+   
 }

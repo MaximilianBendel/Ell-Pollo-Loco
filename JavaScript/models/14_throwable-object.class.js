@@ -29,6 +29,10 @@ class ThrowableObject extends MoveableObject {
         this.y = y; // y-Position
         this.height = 60;
         this.width = 50;
+        this.offsetX = 5; // Beispiel: verkleinert die Hitbox an allen Seiten
+        this.offsetY = 5;
+        this.offsetWidth = 30;
+        this.offsetHeight = 30;
         this.throw();
     }
 

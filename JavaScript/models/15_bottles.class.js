@@ -1,34 +1,16 @@
 class CollectableBottles extends Drawableobject {
     static allBottles = []; // Speichert alle Instanzen
 
-    constructor() { 
+    constructor(x , y) { 
         super().loadImg('img_pollo_locco/img/6_salsa_bottle/salsa_bottle.png');
         this.height = 40;
         this.width = 50;
-        this.setPosition();
-        this.collectBottleSound = new Audio('Audio/collectfbottle.mp3');
-        soundManager.addSound('collectBottle', this.collectBottleSound);
-    }
-
-    setPosition() {
-        let hasConflict;
-        do {
-            this.x = 100 + Math.random() * 1800;
-            this.y = 100 + Math.random() * 150;
-            hasConflict = this.checkConflict();
-        } while (hasConflict);
-        CollectableBottles.allBottles.push(this);
-    }
-
-    checkConflict() {
-        const minDistance = 150; // Setze den gewünschten Mindestabstand
-        for (let bottle of CollectableBottles.allBottles) { 
-            const distance = Math.sqrt((bottle.x - this.x) ** 2 + (bottle.y - this.y) ** 2);
-            if (distance < minDistance) {
-                return true; // Es gibt einen Konflikt, wenn der Abstand zu klein ist
-            }
-        }
-        return false; // Kein Konflikt gefunden
+        this.x = x;
+        this.y = y;
+        this.offsetX = 0; // Beispiel: verkleinert die Hitbox an allen Seiten
+        this.offsetY = 0;
+        this.offsetWidth = 5;
+        this.offsetHeight = 5;
     }
 
     collectBottle(collectableBottles, bottlebar) {

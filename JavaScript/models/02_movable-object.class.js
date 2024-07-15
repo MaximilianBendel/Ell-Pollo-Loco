@@ -5,12 +5,17 @@
  * @extends Drawableobject
  */
 class MoveableObject extends Drawableobject {
-    
+
     speed = 0.15;
     speedY = 0;
     acceleration = 0.7;
     lifepoints = 100;
     lastHit = 0;
+    offsetX = 0;
+    offsetY = 0;
+    offsetWidth = 0;
+    offsetHeight = 0;
+
 
     /**
      * Bewegt das Objekt nach rechts.
@@ -78,10 +83,10 @@ class MoveableObject extends Drawableobject {
      * @returns {boolean} Wahr, wenn eine Kollision vorliegt.
      */
     isColliding(movableObject) {
-        return this.x + this.width > movableObject.x &&
-            this.y + this.height > movableObject.y &&
-            this.x < movableObject.x + movableObject.width &&
-            this.y < movableObject.y + movableObject.height;
+        return this.x + this.width - this.offsetWidth > movableObject.x + movableObject.offsetX &&
+            this.y + this.height - this.offsetHeight > movableObject.y + movableObject.offsetY &&
+            this.x + this.offsetX < movableObject.x + movableObject.width - movableObject.offsetWidth &&
+            this.y + this.offsetY < movableObject.y + movableObject.height - movableObject.offsetHeight;
     }
 
     /**
@@ -115,6 +120,6 @@ class MoveableObject extends Drawableobject {
     isHurt() {
         let timepassed = new Date().getTime() - this.lastHit; // Berechnet die Zeit seit dem letzten Treffer
         timepassed = timepassed / 1000; // Teilt die Zeit durch 1000, um Sekunden zu erhalten
-        return timepassed < 1; // Gibt zurück, ob der Charakter in den letzten 3 Sekunden getroffen wurde
+        return timepassed < 1; // Gibt zurück, ob der Charakter in der letzten 1 Sekunde getroffen wurde
     }
 }
