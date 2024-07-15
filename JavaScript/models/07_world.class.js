@@ -127,7 +127,7 @@ class World {
      */
     checkThrowObject() {
         const currentTime = Date.now();
-        if (this.keyboard.D && currentTime - this.lastThrowTime >= 2000 || this.keyboard.THROW_BTN && currentTime - this.lastThrowTime >= 2000) {
+        if (this.keyboard.D && currentTime - this.lastThrowTime >= 2000 && this.bottlebar.bottles > 0 || this.keyboard.THROW_BTN && currentTime - this.lastThrowTime >= 2000 && this.bottlebar.bottles > 0) {
             let newBottle = new ThrowableObject(this.character.x + 50, this.character.y + 100);
             this.bottle.push(newBottle);
             this.bottlebar.bottles -= 1;
@@ -228,7 +228,7 @@ class World {
     /**
      * Überprüft Kollisionen mit sammelbaren Flaschen.
      */
-    checkEnemyCollisionWithBottle() {
+    checkCollisionsWithCollectableBottles() {
         if (!this.collectableBottles) return; // Beendet die Methode, wenn collectableBottles null ist
         this.collectableBottles.forEach((bottle) => {
             if (this.character.isColliding(bottle)) {

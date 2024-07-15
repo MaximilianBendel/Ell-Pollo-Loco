@@ -4,7 +4,7 @@
  * 
  * @extends Drawableobject
  */
-class MoveableObject extends Drawableobject {
+class MoveableObject extends DrawableObject { 
 
     speed = 0.15;
     speedY = 0;
@@ -82,7 +82,7 @@ class MoveableObject extends Drawableobject {
      * @param {MoveableObject} movableObject - Das andere bewegliche Objekt.
      * @returns {boolean} Wahr, wenn eine Kollision vorliegt.
      */
-    isColliding(movableObject) {
+     isColliding(movableObject) {
         return this.x + this.width - this.offsetWidth > movableObject.x + movableObject.offsetX &&
             this.y + this.height - this.offsetHeight > movableObject.y + movableObject.offsetY &&
             this.x + this.offsetX < movableObject.x + movableObject.width - movableObject.offsetWidth &&

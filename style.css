@@ -99,6 +99,16 @@ canvas {
     cursor: pointer;
 }
 
+.unmuteImgCanvas {
+    width: 52px;
+    cursor: pointer;
+    width: 5%;
+    position: absolute;
+    z-index: 10;
+    right: 60%;
+    top: 10px;
+}
+
 .startImg:hover {
     animation: hoverEffect 0.6s infinite alternate;
 }
@@ -228,6 +238,16 @@ canvas {
     height: auto !important;
     display: flex;
     cursor: pointer;
+}
+
+.restartButtonCanvas {
+    width: 52px;
+    cursor: pointer;
+    width: 5%;
+    position: absolute;
+    z-index: 10;
+    right: 53%;
+    top: 10px;
 }
 
 @media only screen and (max-width: 720px) {

@@ -6,6 +6,7 @@
     <title>El Pollo Loco</title>
     <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="./font.css">
+    <link rel="icon" type="image/x-icon" href="./img_pollo_locco/img/2_character_pepe/3_jump/J-35.png">
     <script src="./JavaScript/models/10_drawable-object.class.js"></script>
     <script src="./JavaScript/models/02_movable-object.class.js"></script>
     <script src="./JavaScript/models/18_soundmanager.class.js"></script>
@@ -40,6 +41,10 @@
         <button id="rightButton" class="control-button">Right</button>
         <button id="jumpButton" class="control-button">Jump</button>
         <button id="throwButton" class="control-button">Throw</button>
+        <img onclick="toggleSound()" class="unmuteImgCanvas" id="toggleSoundButton"
+                    src="./img_pollo_locco/img/MusicUnmute.png" alt="Unmute Image">
+                    <img class="restartButtonCanvas" onclick="restartGame()" id="restartButton"
+                    src="img_pollo_locco/img/resetImage.png" alt="">
     </div>
 
     <div id="startMenuBox" class="startMenuBox">
