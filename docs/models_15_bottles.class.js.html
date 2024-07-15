@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: models/01_keyboard.class.js</title>
+    <title>JSDoc: Source: models/15_bottles.class.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: models/01_keyboard.class.js</h1>
+    <h1 class="page-title">Source: models/15_bottles.class.js</h1>
 
     
 
@@ -27,93 +27,43 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Klasse, die die Tastatur- und mobile Steuerungseingaben verwaltet.
+ * Repräsentiert eine sammelbare Flasche im Spiel.
+ * @extends DrawableObject
  */
-class Keyboard {
-    constructor() {
+class CollectableBottles extends DrawableObject {
+    /**
+     * Speichert alle Instanzen von CollectableBottles.
+     * @type {Array&lt;CollectableBottles>}
+     */
+    static allBottles = []; // Speichert alle Instanzen
 
-        this.LEFT = false;
-
-
-        this.RIGHT = false;
-
-        this.UP = false;
-
-        this.DOWN = false;
-
-
-        this.SPACE = false;
-
-
-        this.D = false;
-
-
-        this.LEFT_BTN = false;
-
-
-        this.RIGHT_BTN = false;
-
-
-        this.JUMP_BTN = false;
-
-        this.THROW_BTN = false;
+    /**
+     * Erstellt eine Instanz von CollectableBottles.
+     * @param {number} x - Die x-Position der sammelbaren Flasche.
+     * @param {number} y - Die y-Position der sammelbaren Flasche.
+     */
+    constructor(x, y) { 
+        super().loadImg('img_pollo_locco/img/6_salsa_bottle/salsa_bottle.png');
+        this.height = 40;
+        this.width = 50;
+        this.x = x;
+        this.y = y;
+        this.offsetX = 0; // Beispiel: verkleinert die Hitbox an allen Seiten
+        this.offsetY = 0;
+        this.offsetWidth = 5;
+        this.offsetHeight = 5;
     }
 
     /**
-     * Aktualisiert den Zustand der Tastatureingaben.
-     * 
-     * @param {string} key - Der Name der Taste.
-     * @param {boolean} isPressed - Der Zustand der Taste (gedrückt oder nicht gedrückt).
+     * Sammelt die Flasche ein und aktualisiert die Flaschenleiste.
+     * @param {Array&lt;CollectableBottles>} collectableBottles - Das Array der sammelbaren Flaschen.
+     * @param {Bottlebar} bottlebar - Die Flaschenleiste.
      */
-    updateKeyState(key, isPressed) {
-        switch (key) {
-            case 'ArrowLeft':
-                this.LEFT = isPressed;
-                break;
-            case 'ArrowRight':
-                this.RIGHT = isPressed;
-                break;
-            case 'ArrowUp':
-                this.UP = isPressed;
-                break;
-            case 'ArrowDown':
-                this.DOWN = isPressed;
-                break;
-            case ' ':
-                this.SPACE = isPressed;
-                break;
-            case 'd':
-            case 'D':
-                this.D = isPressed;
-                break;
-            default:
-                break;
-        }
-    }
-
-    /**
-     * Aktualisiert den Zustand der mobilen Steuereingaben.
-     * 
-     * @param {string} button - Der Name der Taste.
-     * @param {boolean} isPressed - Der Zustand der Taste (gedrückt oder nicht gedrückt).
-     */
-    updateButtonState(button, isPressed) {
-        switch (button) {
-            case 'LEFT':
-                this.LEFT_BTN = isPressed;
-                break;
-            case 'RIGHT':
-                this.RIGHT_BTN = isPressed;
-                break;
-            case 'JUMP':
-                this.JUMP_BTN = isPressed;
-                break;
-            case 'THROW':
-                this.THROW_BTN = isPressed;
-                break;
-            default:
-                break;
-        }
+    collectBottle(collectableBottles, bottlebar) {
+        soundManager.playSound('collectBottle', 300);
+        bottlebar.bottles += 1;
+        bottlebar.setBottles(bottlebar.bottles);
+        collectableBottles.splice(collectableBottles.indexOf(this), 1);
     }
 }
 </code></pre>

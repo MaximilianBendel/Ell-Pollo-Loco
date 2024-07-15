@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: models/01_keyboard.class.js</title>
+    <title>JSDoc: Source: models/04_cloud.class.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: models/01_keyboard.class.js</h1>
+    <h1 class="page-title">Source: models/04_cloud.class.js</h1>
 
     
 
@@ -27,93 +27,36 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Klasse, die die Tastatur- und mobile Steuerungseingaben verwaltet.
+ * Repräsentiert eine Wolke im Spiel.
+ * @extends MoveableObject
  */
-class Keyboard {
-    constructor() {
-
-        this.LEFT = false;
-
-
-        this.RIGHT = false;
-
-        this.UP = false;
-
-        this.DOWN = false;
-
-
-        this.SPACE = false;
-
-
-        this.D = false;
-
-
-        this.LEFT_BTN = false;
-
-
-        this.RIGHT_BTN = false;
-
-
-        this.JUMP_BTN = false;
-
-        this.THROW_BTN = false;
+class Cloud extends MoveableObject {
+    /**
+     * Erstellt eine Instanz von Cloud.
+     * @param {number} x - Die x-Position der Wolke.
+     * @param {number} y - Die y-Position der Wolke.
+     */
+    constructor(x, y) {
+        super().loadImg('img_pollo_locco/img/5_background/layers/4_clouds/1.png'); // Lädt das Bild der Wolke
+        this.x = x;
+        this.y = y;
+        this.width = 500;
+        this.height = 250;
+        this.startMovingClouds(); // Startet die Bewegung der Wolke
     }
 
     /**
-     * Aktualisiert den Zustand der Tastatureingaben.
-     * 
-     * @param {string} key - Der Name der Taste.
-     * @param {boolean} isPressed - Der Zustand der Taste (gedrückt oder nicht gedrückt).
+     * Startet die Bewegung der Wolken.
+     * Die Wolken bewegen sich von rechts nach links und erscheinen wieder auf der rechten Seite, wenn sie den linken Rand des Canvas verlassen.
      */
-    updateKeyState(key, isPressed) {
-        switch (key) {
-            case 'ArrowLeft':
-                this.LEFT = isPressed;
-                break;
-            case 'ArrowRight':
-                this.RIGHT = isPressed;
-                break;
-            case 'ArrowUp':
-                this.UP = isPressed;
-                break;
-            case 'ArrowDown':
-                this.DOWN = isPressed;
-                break;
-            case ' ':
-                this.SPACE = isPressed;
-                break;
-            case 'd':
-            case 'D':
-                this.D = isPressed;
-                break;
-            default:
-                break;
-        }
-    }
-
-    /**
-     * Aktualisiert den Zustand der mobilen Steuereingaben.
-     * 
-     * @param {string} button - Der Name der Taste.
-     * @param {boolean} isPressed - Der Zustand der Taste (gedrückt oder nicht gedrückt).
-     */
-    updateButtonState(button, isPressed) {
-        switch (button) {
-            case 'LEFT':
-                this.LEFT_BTN = isPressed;
-                break;
-            case 'RIGHT':
-                this.RIGHT_BTN = isPressed;
-                break;
-            case 'JUMP':
-                this.JUMP_BTN = isPressed;
-                break;
-            case 'THROW':
-                this.THROW_BTN = isPressed;
-                break;
-            default:
-                break;
-        }
+    startMovingClouds() {
+        setInterval(() => {
+            this.x -= 0.5; // Verringert die x-Position der Wolke
+            if (this.x + this.width &lt; 0) {
+                this.x = canvas.width; // Setzt die Wolke an den rechten Rand des Canvas zurück
+                this.y = 20 + Math.random() * 100; // Generiert eine neue zufällige y-Position
+            }
+        }, 16.6666666); // 60 FPS
     }
 }
 </code></pre>

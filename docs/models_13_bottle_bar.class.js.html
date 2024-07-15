@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: models/01_keyboard.class.js</title>
+    <title>JSDoc: Source: models/13_bottle_bar.class.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: models/01_keyboard.class.js</h1>
+    <h1 class="page-title">Source: models/13_bottle_bar.class.js</h1>
 
     
 
@@ -27,92 +27,67 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Klasse, die die Tastatur- und mobile Steuerungseingaben verwaltet.
+ * Repräsentiert die Flaschenleiste im Spiel.
+ * @extends DrawableObject
  */
-class Keyboard {
+class Bottlebar extends DrawableObject {
+    /**
+     * Die Anzahl der Flaschen in der Leiste.
+     * @type {number}
+     */
+    bottles = 0;
+
+    /**
+     * Die Bilder der Flaschenleiste.
+     * @type {Array&lt;string>}
+     */
+    Images_statusbar_bottle = [
+        'img_pollo_locco/img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/0.png',
+        'img_pollo_locco/img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/20.png',
+        'img_pollo_locco/img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/40.png',
+        'img_pollo_locco/img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/60.png',
+        'img_pollo_locco/img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/80.png',
+        'img_pollo_locco/img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/100.png'
+    ];
+
+    /**
+     * Erstellt eine Instanz von Bottlebar.
+     */
     constructor() {
-
-        this.LEFT = false;
-
-
-        this.RIGHT = false;
-
-        this.UP = false;
-
-        this.DOWN = false;
-
-
-        this.SPACE = false;
-
-
-        this.D = false;
-
-
-        this.LEFT_BTN = false;
-
-
-        this.RIGHT_BTN = false;
-
-
-        this.JUMP_BTN = false;
-
-        this.THROW_BTN = false;
+        super();
+        this.loadImages(this.Images_statusbar_bottle);
+        this.setBottles(this.bottles);
+        this.x = 20;
+        this.y = 85;
+        this.width = 200;
+        this.height = 50;
     }
 
     /**
-     * Aktualisiert den Zustand der Tastatureingaben.
-     * 
-     * @param {string} key - Der Name der Taste.
-     * @param {boolean} isPressed - Der Zustand der Taste (gedrückt oder nicht gedrückt).
+     * Setzt die Anzahl der Flaschen und aktualisiert die Bildanzeige.
+     * @param {number} bottles - Die Anzahl der Flaschen.
      */
-    updateKeyState(key, isPressed) {
-        switch (key) {
-            case 'ArrowLeft':
-                this.LEFT = isPressed;
-                break;
-            case 'ArrowRight':
-                this.RIGHT = isPressed;
-                break;
-            case 'ArrowUp':
-                this.UP = isPressed;
-                break;
-            case 'ArrowDown':
-                this.DOWN = isPressed;
-                break;
-            case ' ':
-                this.SPACE = isPressed;
-                break;
-            case 'd':
-            case 'D':
-                this.D = isPressed;
-                break;
-            default:
-                break;
-        }
+    setBottles(bottles) {
+        this.bottles = bottles; // Setzt die Anzahl der Flaschen
+        this.updateStatusBarImage(); // Aktualisiert die Bildanzeige basierend auf der Anzahl
     }
-
+    
     /**
-     * Aktualisiert den Zustand der mobilen Steuereingaben.
-     * 
-     * @param {string} button - Der Name der Taste.
-     * @param {boolean} isPressed - Der Zustand der Taste (gedrückt oder nicht gedrückt).
+     * Aktualisiert das Bild der Flaschenleiste basierend auf der Anzahl der Flaschen.
      */
-    updateButtonState(button, isPressed) {
-        switch (button) {
-            case 'LEFT':
-                this.LEFT_BTN = isPressed;
-                break;
-            case 'RIGHT':
-                this.RIGHT_BTN = isPressed;
-                break;
-            case 'JUMP':
-                this.JUMP_BTN = isPressed;
-                break;
-            case 'THROW':
-                this.THROW_BTN = isPressed;
-                break;
-            default:
-                break;
+    updateStatusBarImage() {
+        if (this.bottles === 10) {
+            this.img = this.imageCache[this.Images_statusbar_bottle[5]]; 
+        } else if (this.bottles >= 8) { 
+            this.img = this.imageCache[this.Images_statusbar_bottle[4]];
+        } else if (this.bottles >= 6) {
+            this.img = this.imageCache[this.Images_statusbar_bottle[3]]; 
+        } else if (this.bottles >= 4) {
+            this.img = this.imageCache[this.Images_statusbar_bottle[2]]; 
+        } else if (this.bottles >= 2) {
+            this.img = this.imageCache[this.Images_statusbar_bottle[1]]; 
+        } else {
+            this.img = this.imageCache[this.Images_statusbar_bottle[0]]; 
         }
     }
 }

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: Keyboard</title>
+    <title>JSDoc: Class: Level</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: Keyboard</h1>
+    <h1 class="page-title">Class: Level</h1>
 
     
 
@@ -28,9 +28,9 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>Keyboard<span class="signature">()</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>Level<span class="signature">(enemies, clouds, BackGroundObjects, collectableBottles, collectableCoins)</span><span class="type-signature"></span></h2>
         
-            <div class="class-description">Klasse, die die Tastatur- und mobile Steuerungseingaben verwaltet.</div>
+            <div class="class-description">Repräsentiert ein Level im Spiel.</div>
         
     
 </header>
@@ -45,19 +45,164 @@
     
 
     
-    <h4 class="name" id="Keyboard"><span class="type-signature"></span>new Keyboard<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="Level"><span class="type-signature"></span>new Level<span class="signature">(enemies, clouds, BackGroundObjects, collectableBottles, collectableCoins)</span><span class="type-signature"></span></h4>
     
 
     
 
 
 
+<div class="description">
+    Erstellt eine Instanz von Level.
+</div>
 
 
 
 
 
 
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>enemies</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;<a href="MoveableObject.html">MoveableObject</a>></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Die Feinde im Level.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>clouds</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;<a href="Cloud.html">Cloud</a>></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Die Wolken im Level.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>BackGroundObjects</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;<a href="BackGroundObject.html">BackGroundObject</a>></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Die Hintergrundobjekte im Level.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>collectableBottles</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;CollectableBottle></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Die sammelbaren Flaschen im Level.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>collectableCoins</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;CollectableCoin></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Die sammelbaren Münzen im Level.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -93,7 +238,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_01_keyboard.class.js.html">models/01_keyboard.class.js</a>, <a href="models_01_keyboard.class.js.html#line4">line 4</a>
+        <a href="models_08_level.class.js.html">models/08_level.class.js</a>, <a href="models_08_level.class.js.html#line4">line 4</a>
     </li></ul></dd>
     
 
@@ -140,330 +285,6 @@
 
     
 
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="updateButtonState"><span class="type-signature"></span>updateButtonState<span class="signature">(button, isPressed)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Aktualisiert den Zustand der mobilen Steuereingaben.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>button</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Der Name der Taste.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>isPressed</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Der Zustand der Taste (gedrückt oder nicht gedrückt).</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_01_keyboard.class.js.html">models/01_keyboard.class.js</a>, <a href="models_01_keyboard.class.js.html#line72">line 72</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="updateKeyState"><span class="type-signature"></span>updateKeyState<span class="signature">(key, isPressed)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Aktualisiert den Zustand der Tastatureingaben.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>key</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Der Name der Taste.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>isPressed</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Der Zustand der Taste (gedrückt oder nicht gedrückt).</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_01_keyboard.class.js.html">models/01_keyboard.class.js</a>, <a href="models_01_keyboard.class.js.html#line40">line 40</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
     
 
     

@@ -1,7 +1,19 @@
-class Statusbar extends Drawableobject {
+/**
+ * Repräsentiert die Statusleiste im Spiel.
+ * @extends DrawableObject
+ */
+class Statusbar extends DrawableObject {
 
+    /**
+     * Der Prozentsatz der Statusleiste.
+     * @type {number}
+     */
     percentage = 100;
 
+    /**
+     * Die Bilder der Gesundheitsleiste.
+     * @type {Array<string>}
+     */
     Images_healthbar = [
         'img_pollo_locco/img/7_statusbars/1_statusbar/2_statusbar_health/green/0.png',
         'img_pollo_locco/img/7_statusbars/1_statusbar/2_statusbar_health/green/20.png',
@@ -10,8 +22,10 @@ class Statusbar extends Drawableobject {
         'img_pollo_locco/img/7_statusbars/1_statusbar/2_statusbar_health/green/80.png',
         'img_pollo_locco/img/7_statusbars/1_statusbar/2_statusbar_health/green/100.png',
     ];
-   
 
+    /**
+     * Erstellt eine Instanz von Statusbar.
+     */
     constructor() {
         super();
         this.loadImages(this.Images_healthbar);
@@ -22,7 +36,11 @@ class Statusbar extends Drawableobject {
         this.height = 50;
     }
 
-    setPercentage(percentage) {         // Methode zum Setzen des Prozentsatzes
+    /**
+     * Setzt den Prozentsatz der Statusleiste und aktualisiert das Bild.
+     * @param {number} percentage - Der neue Prozentsatz der Statusleiste.
+     */
+    setPercentage(percentage) {
         this.percentage = percentage; // Setzt den Prozentsatz
 
         if (this.percentage >= 100) {
@@ -38,6 +56,5 @@ class Statusbar extends Drawableobject {
         } else {
             this.img = this.imageCache[this.Images_healthbar[0]]; // Setzt das Bild auf 0%
         }
-    } 
-
+    }
 }

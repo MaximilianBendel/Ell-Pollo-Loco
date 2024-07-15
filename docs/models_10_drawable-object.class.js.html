@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: models/01_keyboard.class.js</title>
+    <title>JSDoc: Source: models/10_drawable-object.class.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: models/01_keyboard.class.js</h1>
+    <h1 class="page-title">Source: models/10_drawable-object.class.js</h1>
 
     
 
@@ -27,94 +27,40 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Klasse, die die Tastatur- und mobile Steuerungseingaben verwaltet.
+ * Repräsentiert ein zeichnbares Objekt im Spiel.
  */
-class Keyboard {
-    constructor() {
-
-        this.LEFT = false;
-
-
-        this.RIGHT = false;
-
-        this.UP = false;
-
-        this.DOWN = false;
-
-
-        this.SPACE = false;
-
-
-        this.D = false;
-
-
-        this.LEFT_BTN = false;
-
-
-        this.RIGHT_BTN = false;
-
-
-        this.JUMP_BTN = false;
-
-        this.THROW_BTN = false;
+class DrawableObject {
+    images;
+    imageCache = {};
+    currentImage = 0;
+    /**
+     * Lädt ein einzelnes Bild.
+     * @param {string} path - Der Pfad des zu ladenden Bildes.
+     */
+    loadImg(path) {
+        this.img = new Image(); // Erstellt ein neues Bild-Objekt
+        this.img.src = path; // Setzt den Pfad des Bildes
     }
 
     /**
-     * Aktualisiert den Zustand der Tastatureingaben.
-     * 
-     * @param {string} key - Der Name der Taste.
-     * @param {boolean} isPressed - Der Zustand der Taste (gedrückt oder nicht gedrückt).
+     * Lädt mehrere Bilder und speichert sie im Cache.
+     * @param {Array&lt;string>} images - Die Pfade der zu ladenden Bilder.
      */
-    updateKeyState(key, isPressed) {
-        switch (key) {
-            case 'ArrowLeft':
-                this.LEFT = isPressed;
-                break;
-            case 'ArrowRight':
-                this.RIGHT = isPressed;
-                break;
-            case 'ArrowUp':
-                this.UP = isPressed;
-                break;
-            case 'ArrowDown':
-                this.DOWN = isPressed;
-                break;
-            case ' ':
-                this.SPACE = isPressed;
-                break;
-            case 'd':
-            case 'D':
-                this.D = isPressed;
-                break;
-            default:
-                break;
-        }
+    loadImages(images) {
+        images.forEach(path => {
+            let img = new Image(); // Erstellt ein neues Bild-Objekt
+            img.src = path; // Setzt den Pfad des Bildes
+            this.imageCache[path] = img; // Speichert das Bild im Cache
+        });
     }
 
     /**
-     * Aktualisiert den Zustand der mobilen Steuereingaben.
-     * 
-     * @param {string} button - Der Name der Taste.
-     * @param {boolean} isPressed - Der Zustand der Taste (gedrückt oder nicht gedrückt).
+     * Zeichnet das aktuelle Bild des Objekts auf das Canvas.
+     * @param {CanvasRenderingContext2D} ctx - Der 2D-Kontext des Canvas.
      */
-    updateButtonState(button, isPressed) {
-        switch (button) {
-            case 'LEFT':
-                this.LEFT_BTN = isPressed;
-                break;
-            case 'RIGHT':
-                this.RIGHT_BTN = isPressed;
-                break;
-            case 'JUMP':
-                this.JUMP_BTN = isPressed;
-                break;
-            case 'THROW':
-                this.THROW_BTN = isPressed;
-                break;
-            default:
-                break;
-        }
-    }
+    draw(ctx) {
+        ctx.drawImage(this.img, this.x, this.y, this.width, this.height); // Zeichnet das Bild normal
+    }    
 }
 </code></pre>
         </article>

@@ -1,7 +1,19 @@
-class Endbossbar extends Drawableobject {
+/**
+ * Repräsentiert die Gesundheitsleiste des Endbosses im Spiel.
+ * @extends DrawableObject
+ */
+class Endbossbar extends DrawableObject {
 
+    /**
+     * Der Prozentsatz der Gesundheitsleiste.
+     * @type {number}
+     */
     percentage = 100;
 
+    /**
+     * Die Bilder der Gesundheitsleiste des Endbosses.
+     * @type {Array<string>}
+     */
     healthbarImages = [
         'img_pollo_locco/img/7_statusbars/2_statusbar_endboss/blue/blue0.png',
         'img_pollo_locco/img/7_statusbars/2_statusbar_endboss/blue/blue20.png',
@@ -11,6 +23,9 @@ class Endbossbar extends Drawableobject {
         'img_pollo_locco/img/7_statusbars/2_statusbar_endboss/blue/blue100.png'
     ];
 
+    /**
+     * Erstellt eine Instanz von Endbossbar.
+     */
     constructor() {
         super();
         this.loadImages(this.healthbarImages);
@@ -21,11 +36,18 @@ class Endbossbar extends Drawableobject {
         this.height = 50;
     }
 
+    /**
+     * Setzt den Prozentsatz der Gesundheitsleiste und aktualisiert das Bild.
+     * @param {number} percentage - Der neue Prozentsatz der Gesundheitsleiste.
+     */
     setPercentage(percentage) { 
         this.percentage = percentage; // Setzt den Prozentsatz
-        this.updateStatusBarImage(percentage); // Aktualisiert das Bild basierend auf dem Prozentsatz
+        this.updateStatusBarImage(); // Aktualisiert das Bild basierend auf dem Prozentsatz
     }
 
+    /**
+     * Aktualisiert das Bild der Gesundheitsleiste basierend auf dem Prozentsatz.
+     */
     updateStatusBarImage() {
         if (this.percentage >= 100) {
             this.img = this.imageCache[this.healthbarImages[5]];

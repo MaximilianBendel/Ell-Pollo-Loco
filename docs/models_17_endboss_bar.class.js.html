@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: models/01_keyboard.class.js</title>
+    <title>JSDoc: Source: models/17_endboss_bar.class.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: models/01_keyboard.class.js</h1>
+    <h1 class="page-title">Source: models/17_endboss_bar.class.js</h1>
 
     
 
@@ -27,92 +27,68 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Klasse, die die Tastatur- und mobile Steuerungseingaben verwaltet.
+ * Repräsentiert die Gesundheitsleiste des Endbosses im Spiel.
+ * @extends DrawableObject
  */
-class Keyboard {
+class Endbossbar extends DrawableObject {
+
+    /**
+     * Der Prozentsatz der Gesundheitsleiste.
+     * @type {number}
+     */
+    percentage = 100;
+
+    /**
+     * Die Bilder der Gesundheitsleiste des Endbosses.
+     * @type {Array&lt;string>}
+     */
+    healthbarImages = [
+        'img_pollo_locco/img/7_statusbars/2_statusbar_endboss/blue/blue0.png',
+        'img_pollo_locco/img/7_statusbars/2_statusbar_endboss/blue/blue20.png',
+        'img_pollo_locco/img/7_statusbars/2_statusbar_endboss/blue/blue40.png',
+        'img_pollo_locco/img/7_statusbars/2_statusbar_endboss/blue/blue60.png',
+        'img_pollo_locco/img/7_statusbars/2_statusbar_endboss/blue/blue80.png',
+        'img_pollo_locco/img/7_statusbars/2_statusbar_endboss/blue/blue100.png'
+    ];
+
+    /**
+     * Erstellt eine Instanz von Endbossbar.
+     */
     constructor() {
-
-        this.LEFT = false;
-
-
-        this.RIGHT = false;
-
-        this.UP = false;
-
-        this.DOWN = false;
-
-
-        this.SPACE = false;
-
-
-        this.D = false;
-
-
-        this.LEFT_BTN = false;
-
-
-        this.RIGHT_BTN = false;
-
-
-        this.JUMP_BTN = false;
-
-        this.THROW_BTN = false;
+        super();
+        this.loadImages(this.healthbarImages);
+        this.setPercentage(this.percentage);
+        this.x = 500;
+        this.y = 5;
+        this.width = 200;
+        this.height = 50;
     }
 
     /**
-     * Aktualisiert den Zustand der Tastatureingaben.
-     * 
-     * @param {string} key - Der Name der Taste.
-     * @param {boolean} isPressed - Der Zustand der Taste (gedrückt oder nicht gedrückt).
+     * Setzt den Prozentsatz der Gesundheitsleiste und aktualisiert das Bild.
+     * @param {number} percentage - Der neue Prozentsatz der Gesundheitsleiste.
      */
-    updateKeyState(key, isPressed) {
-        switch (key) {
-            case 'ArrowLeft':
-                this.LEFT = isPressed;
-                break;
-            case 'ArrowRight':
-                this.RIGHT = isPressed;
-                break;
-            case 'ArrowUp':
-                this.UP = isPressed;
-                break;
-            case 'ArrowDown':
-                this.DOWN = isPressed;
-                break;
-            case ' ':
-                this.SPACE = isPressed;
-                break;
-            case 'd':
-            case 'D':
-                this.D = isPressed;
-                break;
-            default:
-                break;
-        }
+    setPercentage(percentage) { 
+        this.percentage = percentage; // Setzt den Prozentsatz
+        this.updateStatusBarImage(); // Aktualisiert das Bild basierend auf dem Prozentsatz
     }
 
     /**
-     * Aktualisiert den Zustand der mobilen Steuereingaben.
-     * 
-     * @param {string} button - Der Name der Taste.
-     * @param {boolean} isPressed - Der Zustand der Taste (gedrückt oder nicht gedrückt).
+     * Aktualisiert das Bild der Gesundheitsleiste basierend auf dem Prozentsatz.
      */
-    updateButtonState(button, isPressed) {
-        switch (button) {
-            case 'LEFT':
-                this.LEFT_BTN = isPressed;
-                break;
-            case 'RIGHT':
-                this.RIGHT_BTN = isPressed;
-                break;
-            case 'JUMP':
-                this.JUMP_BTN = isPressed;
-                break;
-            case 'THROW':
-                this.THROW_BTN = isPressed;
-                break;
-            default:
-                break;
+    updateStatusBarImage() {
+        if (this.percentage >= 100) {
+            this.img = this.imageCache[this.healthbarImages[5]];
+        } else if (this.percentage >= 80) {
+            this.img = this.imageCache[this.healthbarImages[4]];
+        } else if (this.percentage >= 60) {
+            this.img = this.imageCache[this.healthbarImages[3]];
+        } else if (this.percentage >= 40) {
+            this.img = this.imageCache[this.healthbarImages[2]];
+        } else if (this.percentage >= 20) {
+            this.img = this.imageCache[this.healthbarImages[1]];
+        } else {
+            this.img = this.imageCache[this.healthbarImages[0]];
         }
     }
 }
