@@ -127,7 +127,7 @@ class World {
      */
     checkThrowObject() {
         const currentTime = Date.now();
-        if (this.keyboard.D && currentTime - this.lastThrowTime >= 2000 && this.bottlebar.bottles > 0 || this.keyboard.THROW_BTN && currentTime - this.lastThrowTime >= 2000 && this.bottlebar.bottles > 0) {
+        if (this.keyboard.F && currentTime - this.lastThrowTime >= 2000 && this.bottlebar.bottles > 0 || this.keyboard.THROW_BTN && currentTime - this.lastThrowTime >= 2000 && this.bottlebar.bottles > 0 || this.keyboard.C && currentTime - this.lastThrowTime >= 2000 && this.bottlebar.bottles > 0) {
             let newBottle = new ThrowableObject(this.character.x + 50, this.character.y + 100);
             this.bottle.push(newBottle);
             this.bottlebar.bottles -= 1;
@@ -175,7 +175,7 @@ class World {
      */
     handleEndbossHit(enemy, bottle) {
         if (!enemy.isHitCooldown) {
-            enemy.hit(100); // Reduziert die Lebenspunkte des Endbosses 
+            enemy.hit(20); // Reduziert die Lebenspunkte des Endbosses 
             enemy.isHurtAnimation(); // Setzt den Status des Endbosses auf verletzt
             bottle.bottleSplash(); // Ruft die Methode bottleSplash auf
         }

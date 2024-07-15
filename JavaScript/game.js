@@ -26,6 +26,7 @@ function startGame() {
     GamePlays = true;
     showMobileButtonsStatus = true;
     mobileEventListener();
+    controlMobileButtons();
 }
 
 /**
@@ -90,7 +91,6 @@ function checkOrientation() {
         rotateMessage.style.display = 'none';
         document.getElementById('startMenuBox').classList.remove('display-none');
     }
-    controlMobileButtons();
 }
 
 /**
@@ -109,7 +109,7 @@ function showMobileButtons() {
  * Versteckt die mobilen Steuerungstasten.
  */
 function hideMobileButtons() {
-    if (!showMobileButtonsStatus) {
+    if (!showMobileButtonsStatus || window.innerHeight >= 1025) {
         document.getElementById('leftButton').style.display = 'none';
         document.getElementById('rightButton').style.display = 'none';
         document.getElementById('jumpButton').style.display = 'none';

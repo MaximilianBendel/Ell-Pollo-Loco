@@ -120,6 +120,6 @@ class MoveableObject extends DrawableObject {
     isHurt() {
         let timepassed = new Date().getTime() - this.lastHit; // Berechnet die Zeit seit dem letzten Treffer
         timepassed = timepassed / 1000; // Teilt die Zeit durch 1000, um Sekunden zu erhalten
-        return timepassed < 1; // Gibt zurück, ob der Charakter in der letzten 1 Sekunde getroffen wurde
+        return timepassed < 0.5; // Gibt zurück, ob der Charakter in der letzten 1 Sekunde getroffen wurde
     }
 }

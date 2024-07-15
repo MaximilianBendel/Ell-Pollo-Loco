@@ -3,31 +3,17 @@
  */
 class Keyboard {
     constructor() {
-
         this.LEFT = false;
-
-
+        this.A = false;
         this.RIGHT = false;
-
-        this.UP = false;
-
-        this.DOWN = false;
-
-
-        this.SPACE = false;
-
-
         this.D = false;
-
-
+        this.UP = false;
+        this.SPACE = false;
+        this.F = false;
+        this.C = false;
         this.LEFT_BTN = false;
-
-
         this.RIGHT_BTN = false;
-
-
         this.JUMP_BTN = false;
-
         this.THROW_BTN = false;
     }
 
@@ -48,15 +34,24 @@ class Keyboard {
             case 'ArrowUp':
                 this.UP = isPressed;
                 break;
-            case 'ArrowDown':
-                this.DOWN = isPressed;
-                break;
             case ' ':
                 this.SPACE = isPressed;
+                break;
+            case 'f':
+            case 'F':
+                this.F = isPressed;
+                break;
+            case 'a':
+            case 'A':
+                this.A = isPressed;
                 break;
             case 'd':
             case 'D':
                 this.D = isPressed;
+                break;
+            case 'c':
+            case 'C':
+                this.C = isPressed;
                 break;
             default:
                 break;
