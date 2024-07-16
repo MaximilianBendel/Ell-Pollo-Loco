@@ -4,7 +4,7 @@
 
 let canvas;
 let world;
-let keyboard = new Keyboard(); // Initializes a new Keyboard object
+let keyboard = new Keyboard(); 
 let Bosslife = false;
 let startScreen, WinEndScreen;
 let GamePlays = false;
@@ -14,15 +14,15 @@ let showMobileButtonsStatus = false;
  * Starts the game, initializes the necessary elements, and displays the game canvas.
  */
 function startGame() {
-    canvas = document.getElementById('canvas'); // Retrieves the canvas element from the DOM
+    canvas = document.getElementById('canvas'); 
     startScreen = document.getElementById('startMenuBox');
     WinEndScreen = document.getElementById('WinScreenEnd');
     WinEndScreen.classList.remove('display-block');
     startScreen.classList.add('display-none');
     canvas.classList.add('display-block');
     canvasContainer.classList.add('display-block');
-    initLevel(); // Initializes the level
-    init(); // Initializes the game
+    initLevel(); 
+    init(); 
     GamePlays = true;
     showMobileButtonsStatus = true;
     mobileEventListener();
@@ -33,8 +33,8 @@ function startGame() {
  * Initializes the game and the world.
  */
 function init() {
-    canvas = document.getElementById('canvas'); // Retrieves the canvas element from the DOM
-    world = new World(canvas, keyboard); // Initializes the world with canvas and keyboard
+    canvas = document.getElementById('canvas'); 
+    world = new World(canvas, keyboard); 
 }
 
 /**
@@ -49,7 +49,7 @@ function restartGame() {
  * @param {KeyboardEvent} e - The keyboard event.
  */
 window.addEventListener('keydown', function (e) {
-    keyboard.updateKeyState(e.key, true); // Updates the keyboard state on keydown
+    keyboard.updateKeyState(e.key, true); 
 });
 
 /**
@@ -57,7 +57,7 @@ window.addEventListener('keydown', function (e) {
  * @param {KeyboardEvent} e - The keyboard event.
  */
 window.addEventListener('keyup', function (e) {
-    keyboard.updateKeyState(e.key, false); // Updates the keyboard state on keyup
+    keyboard.updateKeyState(e.key, false); 
 });
 
 /**
@@ -172,6 +172,9 @@ function mobileEventListener() {
     document.getElementById('throwButton').addEventListener('touchend', () => keyboard.updateButtonState('THROW', false));
 }
 
+/**
+ * Initializes the game music and sound settings once the DOM content is loaded.
+ */
 document.addEventListener('DOMContentLoaded', () => {
     const startButton = document.getElementById('toggleSoundButtonStart');
     const canvasButton = document.getElementById('toggleSoundButtonCanvas');
@@ -190,3 +193,4 @@ document.addEventListener('DOMContentLoaded', () => {
         if (canvasButton) canvasButton.src = './img_pollo_locco/img/MusicUnmute.png';
     }
 });
+

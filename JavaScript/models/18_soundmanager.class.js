@@ -5,7 +5,7 @@ class SoundManager {
     constructor() {
         this.sounds = {};
         this.lastPlayTime = {};
-        this.isMuted = JSON.parse(localStorage.getItem('isMuted')) || false;
+        this.isMuted = JSON.parse(localStorage.getItem('isMuted')) || true;
         this.audioContext = null;
     }
 

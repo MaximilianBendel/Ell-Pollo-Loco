@@ -3,23 +3,9 @@
  * @extends MoveableObject
  */
 class ThrowableObject extends MoveableObject {
-
-    /**
-     * The speed in the y-direction.
-     * @type {number}
-     */
+    
     speedY = 30;
-
-    /**
-     * The speed in the x-direction.
-     * @type {number}
-     */
     speedX = 20;
-
-    /**
-     * Status variable for the bottle rotation.
-     * @type {boolean}
-     */
     Bottleisrotating = false;
 
     /**

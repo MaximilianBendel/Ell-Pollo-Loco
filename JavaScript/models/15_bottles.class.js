@@ -3,10 +3,7 @@
  * @extends DrawableObject
  */
 class CollectableBottles extends DrawableObject {
-    /**
-     * Stores all instances of CollectableBottles.
-     * @type {Array<CollectableBottles>}
-     */
+  
     static allBottles = [];
 
     /**

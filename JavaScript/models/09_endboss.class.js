@@ -3,11 +3,11 @@
  * @extends MoveableObject
  */
 class Endboss extends MoveableObject {
-    // Properties
+
     speed = 2;
     lifepoints = 100;
 
-    // Status variables
+
     firstContact = false;
     startAttackAnimation = false;
     animationTriggered = false;
@@ -20,7 +20,7 @@ class Endboss extends MoveableObject {
     isHitCooldown = false;
     isDead = false;
 
-    // Image arrays
+
     alertImages = [
         'img_pollo_locco/img/4_enemie_boss_chicken/2_alert/G5.png',
         'img_pollo_locco/img/4_enemie_boss_chicken/2_alert/G6.png',
@@ -118,11 +118,11 @@ class Endboss extends MoveableObject {
         if (this.isMoving || !this.alertAnimationPlayed) return;
         this.isMoving = true;
         this.notHurtable = true;
-    
+
         this.moveInterval = setInterval(() => {
             this.followCharacter();
         }, 1000 / 60);
-    
+
         this.walkingAnimationInterval = setInterval(() => {
             if (!this.isAttacking) {
                 this.animateImages(this.walkingImages);
@@ -130,6 +130,10 @@ class Endboss extends MoveableObject {
         }, 150);
     }
 
+    /**
+  * Makes the character follow the target character by moving left or right.
+  * The character will move only if the distance between the two characters is greater than a minimum distance.
+  */
     followCharacter() {
         const minDistance = 5;
         const distance = Math.abs(this.character.x - this.x);
@@ -141,6 +145,7 @@ class Endboss extends MoveableObject {
             }
         }
     }
+
 
     /**
      * Moves the endboss to the left.

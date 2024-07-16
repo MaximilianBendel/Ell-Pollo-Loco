@@ -87,14 +87,26 @@ class Character extends MoveableObject {
         this.world.camera_x = -this.x + 100;
     }
 
+    /**
+     * Checks if the character is moving to the right.
+     * @returns {boolean} True if moving right, false otherwise.
+     */
     isMovingRight() {
         return (this.world.keyboard.RIGHT || this.world.keyboard.RIGHT_BTN || this.world.keyboard.D) && this.x < this.world.level.level_end_x;
     }
 
+    /**
+     * Checks if the character is moving to the left.
+     * @returns {boolean} True if moving left, false otherwise.
+     */
     isMovingLeft() {
         return (this.world.keyboard.LEFT || this.world.keyboard.LEFT_BTN || this.world.keyboard.A) && this.x > -720;
     }
 
+    /**
+     * Checks if the character is jumping.
+     * @returns {boolean} True if jumping, false otherwise.
+     */
     isJumping() {
         return (this.world.keyboard.SPACE || this.world.keyboard.JUMP_BTN || this.world.keyboard.UP) && !this.isAboveGround();
     }
@@ -117,6 +129,10 @@ class Character extends MoveableObject {
         this.resetIdleTimeAndPlaySound('walking');
     }
 
+    /**
+     * Resets the idle time and plays the specified sound.
+     * @param {string} sound - The sound to play.
+     */
     resetIdleTimeAndPlaySound(sound) {
         this.idleTime = 0;
         soundManager.playnormalSound(sound);
@@ -172,6 +188,9 @@ class Character extends MoveableObject {
         }
     }
 
+    /**
+     * Handles the character's death animation.
+     */
     handleDeath() {
         if (!this.isDeadAnimationStopped) {
             this.animateImages(this.Images_dead);
@@ -179,6 +198,9 @@ class Character extends MoveableObject {
         }
     }
 
+    /**
+     * Starts the idle animation.
+     */
     startIdleAnimation() {
         this.idleTime += 200;
         if (this.idleTime >= 8000) {
@@ -190,6 +212,9 @@ class Character extends MoveableObject {
         }
     }
 
+    /**
+     * Starts the walking animation.
+     */
     startWalkingAnimation() {
         this.animateImages(this.Images_walking);
         soundManager.pauseSound('snoring');
@@ -236,6 +261,10 @@ class Character extends MoveableObject {
         this.initAnimations();
     }
 
+    /**
+     * Clears the interval for a given key.
+     * @param {string} key - The key for the interval to clear.
+     */
     clearInterval(key) {
         if (this.animationIntervals[key]) {
             clearInterval(this.animationIntervals[key]);

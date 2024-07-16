@@ -4,10 +4,6 @@
  */
 class Endbossbar extends DrawableObject {
 
-    /**
-     * The percentage of the health bar.
-     * @type {number}
-     */
     percentage = 100;
 
     /**

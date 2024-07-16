@@ -28,6 +28,6 @@ class Cloud extends MoveableObject {
                 this.x = canvas.width;
                 this.y = 20 + Math.random() * 100;
             }
-        }, 16.6666666); // 60 FPS
+        }, 16.6666666); 
     }
 }

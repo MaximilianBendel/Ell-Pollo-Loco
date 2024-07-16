@@ -4,10 +4,6 @@
  */
 class WinScreen extends DrawableObject {
 
-    /**
-     * Indicates whether the win screen should be displayed.
-     * @type {boolean}
-     */
     ShowWinScreen = false;
 
     /**
