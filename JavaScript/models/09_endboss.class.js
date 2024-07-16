@@ -3,27 +3,24 @@
  * @extends MoveableObject
  */
 class Endboss extends MoveableObject {
-      // Eigenschaften
-      speed = 1;
-      lifepoints = 100;
-  
-      // Statusvariablen
-      firstContact = false;
-      startAttackAnimation = false;
-      animationTriggered = false;
-      isAnimating = false;
-      isMoving = false;
-      isAttacking = false;
-      alertAnimationPlayed = false;
-      isHurt = false;
-      notHurtable = false;
-      isHitCooldown = false;
-      isDead = false;
+    // Eigenschaften
+    speed = 2;
+    lifepoints = 100;
+
+    // Statusvariablen
+    firstContact = false;
+    startAttackAnimation = false;
+    animationTriggered = false;
+    isAnimating = false;
+    isMoving = false;
+    isAttacking = false;
+    alertAnimationPlayed = false;
+    isHurt = false;
+    notHurtable = false;
+    isHitCooldown = false;
+    isDead = false;
+
     // Bild-Arrays
-    /**
-     * Die Bilder des Endbosses im Alarmmodus.
-     * @type {string[]}
-     */
     alertImages = [
         'img_pollo_locco/img/4_enemie_boss_chicken/2_alert/G5.png',
         'img_pollo_locco/img/4_enemie_boss_chicken/2_alert/G6.png',
@@ -35,10 +32,6 @@ class Endboss extends MoveableObject {
         'img_pollo_locco/img/4_enemie_boss_chicken/2_alert/G12.png'
     ];
 
-    /**
-     * Die Bilder des Endbosses im Gehenmodus.
-     * @type {string[]}
-     */
     walkingImages = [
         'img_pollo_locco/img/4_enemie_boss_chicken/1_walk/G1.png',
         'img_pollo_locco/img/4_enemie_boss_chicken/1_walk/G2.png',
@@ -46,10 +39,6 @@ class Endboss extends MoveableObject {
         'img_pollo_locco/img/4_enemie_boss_chicken/1_walk/G4.png'
     ];
 
-    /**
-     * Die Bilder des Endbosses im Angriffsmodus.
-     * @type {string[]}
-     */
     attackImages = [
         'img_pollo_locco/img/4_enemie_boss_chicken/3_attack/G13.png',
         'img_pollo_locco/img/4_enemie_boss_chicken/3_attack/G14.png',
@@ -61,20 +50,12 @@ class Endboss extends MoveableObject {
         'img_pollo_locco/img/4_enemie_boss_chicken/3_attack/G20.png'
     ];
 
-    /**
-     * Die Bilder des Endbosses im Verletzungsmodus.
-     * @type {string[]}
-     */
     hurtImages = [
         'img_pollo_locco/img/4_enemie_boss_chicken/4_hurt/G21.png',
         'img_pollo_locco/img/4_enemie_boss_chicken/4_hurt/G22.png',
         'img_pollo_locco/img/4_enemie_boss_chicken/4_hurt/G23.png'
     ];
 
-    /**
-     * Die Bilder des Endbosses im Todesmodus.
-     * @type {string[]}
-     */
     deadImages = [
         'img_pollo_locco/img/4_enemie_boss_chicken/5_dead/G24.png',
         'img_pollo_locco/img/4_enemie_boss_chicken/5_dead/G25.png',
@@ -137,18 +118,44 @@ class Endboss extends MoveableObject {
         if (this.isMoving || !this.alertAnimationPlayed) return;
         this.isMoving = true;
         this.notHurtable = true;
-
+    
         this.moveInterval = setInterval(() => {
-            if (!this.isAttacking) {
-                this.moveLeft();
-            }
+            this.followCharacter(); // Überprüft die Position des Charakters und bewegt den Endboss entsprechend
         }, 1000 / 60);
-
+    
         this.walkingAnimationInterval = setInterval(() => {
             if (!this.isAttacking) {
                 this.animateImages(this.walkingImages);
             }
         }, 150);
+    }
+
+    followCharacter() {
+        const minDistance = 5; // Minimale Distanz zwischen Endboss und Charakter
+        const distance = Math.abs(this.character.x - this.x);
+        if (distance > minDistance) {
+            if (this.character.x < this.x) {
+                this.moveLeft();
+            } else if (this.character.x > this.x) {
+                this.moveRight();
+            }
+        }
+    }
+
+    /**
+     * Bewegt den Endboss nach links.
+     */
+    moveLeft() {
+        this.x -= this.speed;
+        this.direction = 'right';
+    }
+
+    /**
+     * Bewegt den Endboss nach rechts.
+     */
+    moveRight() {
+        this.x += this.speed;
+        this.direction = 'left';
     }
 
     /**
@@ -182,7 +189,9 @@ class Endboss extends MoveableObject {
             if (frameIndex >= this.attackImages.length) {
                 clearInterval(this.attackInterval);
                 this.isAttacking = false;
-                this.startMoving();
+                setTimeout(() => {
+                    this.startMoving();
+                }, 300);
             }
         }, 150);
     }
@@ -198,18 +207,15 @@ class Endboss extends MoveableObject {
         let frameIndex = 0;
         soundManager.playnormalSound('endbosshitwithbottle');
         this.hurtInterval = setInterval(() => {
-            if (this.notHurtable) {
-                this.animateImages(this.hurtImages);
-                frameIndex++;
-                console.log('Hurt frame:', frameIndex);
-            }
+            this.animateImages(this.hurtImages);
+            frameIndex++;
 
             if (frameIndex >= this.hurtImages.length) {
                 clearInterval(this.hurtInterval);
                 this.isHurt = false;
-                console.log('Endboss finished hurting!');
-                this.startMoving();
-                if (this.lifepoints <= 0) {
+                if (this.lifepoints > 0) {
+                    this.startMoving();
+                } else {
                     this.isDeadAnimation();
                 }
             }
@@ -233,6 +239,7 @@ class Endboss extends MoveableObject {
                 clearInterval(this.deadInterval);
                 this.loadImg('img_pollo_locco/img/4_enemie_boss_chicken/5_dead/G26.png');
                 this.notHurtable = false;
+                this.stopAllAnimations();
             }
         }, 150);
     }
@@ -244,7 +251,6 @@ class Endboss extends MoveableObject {
     hit(damage) {
         if (!this.isHitCooldown) {
             this.lifepoints -= damage;
-            console.log('Endboss lifepoints:', this.lifepoints);
             this.isHitCooldown = true;
             setTimeout(() => {
                 this.isHitCooldown = false;

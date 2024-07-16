@@ -21,7 +21,7 @@ class MoveableObject extends DrawableObject {
      * Bewegt das Objekt nach rechts.
      */
     moveRight() {
-        console.log('Moving Right'); // Debug-Ausgabe für Bewegung nach rechts
+            this.x += this.speed; // Verringert die x-Position für Bewegung nach links
     }
 
     /**
@@ -82,12 +82,14 @@ class MoveableObject extends DrawableObject {
      * @param {MoveableObject} movableObject - Das andere bewegliche Objekt.
      * @returns {boolean} Wahr, wenn eine Kollision vorliegt.
      */
-     isColliding(movableObject) {
-        return this.x + this.width - this.offsetWidth > movableObject.x + movableObject.offsetX &&
-            this.y + this.height - this.offsetHeight > movableObject.y + movableObject.offsetY &&
-            this.x + this.offsetX < movableObject.x + movableObject.width - movableObject.offsetWidth &&
-            this.y + this.offsetY < movableObject.y + movableObject.height - movableObject.offsetHeight;
+    isColliding(movableObject) {
+        const collision = this.x + this.width - this.offsetWidth > movableObject.x + movableObject.offsetX &&
+                          this.y + this.height - this.offsetHeight > movableObject.y + movableObject.offsetY &&
+                          this.x + this.offsetX < movableObject.x + movableObject.width - movableObject.offsetWidth &&
+                          this.y + this.offsetY < movableObject.y + movableObject.height - movableObject.offsetHeight;
+        return collision;
     }
+    
 
     /**
      * Verursacht Schaden am Objekt.

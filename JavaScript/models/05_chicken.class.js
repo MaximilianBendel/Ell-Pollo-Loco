@@ -53,7 +53,7 @@ class Chicken extends MoveableObject {
         this.y = 445 - this.height; // Setzt die y-Position
         this.speed = 0.15 + Math.random() * 0.5; // Setzt eine zufällige Geschwindigkeit
         this.offsetX = 0; // Beispiel: verkleinert die Hitbox an allen Seiten
-        this.offsetY = 20;
+        this.offsetY = 0;
         this.offsetWidth = 0;
         this.offsetHeight = 30;
         this.animate(); // Startet die Animation des Huhns
@@ -97,7 +97,7 @@ class Chicken extends MoveableObject {
             this.img = this.imageCache[this.Images_dead[0]]; // Setzt das Todesbild
             setTimeout(() => {
                 this.isDead = true; // Markiert das Objekt als tot
-            }, 1000); // 1 Sekunde Verzögerung
+            }, 300); // 1 Sekunde Verzögerung
         }
     }
 

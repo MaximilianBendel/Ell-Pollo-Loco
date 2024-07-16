@@ -35,7 +35,7 @@ class brownChicken extends Chicken {
         this.width = 60;
         this.y = 445 - this.height; // Setzt die y-Position
         this.offsetX = 0; // Beispiel: verkleinert die Hitbox an allen Seiten
-        this.offsetY = 20;
+        this.offsetY = 0;
         this.offsetWidth = 0;
         this.offsetHeight = 30;
     }
@@ -78,7 +78,7 @@ class brownChicken extends Chicken {
             this.img = this.imageCache[this.Images_dead_brown[0]]; // Setzt das Todesbild
             setTimeout(() => {
                 this.isDead = true; // Markiert das Objekt als tot
-            }, 1000); // 1 Sekunde Verzögerung
+            }, 300); // 1 Sekunde Verzögerung
         }
     }
 

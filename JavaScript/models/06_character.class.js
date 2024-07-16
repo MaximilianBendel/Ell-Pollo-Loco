@@ -130,6 +130,9 @@ class Character extends MoveableObject {
      */
     lifepoints = 100;
 
+    CharacterIsJumping = false;
+    CharacterIsUnhurtable = false;
+
     /**
      * Erstellt eine Instanz von Character.
      */
@@ -163,6 +166,15 @@ class Character extends MoveableObject {
             jumpingAnimationInterval: setInterval(() => this.startJumpingAnimation(), 250),
             deadAnimationInterval: null,
         };
+    }
+
+    unHurtable() { 
+        if (!this.CharacterIsUnhurtable) {
+            this.CharacterIsUnhurtable = true;
+            setTimeout(() => {
+                this.CharacterIsUnhurtable = false;
+            }, 500);
+        }
     }
 
     /**
@@ -216,7 +228,9 @@ class Character extends MoveableObject {
         this.animateImages(this.Images_jumping); 
         if (this.currentImage >= this.Images_jumping.length - 1) {
             clearInterval(this.animationIntervals.jumpingAnimationInterval);
+            this.CharacterIsJumping = true;
         }
+        
     }
 
     /**
@@ -226,7 +240,9 @@ class Character extends MoveableObject {
         if (this.animationIntervals.jumpingAnimationInterval) {
             clearInterval(this.animationIntervals.jumpingAnimationInterval);
             this.animationIntervals.jumpingAnimationInterval = null;
+            this.CharacterIsJumping = false;
         }
+        
     }
 
     /**

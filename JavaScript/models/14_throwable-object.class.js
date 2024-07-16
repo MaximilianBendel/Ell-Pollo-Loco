@@ -51,12 +51,13 @@ class ThrowableObject extends MoveableObject {
      * @param {number} x - Die x-Position des Wurfobjekts.
      * @param {number} y - Die y-Position des Wurfobjekts.
      */
-    constructor(x, y) {
+    constructor(x, y, direction) {
         super().loadImg('img_pollo_locco/img/6_salsa_bottle/salsa_bottle.png'); // Konstruktor der Elternklasse aufrufen
         this.loadImages(this.Images_Bottle_rotating); // Lädt die Bilder
         this.loadImages(this.Images_Bottle_splash); // Lädt die Bilder
         this.x = x; // x-Position
         this.y = y; // y-Position
+        this.direction = direction; // Richtung
         this.height = 60;
         this.width = 50;
         this.offsetX = 5; // Beispiel: verkleinert die Hitbox an allen Seiten
@@ -75,7 +76,7 @@ class ThrowableObject extends MoveableObject {
         this.speedY = 20;
         this.applyGravity();
         this.ThrowInterval = setInterval(() => {
-            this.x += 12;
+            this.x += this.direction === 'left' ? -12 : 12; // Bewegt die Flasche in die entsprechende Richtung
             // Aufrufen der animateImages Methode um die Flaschenbilder zu animieren
             this.animateImages(this.Images_Bottle_rotating);
         }, 25); // Aktualisiere das Bild alle 25 Millisekunden

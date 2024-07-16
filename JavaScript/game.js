@@ -44,6 +44,7 @@ function restartGame() {
     location.reload();
 }
 
+
 /**
  * Aktualisiert den Tastaturzustand bei Tastendruck.
  * @param {KeyboardEvent} e - Das Keyboard-Event.
@@ -74,6 +75,22 @@ function openKeyboardMenu() {
 function closeKeyboardMenu() {
     document.getElementById('startMenuBox').classList.remove('display-none');
     document.getElementById('keyboardMenu').style.display = 'none';
+}
+
+function openImpressum() {
+    document.getElementById('startMenuBox').style.display = 'none';
+    document.getElementById('impressumBox').style.display = 'block';
+}
+
+function openDatenschutz() {
+    document.getElementById('startMenuBox').style.display = 'none';
+    document.getElementById('datenschutzBox').style.display = 'block';
+}
+
+function closeInfoBox() {
+    document.getElementById('impressumBox').style.display = 'none';
+    document.getElementById('datenschutzBox').style.display = 'none';
+    document.getElementById('startMenuBox').style.display = 'block';
 }
 
 /**
@@ -147,3 +164,24 @@ function mobileEventListener() {
     document.getElementById('throwButton').addEventListener('touchstart', () => keyboard.updateButtonState('THROW', true));
     document.getElementById('throwButton').addEventListener('touchend', () => keyboard.updateButtonState('THROW', false));
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const startButton = document.getElementById('toggleSoundButtonStart');
+    const canvasButton = document.getElementById('toggleSoundButtonCanvas');
+
+    if (!soundManager.isMuted) {
+        soundManager.initAudioContext().then(() => {
+            loadMusic().then(() => {
+                soundManager.playnormalSound('gamemusic');
+            });
+        });
+
+        if (startButton) startButton.src = './img_pollo_locco/img/MusicMute.png';
+        if (canvasButton) canvasButton.src = './img_pollo_locco/img/MusicMute.png';
+    } else {
+        if (startButton) startButton.src = './img_pollo_locco/img/MusicUnmute.png';
+        if (canvasButton) canvasButton.src = './img_pollo_locco/img/MusicUnmute.png';
+    }
+});
+
+
