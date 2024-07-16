@@ -27,162 +27,56 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Repräsentiert den Hauptcharakter im Spiel.
+ * Represents the main character in the game.
  * @extends MoveableObject
  */
 class Character extends MoveableObject {
     /**
-     * Die Bilder des Charakters im Gehmodus.
-     * @type {string[]}
-     */
-    Images_walking = [
-        'img_pollo_locco/img/2_character_pepe/2_walk/W-21.png',
-        'img_pollo_locco/img/2_character_pepe/2_walk/W-22.png',
-        'img_pollo_locco/img/2_character_pepe/2_walk/W-23.png',
-        'img_pollo_locco/img/2_character_pepe/2_walk/W-24.png',
-        'img_pollo_locco/img/2_character_pepe/2_walk/W-25.png',
-        'img_pollo_locco/img/2_character_pepe/2_walk/W-26.png'
-    ];
-
-    /**
-     * Die Bilder des Charakters im Ruhmodus.
-     * @type {string[]}
-     */
-    Images_idle = [
-        'img_pollo_locco/img/2_character_pepe/1_idle/idle/I-1.png',
-        'img_pollo_locco/img/2_character_pepe/1_idle/idle/I-2.png',
-        'img_pollo_locco/img/2_character_pepe/1_idle/idle/I-3.png',
-        'img_pollo_locco/img/2_character_pepe/1_idle/idle/I-4.png',
-        'img_pollo_locco/img/2_character_pepe/1_idle/idle/I-5.png',
-        'img_pollo_locco/img/2_character_pepe/1_idle/idle/I-6.png',
-        'img_pollo_locco/img/2_character_pepe/1_idle/idle/I-7.png',
-        'img_pollo_locco/img/2_character_pepe/1_idle/idle/I-8.png',
-        'img_pollo_locco/img/2_character_pepe/1_idle/idle/I-9.png',
-        'img_pollo_locco/img/2_character_pepe/1_idle/idle/I-10.png'
-    ];
-
-    /**
-     * Die Bilder des Charakters im langen Ruhmodus.
-     * @type {string[]}
-     */
-    Images_long_idle = [
-        'img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-11.png',
-        'img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-12.png',
-        'img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-13.png',
-        'img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-14.png',
-        'img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-15.png',
-        'img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-16.png',
-        'img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-17.png',
-        'img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-18.png',
-        'img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-19.png',
-        'img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-20.png'
-    ];
-
-    /**
-     * Die Bilder des Charakters im Sprungmodus.
-     * @type {string[]}
-     */
-    Images_jumping = [
-        'img_pollo_locco/img/2_character_pepe/3_jump/J-31.png',
-        'img_pollo_locco/img/2_character_pepe/3_jump/J-32.png',
-        'img_pollo_locco/img/2_character_pepe/3_jump/J-33.png',
-        'img_pollo_locco/img/2_character_pepe/3_jump/J-34.png',
-        'img_pollo_locco/img/2_character_pepe/3_jump/J-35.png',
-        'img_pollo_locco/img/2_character_pepe/3_jump/J-36.png',
-        'img_pollo_locco/img/2_character_pepe/3_jump/J-37.png',
-        'img_pollo_locco/img/2_character_pepe/3_jump/J-38.png',
-        'img_pollo_locco/img/2_character_pepe/3_jump/J-39.png'
-    ];
-
-    /**
-     * Die Bilder des Charakters im Todesmodus.
-     * @type {string[]}
-     */
-    Images_dead = [
-        'img_pollo_locco/img/2_character_pepe/5_dead/D-52.png',
-        'img_pollo_locco/img/2_character_pepe/5_dead/D-53.png',
-        'img_pollo_locco/img/2_character_pepe/5_dead/D-54.png',
-        'img_pollo_locco/img/2_character_pepe/5_dead/D-55.png',
-        'img_pollo_locco/img/2_character_pepe/5_dead/D-56.png',
-        'img_pollo_locco/img/2_character_pepe/5_dead/D-57.png'
-    ];
-
-    /**
-     * Die Bilder des Charakters im Verletzungsmodus.
-     * @type {string[]}
-     */
-    Images_hurt = [
-        'img_pollo_locco/img/2_character_pepe/4_hurt/H-41.png',
-        'img_pollo_locco/img/2_character_pepe/4_hurt/H-42.png',
-        'img_pollo_locco/img/2_character_pepe/4_hurt/H-43.png'
-    ];
-
-    /**
-     * Das aktuelle Bild des Charakters.
-     * @type {number}
-     */
-    currentImage = 0;
-
-    /** 
-     * Die Welt, in der sich der Charakter befindet.
-     */
-    world;
-
-    /**
-     * Die Geschwindigkeit des Charakters.
-     * @type {number}
-     */
-    speed = 5;
-
-    /**
-     * Die Richtung, in die der Charakter schaut.
-     * @type {string}
-     */
-    direction = 'right';
-
-    /**
-     * Die Zeit, die der Charakter im Ruhezustand verbringt.
-     * @type {number}
-     */
-    idleTime = 0;
-
-    /**
-     * Der Status der Todesanimation.
-     * @type {boolean}
-     */
-    isDeadAnimationStopped = false;
-
-    /**
-     * Die Lebenspunkte des Charakters.
-     * @type {number}
-     */
-    lifepoints = 100;
-
-    /**
-     * Erstellt eine Instanz von Character.
+     * Creates a new instance of the character and loads all required images.
      */
     constructor() {
         super().loadImg('img_pollo_locco/img/2_character_pepe/1_idle/idle/I-1.png');
-        this.loadImages(this.Images_walking);
-        this.loadImages(this.Images_idle);
-        this.loadImages(this.Images_long_idle);
-        this.loadImages(this.Images_jumping);
-        this.loadImages(this.Images_dead);
-        this.loadImages(this.Images_hurt);
+        this.loadAllImages();
         this.applyGravity();
-        this.x = 0;
-        this.height = 240;
-        this.width = 100;
-        this.y = 210;
-        this.offsetX = 20; // Beispiel: verkleinert die Hitbox an allen Seiten
-        this.offsetY = 20;
-        this.offsetWidth = 20;
-        this.offsetHeight = 20;
+        this.initCharacterProperties();
         this.initAnimations();
     }
 
     /**
-     * Initialisiert die Animationen des Charakters.
+     * Initializes the basic properties of the character.
+     */
+    initCharacterProperties() {
+        this.x = 0;
+        this.y = 210;
+        this.width = 100;
+        this.height = 240;
+        this.offsetX = 20;
+        this.offsetY = 20;
+        this.offsetWidth = 20;
+        this.offsetHeight = 20;
+        this.currentImage = 0;
+        this.world = null;
+        this.speed = 5;
+        this.direction = 'right';
+        this.idleTime = 0;
+        this.isDeadAnimationStopped = false;
+        this.lifepoints = 100;
+        this.CharacterIsJumping = false;
+        this.CharacterIsUnhurtable = false;
+    }
+
+    /**
+     * Loads all necessary images for the character.
+     */
+    loadAllImages() {
+        const imageSets = [
+            'walking', 'idle', 'long_idle', 'jumping', 'dead', 'hurt'
+        ];
+        imageSets.forEach(set => this.loadImages(this[`Images_${set}`]));
+    }
+
+    /**
+     * Initializes the animations of the character.
      */
     initAnimations() {
         this.animationIntervals = {
@@ -194,171 +88,252 @@ class Character extends MoveableObject {
     }
 
     /**
-     * Bewegt den Charakter basierend auf der Benutzereingabe.
+     * Makes the character invincible for a short period.
+     */
+    unHurtable() {
+        if (!this.CharacterIsUnhurtable) {
+            this.CharacterIsUnhurtable = true;
+            setTimeout(() => this.CharacterIsUnhurtable = false, 500);
+        }
+    }
+
+    /**
+     * Moves the character based on user input.
      */
     moveCharacter() {
         soundManager.pauseSound('walking');
-        if (this.world.keyboard.RIGHT &amp;&amp; this.x &lt; this.world.level.level_end_x || this.world.keyboard.RIGHT_BTN &amp;&amp; this.x &lt; this.world.level.level_end_x) {
+        if (this.isMovingRight()) {
             this.moveRightCharacter();
         }
-        if (this.world.keyboard.LEFT &amp;&amp; this.x > -720 || this.world.keyboard.LEFT_BTN &amp;&amp; this.x > -720) {
+        if (this.isMovingLeft()) {
             this.moveLeftCharacter();
         }
-        if (this.world.keyboard.SPACE &amp;&amp; !this.isAboveGround() || this.world.keyboard.JUMP_BTN &amp;&amp; !this.isAboveGround()) {
+        if (this.isJumping()) {
             this.jump();
             this.startJumpingAnimation();
         }
         this.world.camera_x = -this.x + 100;
     }
 
+    isMovingRight() {
+        return (this.world.keyboard.RIGHT || this.world.keyboard.RIGHT_BTN || this.world.keyboard.D) &amp;&amp; this.x &lt; this.world.level.level_end_x;
+    }
+
+    isMovingLeft() {
+        return (this.world.keyboard.LEFT || this.world.keyboard.LEFT_BTN || this.world.keyboard.A) &amp;&amp; this.x > -720;
+    }
+
+    isJumping() {
+        return (this.world.keyboard.SPACE || this.world.keyboard.JUMP_BTN || this.world.keyboard.UP) &amp;&amp; !this.isAboveGround();
+    }
+
     /**
-     * Bewegt den Charakter nach rechts.
+     * Moves the character to the right.
      */
     moveRightCharacter() {
         this.x += this.speed;
         this.direction = 'right';
-        soundManager.playnormalSound('walking');
-        this.idleTime = 0;
-        soundManager.pauseSound('snoring');
+        this.resetIdleTimeAndPlaySound('walking');
     }
 
     /**
-     * Bewegt den Charakter nach links.
+     * Moves the character to the left.
      */
     moveLeftCharacter() {
         this.x -= this.speed;
         this.direction = 'left';
-        soundManager.playnormalSound('walking');
+        this.resetIdleTimeAndPlaySound('walking');
+    }
+
+    resetIdleTimeAndPlaySound(sound) {
         this.idleTime = 0;
+        soundManager.playnormalSound(sound);
         soundManager.pauseSound('snoring');
     }
 
     /**
-     * Startet die Sprunganimation.
+     * Starts the jump animation.
      */
     startJumpingAnimation() {
-        if (this.animationIntervals.jumpingAnimationInterval) {
-            clearInterval(this.animationIntervals.jumpingAnimationInterval);
-        }
+        this.clearInterval('jumpingAnimationInterval');
         soundManager.playnormalSound('jumping');
-        this.animateImages(this.Images_jumping); 
+        this.animateImages(this.Images_jumping);
         if (this.currentImage >= this.Images_jumping.length - 1) {
-            clearInterval(this.animationIntervals.jumpingAnimationInterval);
+            this.CharacterIsJumping = true;
         }
     }
 
     /**
-     * Stoppt die Sprunganimation.
+     * Stops the jump animation.
      */
     stopJumpingAnimation() {
-        if (this.animationIntervals.jumpingAnimationInterval) {
-            clearInterval(this.animationIntervals.jumpingAnimationInterval);
-            this.animationIntervals.jumpingAnimationInterval = null;
-        }
+        this.clearInterval('jumpingAnimationInterval');
+        this.CharacterIsJumping = false;
     }
 
     /**
-     * Stoppt die Todesanimation.
+     * Stops the death animation.
      */
     stopDeadAnimation() {
-        if (this.animationIntervals.deadAnimationInterval) {
-            clearInterval(this.animationIntervals.deadAnimationInterval);
-            this.animationIntervals.deadAnimationInterval = null;
-        }
+        this.clearInterval('deadAnimationInterval');
         this.loadImg('img_pollo_locco/img/2_character_pepe/5_dead/D-56.png');
         this.isDeadAnimationStopped = true;
     }
 
     /**
-     * Aktualisiert die Animationen basierend auf dem Zustand des Charakters.
+     * Updates the animations based on the character's state.
      */
     updateAnimation() {
-        if (!this.isAboveGround()) {
+        if (this.isAboveGround()) {
+            this.animateImages(this.Images_jumping);
+        } else {
             this.speedY = 0;
             this.stopJumpingAnimation();
-            if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.RIGHT_BTN || this.world.keyboard.LEFT_BTN) {
-                this.animateImages(this.Images_walking);
-                this.idleTime = 0;
-                soundManager.pauseSound('snoring');
-            } else {
-                this.idleTime += 200;
-                if (this.idleTime >= 8000) {
-                    this.animateImages(this.Images_long_idle);
-                    soundManager.playnormalSound('snoring');
-                } else {
-                    this.animateImages(this.Images_idle);
-                    soundManager.pauseSound('snoring');
-                }
-            }
-        } else {
-            this.animateImages(this.Images_jumping);
+            (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.RIGHT_BTN || this.world.keyboard.LEFT_BTN || this.world.keyboard.D || this.world.keyboard.A) ? this.startWalkingAnimation() : this.startIdleAnimation();
         }
         if (this.isHurt()) {
-            soundManager.playnormalSound('hurt');
             this.animateImages(this.Images_hurt);
+            soundManager.playnormalSound('hurt');
         }
         if (this.isDead()) {
-            if (!this.isDeadAnimationStopped) {
-                this.animateImages(this.Images_dead);
-                setTimeout(() => {
-                    this.stopDeadAnimation();
-                }, 400);
-            }
-            return;
+            this.handleDeath();
         }
     }
 
+    handleDeath() {
+        if (!this.isDeadAnimationStopped) {
+            this.animateImages(this.Images_dead);
+            setTimeout(() => this.stopDeadAnimation(), 400);
+        }
+    }
+
+    startIdleAnimation() {
+        this.idleTime += 200;
+        if (this.idleTime >= 8000) {
+            this.animateImages(this.Images_long_idle);
+            soundManager.playnormalSound('snoring');
+        } else {
+            this.animateImages(this.Images_idle);
+            soundManager.pauseSound('snoring');
+        }
+    }
+
+    startWalkingAnimation() {
+        this.animateImages(this.Images_walking);
+        soundManager.pauseSound('snoring');
+    }
+
     /**
-     * Animiert die Bilder des Charakters.
-     * @param {string[]} images - Das Array der Bilder, die animiert werden sollen.
+     * Animates the character's images.
+     * @param {string[]} images - The array of images to animate.
      */
     animateImages(images) {
-        if (this.isDeadAnimationStopped) {
-            return;
-        }
-        this.currentImage++;
-        if (this.currentImage >= images.length) {
-            this.currentImage = 0;
-        }
+        if (this.isDeadAnimationStopped) return;
+        this.currentImage = (this.currentImage + 1) % images.length;
         this.img = this.imageCache[images[this.currentImage]];
     }
 
     /**
-     * Zeichnet den Charakter auf das Canvas.
-     * @param {CanvasRenderingContext2D} ctx - Der Rendering-Kontext des Canvas.
+     * Draws the character on the canvas.
+     * @param {CanvasRenderingContext2D} ctx - The canvas rendering context.
      */
     draw(ctx) {
+        ctx.save();
         if (this.direction === 'left') {
-            ctx.save();
             ctx.scale(-1, 1);
             ctx.drawImage(this.img, -this.x - this.width, this.y, this.width, this.height);
-            ctx.restore();
         } else {
             ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
         }
+        ctx.restore();
     }
 
     /**
-     * Stoppt alle Animationen des Charakters.
+     * Stops all animations of the character.
      */
     stoppAllAnimations() {
-        for (let key in this.animationIntervals) {
-            if (this.animationIntervals[key]) {
-                clearInterval(this.animationIntervals[key]);
-                this.animationIntervals[key] = null;
-            }
-        }
+        Object.keys(this.animationIntervals).forEach(key => this.clearInterval(key));
         soundManager.pauseSound('walking');
         soundManager.pauseSound('snoring');
     }
 
     /**
-     * Aktiviert alle Animationen des Charakters.
+     * Activates all animations of the character.
      */
     activateAllAnimations() {
         this.initAnimations();
     }
+
+    clearInterval(key) {
+        if (this.animationIntervals[key]) {
+            clearInterval(this.animationIntervals[key]);
+            this.animationIntervals[key] = null;
+        }
+    }
 }
+
+const Images = {
+    walking: [
+        'img_pollo_locco/img/2_character_pepe/2_walk/W-21.png',
+        'img_pollo_locco/img/2_character_pepe/2_walk/W-22.png',
+        'img_pollo_locco/img/2_character_pepe/2_walk/W-23.png',
+        'img_pollo_locco/img/2_character_pepe/2_walk/W-24.png',
+        'img_pollo_locco/img/2_character_pepe/2_walk/W-25.png',
+        'img_pollo_locco/img/2_character_pepe/2_walk/W-26.png'
+    ],
+    idle: [
+        'img_pollo_locco/img/2_character_pepe/1_idle/idle/I-1.png',
+        'img_pollo_locco/img/2_character_pepe/1_idle/idle/I-2.png',
+        'img_pollo_locco/img/2_character_pepe/1_idle/idle/I-3.png',
+        'img_pollo_locco/img/2_character_pepe/1_idle/idle/I-4.png',
+        'img_pollo_locco/img/2_character_pepe/1_idle/idle/I-5.png',
+        'img_pollo_locco/img/2_character_pepe/1_idle/idle/I-6.png',
+        'img_pollo_locco/img/2_character_pepe/1_idle/idle/I-7.png',
+        'img_pollo_locco/img/2_character_pepe/1_idle/idle/I-8.png',
+        'img_pollo_locco/img/2_character_pepe/1_idle/idle/I-9.png',
+        'img_pollo_locco/img/2_character_pepe/1_idle/idle/I-10.png'
+    ],
+    long_idle: [
+        'img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-11.png',
+        'img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-12.png',
+        'img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-13.png',
+        'img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-14.png',
+        'img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-15.png',
+        'img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-16.png',
+        'img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-17.png',
+        'img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-18.png',
+        'img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-19.png',
+        'img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-20.png'
+    ],
+    jumping: [
+        'img_pollo_locco/img/2_character_pepe/3_jump/J-31.png',
+        'img_pollo_locco/img/2_character_pepe/3_jump/J-32.png',
+        'img_pollo_locco/img/2_character_pepe/3_jump/J-33.png',
+        'img_pollo_locco/img/2_character_pepe/3_jump/J-34.png',
+        'img_pollo_locco/img/2_character_pepe/3_jump/J-35.png',
+        'img_pollo_locco/img/2_character_pepe/3_jump/J-36.png',
+        'img_pollo_locco/img/2_character_pepe/3_jump/J-37.png',
+        'img_pollo_locco/img/2_character_pepe/3_jump/J-38.png',
+        'img_pollo_locco/img/2_character_pepe/3_jump/J-39.png'
+    ],
+    dead: [
+        'img_pollo_locco/img/2_character_pepe/5_dead/D-52.png',
+        'img_pollo_locco/img/2_character_pepe/5_dead/D-53.png',
+        'img_pollo_locco/img/2_character_pepe/5_dead/D-54.png',
+        'img_pollo_locco/img/2_character_pepe/5_dead/D-55.png',
+        'img_pollo_locco/img/2_character_pepe/5_dead/D-56.png',
+        'img_pollo_locco/img/2_character_pepe/5_dead/D-57.png'
+    ],
+    hurt: [
+        'img_pollo_locco/img/2_character_pepe/4_hurt/H-41.png',
+        'img_pollo_locco/img/2_character_pepe/4_hurt/H-42.png',
+        'img_pollo_locco/img/2_character_pepe/4_hurt/H-43.png'
+    ]
+};
+
+Object.keys(Images).forEach(key => {
+    Character.prototype[`Images_${key}`] = Images[key];
+});
 </code></pre>
         </article>
     </section>
@@ -369,13 +344,13 @@ class Character extends MoveableObject {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BackGroundObject.html">BackGroundObject</a></li><li><a href="Bottlebar.html">Bottlebar</a></li><li><a href="Character.html">Character</a></li><li><a href="Chicken.html">Chicken</a></li><li><a href="Cloud.html">Cloud</a></li><li><a href="Coinbar.html">Coinbar</a></li><li><a href="Coins.html">Coins</a></li><li><a href="CollectableBottles.html">CollectableBottles</a></li><li><a href="DrawableObject.html">DrawableObject</a></li><li><a href="Endboss.html">Endboss</a></li><li><a href="Endbossbar.html">Endbossbar</a></li><li><a href="Keyboard.html">Keyboard</a></li><li><a href="Level.html">Level</a></li><li><a href="MoveableObject.html">MoveableObject</a></li><li><a href="SoundManager.html">SoundManager</a></li><li><a href="Statusbar.html">Statusbar</a></li><li><a href="ThrowableObject.html">ThrowableObject</a></li><li><a href="WinScreen.html">WinScreen</a></li><li><a href="World.html">World</a></li><li><a href="brownChicken.html">brownChicken</a></li></ul><h3>Global</h3><ul><li><a href="global.html#checkOrientation">checkOrientation</a></li><li><a href="global.html#closeKeyboardMenu">closeKeyboardMenu</a></li><li><a href="global.html#controlMobileButtons">controlMobileButtons</a></li><li><a href="global.html#hideMobileButtons">hideMobileButtons</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#loadBackGroundMusic">loadBackGroundMusic</a></li><li><a href="global.html#loadBottleSounds">loadBottleSounds</a></li><li><a href="global.html#loadCharacterSounds">loadCharacterSounds</a></li><li><a href="global.html#loadChickenSounds">loadChickenSounds</a></li><li><a href="global.html#loadCollectSounds">loadCollectSounds</a></li><li><a href="global.html#loadEndScreenSounds">loadEndScreenSounds</a></li><li><a href="global.html#loadEndbossSounds">loadEndbossSounds</a></li><li><a href="global.html#loadMusic">loadMusic</a></li><li><a href="global.html#mobileEventListener">mobileEventListener</a></li><li><a href="global.html#openKeyboardMenu">openKeyboardMenu</a></li><li><a href="global.html#restartGame">restartGame</a></li><li><a href="global.html#showMobileButtons">showMobileButtons</a></li><li><a href="global.html#startGame">startGame</a></li><li><a href="global.html#toggleSound">toggleSound</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BackGroundObject.html">BackGroundObject</a></li><li><a href="Bottlebar.html">Bottlebar</a></li><li><a href="Character.html">Character</a></li><li><a href="Chicken.html">Chicken</a></li><li><a href="Cloud.html">Cloud</a></li><li><a href="Coinbar.html">Coinbar</a></li><li><a href="Coins.html">Coins</a></li><li><a href="CollectableBottles.html">CollectableBottles</a></li><li><a href="DrawableObject.html">DrawableObject</a></li><li><a href="Endboss.html">Endboss</a></li><li><a href="Endbossbar.html">Endbossbar</a></li><li><a href="Keyboard.html">Keyboard</a></li><li><a href="Level.html">Level</a></li><li><a href="MoveableObject.html">MoveableObject</a></li><li><a href="SoundManager.html">SoundManager</a></li><li><a href="Statusbar.html">Statusbar</a></li><li><a href="ThrowableObject.html">ThrowableObject</a></li><li><a href="WinScreen.html">WinScreen</a></li><li><a href="World.html">World</a></li><li><a href="brownChicken.html">brownChicken</a></li></ul><h3>Global</h3><ul><li><a href="global.html#checkOrientation">checkOrientation</a></li><li><a href="global.html#closeInfoBox">closeInfoBox</a></li><li><a href="global.html#closeKeyboardMenu">closeKeyboardMenu</a></li><li><a href="global.html#controlMobileButtons">controlMobileButtons</a></li><li><a href="global.html#hideMobileButtons">hideMobileButtons</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initLevel">initLevel</a></li><li><a href="global.html#loadBackGroundMusic">loadBackGroundMusic</a></li><li><a href="global.html#loadBottleSounds">loadBottleSounds</a></li><li><a href="global.html#loadCharacterSounds">loadCharacterSounds</a></li><li><a href="global.html#loadChickenSounds">loadChickenSounds</a></li><li><a href="global.html#loadCollectSounds">loadCollectSounds</a></li><li><a href="global.html#loadEndScreenSounds">loadEndScreenSounds</a></li><li><a href="global.html#loadEndbossSounds">loadEndbossSounds</a></li><li><a href="global.html#loadMusic">loadMusic</a></li><li><a href="global.html#mobileEventListener">mobileEventListener</a></li><li><a href="global.html#openDatenschutz">openDatenschutz</a></li><li><a href="global.html#openImpressum">openImpressum</a></li><li><a href="global.html#openKeyboardMenu">openKeyboardMenu</a></li><li><a href="global.html#restartGame">restartGame</a></li><li><a href="global.html#showMobileButtons">showMobileButtons</a></li><li><a href="global.html#startGame">startGame</a></li><li><a href="global.html#toggleSound">toggleSound</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Mon Jul 15 2024 14:52:42 GMT+0200 (Mitteleuropäische Sommerzeit)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Tue Jul 16 2024 11:21:20 GMT+0200 (Mitteleuropäische Sommerzeit)
 </footer>
 
 <script> prettyPrint(); </script>

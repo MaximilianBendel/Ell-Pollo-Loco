@@ -30,7 +30,7 @@
     
         <h2><span class="attribs"><span class="type-signature"></span></span>BackGroundObject<span class="signature">(path, x, y)</span><span class="type-signature"></span></h2>
         
-            <div class="class-description">Repräsentiert ein Hintergrundobjekt im Spiel.</div>
+            <div class="class-description">Represents a background object in the game.</div>
         
     
 </header>
@@ -53,7 +53,7 @@
 
 
 <div class="description">
-    Erstellt eine Instanz von BackGroundObject.
+    Creates an instance of BackGroundObject.
 </div>
 
 
@@ -105,7 +105,7 @@
 
             
 
-            <td class="description last">Der Pfad zum Bild des Hintergrundobjekts.</td>
+            <td class="description last">The path to the background object's image.</td>
         </tr>
 
     
@@ -128,7 +128,7 @@
 
             
 
-            <td class="description last">Die x-Position des Hintergrundobjekts.</td>
+            <td class="description last">The x-position of the background object.</td>
         </tr>
 
     
@@ -151,7 +151,7 @@
 
             
 
-            <td class="description last">Die y-Position des Hintergrundobjekts.</td>
+            <td class="description last">The y-position of the background object.</td>
         </tr>
 
     
@@ -267,7 +267,7 @@
 
 
 <div class="description">
-    Animiert die Bilder des Objekts.
+    Animates the object's images.
 </div>
 
 
@@ -319,7 +319,7 @@
 
             
 
-            <td class="description last">Array von Bildpfaden zur Animation.</td>
+            <td class="description last">Array of image paths for animation.</td>
         </tr>
 
     
@@ -365,7 +365,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_02_movable-object.class.js.html">models/02_movable-object.class.js</a>, <a href="models_02_movable-object.class.js.html#line39">line 39</a>
+        <a href="models_02_movable-object.class.js.html">models/02_movable-object.class.js</a>, <a href="models_02_movable-object.class.js.html#line38">line 38</a>
     </li></ul></dd>
     
 
@@ -409,7 +409,7 @@
 
 
 <div class="description">
-    Wendet die Schwerkraft auf das Objekt an.
+    Applies gravity to the object.
 </div>
 
 
@@ -458,7 +458,149 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_02_movable-object.class.js.html">models/02_movable-object.class.js</a>, <a href="models_02_movable-object.class.js.html#line48">line 48</a>
+        <a href="models_02_movable-object.class.js.html">models/02_movable-object.class.js</a>, <a href="models_02_movable-object.class.js.html#line47">line 47</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="draw"><span class="type-signature"></span>draw<span class="signature">(ctx)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Draws the object's current image on the canvas.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>ctx</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">CanvasRenderingContext2D</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The 2D context of the canvas.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MoveableObject.html#draw">MoveableObject#draw</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="models_10_drawable-object.class.js.html">models/10_drawable-object.class.js</a>, <a href="models_10_drawable-object.class.js.html#line34">line 34</a>
     </li></ul></dd>
     
 
@@ -502,7 +644,7 @@
 
 
 <div class="description">
-    Verursacht Schaden am Objekt.
+    Causes damage to the object.
 </div>
 
 
@@ -554,7 +696,7 @@
 
             
 
-            <td class="description last">Die Höhe des Schadens.</td>
+            <td class="description last">The amount of damage.</td>
         </tr>
 
     
@@ -644,7 +786,7 @@
 
 
 <div class="description">
-    Überprüft, ob das Objekt über dem Boden ist.
+    Checks if the object is above the ground.
 </div>
 
 
@@ -693,7 +835,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_02_movable-object.class.js.html">models/02_movable-object.class.js</a>, <a href="models_02_movable-object.class.js.html#line65">line 65</a>
+        <a href="models_02_movable-object.class.js.html">models/02_movable-object.class.js</a>, <a href="models_02_movable-object.class.js.html#line64">line 64</a>
     </li></ul></dd>
     
 
@@ -722,7 +864,7 @@
 
         
 <div class="param-desc">
-    Wahr, wenn das Objekt über dem Boden ist.
+    True if the object is above the ground.
 </div>
 
 
@@ -759,7 +901,7 @@
 
 
 <div class="description">
-    Überprüft, ob das Objekt mit einem anderen beweglichen Objekt kollidiert.
+    Checks if the object is colliding with another moveable object.
 </div>
 
 
@@ -811,7 +953,7 @@
 
             
 
-            <td class="description last">Das andere bewegliche Objekt.</td>
+            <td class="description last">The other moveable object.</td>
         </tr>
 
     
@@ -857,7 +999,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_02_movable-object.class.js.html">models/02_movable-object.class.js</a>, <a href="models_02_movable-object.class.js.html#line85">line 85</a>
+        <a href="models_02_movable-object.class.js.html">models/02_movable-object.class.js</a>, <a href="models_02_movable-object.class.js.html#line84">line 84</a>
     </li></ul></dd>
     
 
@@ -886,7 +1028,7 @@
 
         
 <div class="param-desc">
-    Wahr, wenn eine Kollision vorliegt.
+    True if there is a collision.
 </div>
 
 
@@ -923,7 +1065,7 @@
 
 
 <div class="description">
-    Überprüft, ob das Objekt tot ist.
+    Checks if the object is dead.
 </div>
 
 
@@ -1001,7 +1143,7 @@
 
         
 <div class="param-desc">
-    Wahr, wenn das Objekt keine Lebenspunkte mehr hat.
+    True if the object has no lifepoints left.
 </div>
 
 
@@ -1038,7 +1180,7 @@
 
 
 <div class="description">
-    Überprüft, ob das Objekt verletzt ist.
+    Checks if the object is hurt.
 </div>
 
 
@@ -1116,7 +1258,7 @@
 
         
 <div class="param-desc">
-    Wahr, wenn das Objekt in den letzten 3 Sekunden getroffen wurde.
+    True if the object was hit in the last 3 seconds.
 </div>
 
 
@@ -1153,7 +1295,7 @@
 
 
 <div class="description">
-    Lässt das Objekt springen.
+    Makes the object jump.
 </div>
 
 
@@ -1202,7 +1344,291 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_02_movable-object.class.js.html">models/02_movable-object.class.js</a>, <a href="models_02_movable-object.class.js.html#line75">line 75</a>
+        <a href="models_02_movable-object.class.js.html">models/02_movable-object.class.js</a>, <a href="models_02_movable-object.class.js.html#line74">line 74</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="loadImages"><span class="type-signature"></span>loadImages<span class="signature">(images)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Loads multiple images and stores them in the cache.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>images</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;string></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The paths of the images to load.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MoveableObject.html#loadImages">MoveableObject#loadImages</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="models_10_drawable-object.class.js.html">models/10_drawable-object.class.js</a>, <a href="models_10_drawable-object.class.js.html#line22">line 22</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="loadImg"><span class="type-signature"></span>loadImg<span class="signature">(path)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Loads a single image.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>path</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The path of the image to load.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MoveableObject.html#loadImg">MoveableObject#loadImg</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="models_10_drawable-object.class.js.html">models/10_drawable-object.class.js</a>, <a href="models_10_drawable-object.class.js.html#line13">line 13</a>
     </li></ul></dd>
     
 
@@ -1246,7 +1672,7 @@
 
 
 <div class="description">
-    Bewegt das Objekt nach links.
+    Moves the object to the left.
 </div>
 
 
@@ -1295,7 +1721,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_02_movable-object.class.js.html">models/02_movable-object.class.js</a>, <a href="models_02_movable-object.class.js.html#line30">line 30</a>
+        <a href="models_02_movable-object.class.js.html">models/02_movable-object.class.js</a>, <a href="models_02_movable-object.class.js.html#line29">line 29</a>
     </li></ul></dd>
     
 
@@ -1339,7 +1765,7 @@
 
 
 <div class="description">
-    Bewegt das Objekt nach rechts.
+    Moves the object to the right.
 </div>
 
 
@@ -1388,7 +1814,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_02_movable-object.class.js.html">models/02_movable-object.class.js</a>, <a href="models_02_movable-object.class.js.html#line23">line 23</a>
+        <a href="models_02_movable-object.class.js.html">models/02_movable-object.class.js</a>, <a href="models_02_movable-object.class.js.html#line22">line 22</a>
     </li></ul></dd>
     
 
@@ -1434,13 +1860,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BackGroundObject.html">BackGroundObject</a></li><li><a href="Bottlebar.html">Bottlebar</a></li><li><a href="Character.html">Character</a></li><li><a href="Chicken.html">Chicken</a></li><li><a href="Cloud.html">Cloud</a></li><li><a href="Coinbar.html">Coinbar</a></li><li><a href="Coins.html">Coins</a></li><li><a href="CollectableBottles.html">CollectableBottles</a></li><li><a href="DrawableObject.html">DrawableObject</a></li><li><a href="Endboss.html">Endboss</a></li><li><a href="Endbossbar.html">Endbossbar</a></li><li><a href="Keyboard.html">Keyboard</a></li><li><a href="Level.html">Level</a></li><li><a href="MoveableObject.html">MoveableObject</a></li><li><a href="SoundManager.html">SoundManager</a></li><li><a href="Statusbar.html">Statusbar</a></li><li><a href="ThrowableObject.html">ThrowableObject</a></li><li><a href="WinScreen.html">WinScreen</a></li><li><a href="World.html">World</a></li><li><a href="brownChicken.html">brownChicken</a></li></ul><h3>Global</h3><ul><li><a href="global.html#checkOrientation">checkOrientation</a></li><li><a href="global.html#closeKeyboardMenu">closeKeyboardMenu</a></li><li><a href="global.html#controlMobileButtons">controlMobileButtons</a></li><li><a href="global.html#hideMobileButtons">hideMobileButtons</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#loadBackGroundMusic">loadBackGroundMusic</a></li><li><a href="global.html#loadBottleSounds">loadBottleSounds</a></li><li><a href="global.html#loadCharacterSounds">loadCharacterSounds</a></li><li><a href="global.html#loadChickenSounds">loadChickenSounds</a></li><li><a href="global.html#loadCollectSounds">loadCollectSounds</a></li><li><a href="global.html#loadEndScreenSounds">loadEndScreenSounds</a></li><li><a href="global.html#loadEndbossSounds">loadEndbossSounds</a></li><li><a href="global.html#loadMusic">loadMusic</a></li><li><a href="global.html#mobileEventListener">mobileEventListener</a></li><li><a href="global.html#openKeyboardMenu">openKeyboardMenu</a></li><li><a href="global.html#restartGame">restartGame</a></li><li><a href="global.html#showMobileButtons">showMobileButtons</a></li><li><a href="global.html#startGame">startGame</a></li><li><a href="global.html#toggleSound">toggleSound</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BackGroundObject.html">BackGroundObject</a></li><li><a href="Bottlebar.html">Bottlebar</a></li><li><a href="Character.html">Character</a></li><li><a href="Chicken.html">Chicken</a></li><li><a href="Cloud.html">Cloud</a></li><li><a href="Coinbar.html">Coinbar</a></li><li><a href="Coins.html">Coins</a></li><li><a href="CollectableBottles.html">CollectableBottles</a></li><li><a href="DrawableObject.html">DrawableObject</a></li><li><a href="Endboss.html">Endboss</a></li><li><a href="Endbossbar.html">Endbossbar</a></li><li><a href="Keyboard.html">Keyboard</a></li><li><a href="Level.html">Level</a></li><li><a href="MoveableObject.html">MoveableObject</a></li><li><a href="SoundManager.html">SoundManager</a></li><li><a href="Statusbar.html">Statusbar</a></li><li><a href="ThrowableObject.html">ThrowableObject</a></li><li><a href="WinScreen.html">WinScreen</a></li><li><a href="World.html">World</a></li><li><a href="brownChicken.html">brownChicken</a></li></ul><h3>Global</h3><ul><li><a href="global.html#checkOrientation">checkOrientation</a></li><li><a href="global.html#closeInfoBox">closeInfoBox</a></li><li><a href="global.html#closeKeyboardMenu">closeKeyboardMenu</a></li><li><a href="global.html#controlMobileButtons">controlMobileButtons</a></li><li><a href="global.html#hideMobileButtons">hideMobileButtons</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initLevel">initLevel</a></li><li><a href="global.html#loadBackGroundMusic">loadBackGroundMusic</a></li><li><a href="global.html#loadBottleSounds">loadBottleSounds</a></li><li><a href="global.html#loadCharacterSounds">loadCharacterSounds</a></li><li><a href="global.html#loadChickenSounds">loadChickenSounds</a></li><li><a href="global.html#loadCollectSounds">loadCollectSounds</a></li><li><a href="global.html#loadEndScreenSounds">loadEndScreenSounds</a></li><li><a href="global.html#loadEndbossSounds">loadEndbossSounds</a></li><li><a href="global.html#loadMusic">loadMusic</a></li><li><a href="global.html#mobileEventListener">mobileEventListener</a></li><li><a href="global.html#openDatenschutz">openDatenschutz</a></li><li><a href="global.html#openImpressum">openImpressum</a></li><li><a href="global.html#openKeyboardMenu">openKeyboardMenu</a></li><li><a href="global.html#restartGame">restartGame</a></li><li><a href="global.html#showMobileButtons">showMobileButtons</a></li><li><a href="global.html#startGame">startGame</a></li><li><a href="global.html#toggleSound">toggleSound</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Mon Jul 15 2024 14:52:42 GMT+0200 (Mitteleuropäische Sommerzeit)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Tue Jul 16 2024 11:21:20 GMT+0200 (Mitteleuropäische Sommerzeit)
 </footer>
 
 <script> prettyPrint(); </script>

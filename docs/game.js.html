@@ -27,68 +27,69 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * @fileoverview Dieses Skript initialisiert und steuert das Spiel sowie die Benutzeroberfläche.
+ * @fileoverview This script initializes and controls the game and the user interface.
  */
 
 let canvas;
 let world;
-let keyboard = new Keyboard(); // Initialisiert ein neues Keyboard-Objekt
+let keyboard = new Keyboard(); // Initializes a new Keyboard object
 let Bosslife = false;
 let startScreen, WinEndScreen;
 let GamePlays = false;
 let showMobileButtonsStatus = false;
 
 /**
- * Startet das Spiel, initialisiert die notwendigen Elemente und zeigt das Spiel-Canvas an.
+ * Starts the game, initializes the necessary elements, and displays the game canvas.
  */
 function startGame() {
-    canvas = document.getElementById('canvas'); // Holt das Canvas-Element aus dem DOM
+    canvas = document.getElementById('canvas'); // Retrieves the canvas element from the DOM
     startScreen = document.getElementById('startMenuBox');
     WinEndScreen = document.getElementById('WinScreenEnd');
     WinEndScreen.classList.remove('display-block');
     startScreen.classList.add('display-none');
     canvas.classList.add('display-block');
     canvasContainer.classList.add('display-block');
-    initLevel(); // Initialisiert das Level
-    init(); // Initialisiert das Spiel
+    initLevel(); // Initializes the level
+    init(); // Initializes the game
     GamePlays = true;
     showMobileButtonsStatus = true;
     mobileEventListener();
+    controlMobileButtons();
 }
 
 /**
- * Initialisiert das Spiel und die Welt.
+ * Initializes the game and the world.
  */
 function init() {
-    canvas = document.getElementById('canvas'); // Holt das Canvas-Element aus dem DOM
-    world = new World(canvas, keyboard); // Initialisiert die Welt mit Canvas und Keyboard
+    canvas = document.getElementById('canvas'); // Retrieves the canvas element from the DOM
+    world = new World(canvas, keyboard); // Initializes the world with canvas and keyboard
 }
 
 /**
- * Startet das Spiel neu, indem die Seite neu geladen wird.
+ * Restarts the game by reloading the page.
  */
 function restartGame() {
     location.reload();
 }
 
 /**
- * Aktualisiert den Tastaturzustand bei Tastendruck.
- * @param {KeyboardEvent} e - Das Keyboard-Event.
+ * Updates the keyboard state on keydown.
+ * @param {KeyboardEvent} e - The keyboard event.
  */
 window.addEventListener('keydown', function (e) {
-    keyboard.updateKeyState(e.key, true); // Aktualisiert den Tastaturzustand bei Tastendruck
+    keyboard.updateKeyState(e.key, true); // Updates the keyboard state on keydown
 });
 
 /**
- * Aktualisiert den Tastaturzustand bei Loslassen der Taste.
- * @param {KeyboardEvent} e - Das Keyboard-Event.
+ * Updates the keyboard state on keyup.
+ * @param {KeyboardEvent} e - The keyboard event.
  */
 window.addEventListener('keyup', function (e) {
-    keyboard.updateKeyState(e.key, false); // Aktualisiert den Tastaturzustand bei Loslassen der Taste
+    keyboard.updateKeyState(e.key, false); // Updates the keyboard state on keyup
 });
 
 /**
- * Öffnet das Keyboard-Menü.
+ * Opens the keyboard menu.
  */
 function openKeyboardMenu() {
     document.getElementById('startMenuBox').classList.add('display-none');
@@ -96,7 +97,7 @@ function openKeyboardMenu() {
 }
 
 /**
- * Schließt das Keyboard-Menü.
+ * Closes the keyboard menu.
  */
 function closeKeyboardMenu() {
     document.getElementById('startMenuBox').classList.remove('display-none');
@@ -104,7 +105,32 @@ function closeKeyboardMenu() {
 }
 
 /**
- * Überprüft die Ausrichtung des Geräts und passt die Anzeige entsprechend an.
+ * Opens the Impressum information.
+ */
+function openImpressum() {
+    document.getElementById('startMenuBox').style.display = 'none';
+    document.getElementById('impressumBox').style.display = 'block';
+}
+
+/**
+ * Opens the data protection information.
+ */
+function openDatenschutz() {
+    document.getElementById('startMenuBox').style.display = 'none';
+    document.getElementById('datenschutzBox').style.display = 'block';
+}
+
+/**
+ * Closes the information boxes.
+ */
+function closeInfoBox() {
+    document.getElementById('impressumBox').style.display = 'none';
+    document.getElementById('datenschutzBox').style.display = 'none';
+    document.getElementById('startMenuBox').style.display = 'block';
+}
+
+/**
+ * Checks the device orientation and adjusts the display accordingly.
  */
 function checkOrientation() {
     const rotateMessage = document.getElementById('rotateDeviceMessage');
@@ -118,11 +144,10 @@ function checkOrientation() {
         rotateMessage.style.display = 'none';
         document.getElementById('startMenuBox').classList.remove('display-none');
     }
-    controlMobileButtons();
 }
 
 /**
- * Zeigt die mobilen Steuerungstasten an.
+ * Shows the mobile control buttons.
  */
 function showMobileButtons() {
     if (showMobileButtonsStatus) {
@@ -134,10 +159,10 @@ function showMobileButtons() {
 }
 
 /**
- * Versteckt die mobilen Steuerungstasten.
+ * Hides the mobile control buttons.
  */
 function hideMobileButtons() {
-    if (!showMobileButtonsStatus) {
+    if (!showMobileButtonsStatus || window.innerHeight >= 1025) {
         document.getElementById('leftButton').style.display = 'none';
         document.getElementById('rightButton').style.display = 'none';
         document.getElementById('jumpButton').style.display = 'none';
@@ -146,7 +171,7 @@ function hideMobileButtons() {
 }
 
 /**
- * Steuert das Ein- und Ausblenden der mobilen Steuerungstasten.
+ * Controls the display of the mobile control buttons.
  */
 function controlMobileButtons() {
     setInterval(() => {
@@ -156,16 +181,15 @@ function controlMobileButtons() {
 }
 
 /**
- * Fügt Event-Listener für die Größenänderung und Ausrichtungsänderung des Fensters hinzu.
+ * Adds event listeners for window resize and orientation change.
  */
 window.addEventListener('resize', checkOrientation);
 window.addEventListener('orientationchange', checkOrientation);
 
 /**
- * Fügt Event-Listener für die mobilen Buttons hinzu.
+ * Adds event listeners for the mobile buttons.
  */
 function mobileEventListener() {
-    // Event-Listener für mobile Buttons hinzufügen
     document.getElementById('leftButton').addEventListener('touchstart', () => keyboard.updateButtonState('LEFT', true));
     document.getElementById('leftButton').addEventListener('touchend', () => keyboard.updateButtonState('LEFT', false));
     document.getElementById('rightButton').addEventListener('touchstart', () => keyboard.updateButtonState('RIGHT', true));
@@ -175,6 +199,25 @@ function mobileEventListener() {
     document.getElementById('throwButton').addEventListener('touchstart', () => keyboard.updateButtonState('THROW', true));
     document.getElementById('throwButton').addEventListener('touchend', () => keyboard.updateButtonState('THROW', false));
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const startButton = document.getElementById('toggleSoundButtonStart');
+    const canvasButton = document.getElementById('toggleSoundButtonCanvas');
+
+    if (!soundManager.isMuted) {
+        soundManager.initAudioContext().then(() => {
+            loadMusic().then(() => {
+                soundManager.playnormalSound('gamemusic');
+            });
+        });
+
+        if (startButton) startButton.src = './img_pollo_locco/img/MusicMute.png';
+        if (canvasButton) canvasButton.src = './img_pollo_locco/img/MusicMute.png';
+    } else {
+        if (startButton) startButton.src = './img_pollo_locco/img/MusicUnmute.png';
+        if (canvasButton) canvasButton.src = './img_pollo_locco/img/MusicUnmute.png';
+    }
+});
 </code></pre>
         </article>
     </section>
@@ -185,13 +228,13 @@ function mobileEventListener() {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BackGroundObject.html">BackGroundObject</a></li><li><a href="Bottlebar.html">Bottlebar</a></li><li><a href="Character.html">Character</a></li><li><a href="Chicken.html">Chicken</a></li><li><a href="Cloud.html">Cloud</a></li><li><a href="Coinbar.html">Coinbar</a></li><li><a href="Coins.html">Coins</a></li><li><a href="CollectableBottles.html">CollectableBottles</a></li><li><a href="DrawableObject.html">DrawableObject</a></li><li><a href="Endboss.html">Endboss</a></li><li><a href="Endbossbar.html">Endbossbar</a></li><li><a href="Keyboard.html">Keyboard</a></li><li><a href="Level.html">Level</a></li><li><a href="MoveableObject.html">MoveableObject</a></li><li><a href="SoundManager.html">SoundManager</a></li><li><a href="Statusbar.html">Statusbar</a></li><li><a href="ThrowableObject.html">ThrowableObject</a></li><li><a href="WinScreen.html">WinScreen</a></li><li><a href="World.html">World</a></li><li><a href="brownChicken.html">brownChicken</a></li></ul><h3>Global</h3><ul><li><a href="global.html#checkOrientation">checkOrientation</a></li><li><a href="global.html#closeKeyboardMenu">closeKeyboardMenu</a></li><li><a href="global.html#controlMobileButtons">controlMobileButtons</a></li><li><a href="global.html#hideMobileButtons">hideMobileButtons</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#loadBackGroundMusic">loadBackGroundMusic</a></li><li><a href="global.html#loadBottleSounds">loadBottleSounds</a></li><li><a href="global.html#loadCharacterSounds">loadCharacterSounds</a></li><li><a href="global.html#loadChickenSounds">loadChickenSounds</a></li><li><a href="global.html#loadCollectSounds">loadCollectSounds</a></li><li><a href="global.html#loadEndScreenSounds">loadEndScreenSounds</a></li><li><a href="global.html#loadEndbossSounds">loadEndbossSounds</a></li><li><a href="global.html#loadMusic">loadMusic</a></li><li><a href="global.html#mobileEventListener">mobileEventListener</a></li><li><a href="global.html#openKeyboardMenu">openKeyboardMenu</a></li><li><a href="global.html#restartGame">restartGame</a></li><li><a href="global.html#showMobileButtons">showMobileButtons</a></li><li><a href="global.html#startGame">startGame</a></li><li><a href="global.html#toggleSound">toggleSound</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BackGroundObject.html">BackGroundObject</a></li><li><a href="Bottlebar.html">Bottlebar</a></li><li><a href="Character.html">Character</a></li><li><a href="Chicken.html">Chicken</a></li><li><a href="Cloud.html">Cloud</a></li><li><a href="Coinbar.html">Coinbar</a></li><li><a href="Coins.html">Coins</a></li><li><a href="CollectableBottles.html">CollectableBottles</a></li><li><a href="DrawableObject.html">DrawableObject</a></li><li><a href="Endboss.html">Endboss</a></li><li><a href="Endbossbar.html">Endbossbar</a></li><li><a href="Keyboard.html">Keyboard</a></li><li><a href="Level.html">Level</a></li><li><a href="MoveableObject.html">MoveableObject</a></li><li><a href="SoundManager.html">SoundManager</a></li><li><a href="Statusbar.html">Statusbar</a></li><li><a href="ThrowableObject.html">ThrowableObject</a></li><li><a href="WinScreen.html">WinScreen</a></li><li><a href="World.html">World</a></li><li><a href="brownChicken.html">brownChicken</a></li></ul><h3>Global</h3><ul><li><a href="global.html#checkOrientation">checkOrientation</a></li><li><a href="global.html#closeInfoBox">closeInfoBox</a></li><li><a href="global.html#closeKeyboardMenu">closeKeyboardMenu</a></li><li><a href="global.html#controlMobileButtons">controlMobileButtons</a></li><li><a href="global.html#hideMobileButtons">hideMobileButtons</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initLevel">initLevel</a></li><li><a href="global.html#loadBackGroundMusic">loadBackGroundMusic</a></li><li><a href="global.html#loadBottleSounds">loadBottleSounds</a></li><li><a href="global.html#loadCharacterSounds">loadCharacterSounds</a></li><li><a href="global.html#loadChickenSounds">loadChickenSounds</a></li><li><a href="global.html#loadCollectSounds">loadCollectSounds</a></li><li><a href="global.html#loadEndScreenSounds">loadEndScreenSounds</a></li><li><a href="global.html#loadEndbossSounds">loadEndbossSounds</a></li><li><a href="global.html#loadMusic">loadMusic</a></li><li><a href="global.html#mobileEventListener">mobileEventListener</a></li><li><a href="global.html#openDatenschutz">openDatenschutz</a></li><li><a href="global.html#openImpressum">openImpressum</a></li><li><a href="global.html#openKeyboardMenu">openKeyboardMenu</a></li><li><a href="global.html#restartGame">restartGame</a></li><li><a href="global.html#showMobileButtons">showMobileButtons</a></li><li><a href="global.html#startGame">startGame</a></li><li><a href="global.html#toggleSound">toggleSound</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Mon Jul 15 2024 14:52:42 GMT+0200 (Mitteleuropäische Sommerzeit)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Tue Jul 16 2024 11:21:20 GMT+0200 (Mitteleuropäische Sommerzeit)
 </footer>
 
 <script> prettyPrint(); </script>

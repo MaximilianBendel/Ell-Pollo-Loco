@@ -27,77 +27,60 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Repräsentiert die Spielwelt.
+ * Represents the game world.
  */
 class World {
-    character = new Character(); // Initialisiert einen neuen Charakter
-    enemies = level1.enemies; // Initialisiert Feinde
-    clouds = level1.clouds; // Initialisiert eine Wolke
-    BackGroundObjects = level1.BackGroundObjects; // Initialisiert die Hintergrundobjekte
-    level = level1; // Initialisiert das Level
-    statusbar = new Statusbar(); // Initialisiert die Statusleiste
-    coinbar = new Coinbar(); // Initialisiert die Münzleiste
-    bottlebar = new Bottlebar(); // Initialisiert die Flaschenleiste
-    endbossbar = new Endbossbar(); // Initialisiert die Endbossleiste
-    bottle = []; // Initialisiert die Flasche
-    collectableBottles = level1.collectableBottles; // Initialisiert die sammelbaren Flaschen
-    collectableCoins = level1.collectableCoins; // Initialisiert die sammelbaren Münzen
+    character = new Character();
+    statusbar = new Statusbar();
+    coinbar = new Coinbar();
+    bottlebar = new Bottlebar();
+    endbossbar = new Endbossbar();
+    enemies = level1.enemies;
+    clouds = level1.clouds;
+    BackGroundObjects = level1.BackGroundObjects;
+    level = level1;
+    bottle = [];
+    collectableBottles = level1.collectableBottles;
+    collectableCoins = level1.collectableCoins;
     WinEndScreen = document.getElementById('WinScreenEnd');
     LoseEndScreen = document.getElementById('LoseScreenEnd');
     canvas = document.getElementById('canvas');
-    
-    /**
-     * Der 2D-Kontext des Canvas.
-     * @type {CanvasRenderingContext2D}
-     */
     ctx;
-    
-    /**
-     * Das Keyboard-Objekt zur Steuerung des Spiels.
-     * @type {Keyboard}
-     */
     keyboard;
-    
-    /**
-     * Die x-Position der Kamera.
-     * @type {number}
-     */
     camera_x = 0;
-    lastThrowTime = 0; // Zeitpunkt des letzten Wurfs
+    lastThrowTime = 0;
     winScreen = false;
     loseScreen = false;
     runInterval = true;
 
-    // Konstruktor
     /**
-     * Erstellt eine Instanz von World.
-     * @param {HTMLCanvasElement} canvas - Das Canvas-Element.
-     * @param {Keyboard} keyboard - Das Keyboard-Objekt zur Steuerung des Spiels.
+     * Creates an instance of World.
+     * @param {HTMLCanvasElement} canvas - The canvas element.
+     * @param {Keyboard} keyboard - The keyboard object for game controls.
      */
     constructor(canvas, keyboard) {
-        this.ctx = canvas.getContext('2d'); // Holt den 2D-Kontext des Canvas
-        this.canvas = canvas; // Setzt das Canvas
-        this.keyboard = keyboard; // Setzt das Keyboard
-        this.initializeBackgroundObjects(); // Initialisiert die Hintergrundobjekte
-        this.draw(); // Ruft die Zeichnen-Methode auf
-        this.setWorld(); // Setzt die Welt
-        this.setEndboss(); // Setzt den Endboss
-        this.run(); // Überprüft Kollisionen
+        this.ctx = canvas.getContext('2d');
+        this.canvas = canvas;
+        this.keyboard = keyboard;
+        this.initializeBackgroundObjects();
+        this.draw();
+        this.setWorld();
+        this.setEndboss();
+        this.run();
     }
 
-    // Methoden zur Initialisierung
     /**
-     * Verbindet den Charakter mit der Welt.
+     * Connects the character with the world.
      */
     setWorld() {
-        this.character.world = this; // Verbindet den Charakter mit der Welt
+        this.character.world = this;
     }
 
     /**
-     * Setzt den Endboss und verbindet ihn mit dem Charakter.
+     * Sets the endboss and connects it with the character.
      */
     setEndboss() {
-        this.level.enemies.forEach(enemy => {
+        this.enemies.forEach(enemy => {
             if (enemy instanceof Endboss) {
                 enemy.character = this.character;
             }
@@ -105,7 +88,7 @@ class World {
     }
 
     /**
-     * Initialisiert die Hintergrundobjekte im Level.
+     * Initializes the background objects in the level.
      */
     initializeBackgroundObjects() {
         const layers = [
@@ -119,56 +102,63 @@ class World {
             'img_pollo_locco/img/5_background/layers/1_first_layer/2.png'
         ];
         const startPositions = [-2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
-        for (let i = 0; i &lt; startPositions.length; i++) {
+        startPositions.forEach(position => {
             for (let j = 0; j &lt; layers.length; j += 2) {
-                this.BackGroundObjects.push(new BackGroundObject(layers[j], startPositions[i] * 719 * 2));
-                this.BackGroundObjects.push(new BackGroundObject(layers[j + 1], startPositions[i] * 719 * 2 + 719));
+                this.BackGroundObjects.push(new BackGroundObject(layers[j], position * 719 * 2));
+                this.BackGroundObjects.push(new BackGroundObject(layers[j + 1], position * 719 * 2 + 719));
             }
-        }
+        });
     }
 
-    // Spiel-Logik
     /**
-     * Startet die Hauptspiel-Schleife, die Kollisionen und andere Spielereignisse überprüft.
+     * Starts the main game loop, checking for collisions and other game events.
      */
     run() {
-        if (this.runInterval) {
-            clearInterval(this.runInterval);
-        }
+        if (this.runInterval) clearInterval(this.runInterval);
         this.runInterval = setInterval(() => {
-            this.checkThrowObject(); // Überprüft, ob die Flasche geworfen wird
-            this.checkEnemyCollisionWithBottle(); // Überprüft Kollisionen mit Flaschen
-            this.checkCollisionsWithCollectableBottles(); // Überprüft Kollisionen mit Flaschen
-            this.checkCollisionsWithCollectableCoins(); // Überprüft Kollisionen mit Münzen
-            this.checkEndbossTrigger(); // Überprüft die Position des Characters zum Endboss triggern
-            this.checkBottleHitGround(); // Überprüft, ob die Flasche den Boden berührt
-            this.updateEndbossBar(); // Aktualisiert die Endbossleiste
-            this.handleDeadEnemies(); // Entfernt tote Feinde
+            this.checkThrowObject();
+            this.checkEnemyCollisionWithBottle();
+            this.checkCollisionsWithCollectableBottles();
+            this.checkCollisionsWithCollectableCoins();
+            this.checkEndbossTrigger();
+            this.checkBottleHitGround();
+            this.updateEndbossBar();
+            this.handleDeadEnemies();
             this.checkIfWin();
             this.checkIfLose();
+            this.updateEndbossMovement();
         }, 25);
-        this.checkCollisionsCharacter(); // Überprüft Kollisionen mit dem Charakter
+        this.checkCollisionsCharacter();
     }
 
     /**
-     * Überprüft, ob ein Wurfobjekt geworfen werden soll.
+     * Updates the movement of the endboss.
+     */
+    updateEndbossMovement() {
+        this.enemies.forEach(enemy => {
+            if (enemy instanceof Endboss &amp;&amp; enemy.animationTriggered) {
+                enemy.followCharacter();
+            }
+        });
+    }
+
+    /**
+     * Checks if a throwable object should be thrown.
      */
     checkThrowObject() {
         const currentTime = Date.now();
-        if (this.keyboard.D &amp;&amp; currentTime - this.lastThrowTime >= 2000 || this.keyboard.THROW_BTN &amp;&amp; currentTime - this.lastThrowTime >= 2000) {
-            let newBottle = new ThrowableObject(this.character.x + 50, this.character.y + 100);
-            this.bottle.push(newBottle);
-            this.bottlebar.bottles -= 1;
-            this.bottlebar.setBottles(this.bottlebar.bottles);  // Aktualisiert die Anzeige
+        if ((this.keyboard.F || this.keyboard.THROW_BTN || this.keyboard.C) &amp;&amp; currentTime - this.lastThrowTime >= 2000 &amp;&amp; this.bottlebar.bottles > 0) {
+            this.bottle.push(new ThrowableObject(this.character.x + 50, this.character.y + 100, this.character.direction));
+            this.bottlebar.setBottles(--this.bottlebar.bottles);
             this.lastThrowTime = currentTime;
         }
     }
 
     /**
-     * Überprüft Kollisionen zwischen Feinden und geworfenen Flaschen.
+     * Checks for collisions between enemies and thrown bottles.
      */
     checkEnemyCollisionWithBottle() {
-        this.enemies.forEach((enemy) => {
+        this.enemies.forEach(enemy => {
             this.bottle.forEach((bottle, index) => {
                 if (bottle.isColliding(enemy)) {
                     if (enemy instanceof Chicken || enemy instanceof brownChicken) {
@@ -182,35 +172,35 @@ class World {
     }
 
     /**
-     * Behandelt die Kollision eines Huhns mit einer Flasche.
-     * @param {Chicken|brownChicken} enemy - Das kollidierende Huhn.
-     * @param {ThrowableObject} bottle - Die kollidierende Flasche.
+     * Handles the collision of a chicken with a bottle.
+     * @param {Chicken|brownChicken} enemy - The colliding chicken.
+     * @param {ThrowableObject} bottle - The colliding bottle.
      */
     handleChickenHit(enemy, bottle) {
         if (!enemy.isHitCooldown) {
-            enemy.hit(100); // Reduziert die Lebenspunkte des Feindes
-            bottle.bottleSplash(); // Ruft die Methode bottleSplash auf
+            enemy.hit(100);
+            bottle.bottleSplash();
             if (enemy.lifepoints &lt;= 0) {
-                enemy.deadAnimation(enemy); // Startet die Todesanimation des Endbosses
+                enemy.deadAnimation(enemy);
             }
         }
     }
 
     /**
-     * Behandelt die Kollision des Endbosses mit einer Flasche.
-     * @param {Endboss} enemy - Der kollidierende Endboss.
-     * @param {ThrowableObject} bottle - Die kollidierende Flasche.
+     * Handles the collision of the endboss with a bottle.
+     * @param {Endboss} enemy - The colliding endboss.
+     * @param {ThrowableObject} bottle - The colliding bottle.
      */
     handleEndbossHit(enemy, bottle) {
         if (!enemy.isHitCooldown) {
-            enemy.hit(100); // Reduziert die Lebenspunkte des Endbosses 
-            enemy.isHurtAnimation(); // Setzt den Status des Endbosses auf verletzt
-            bottle.bottleSplash(); // Ruft die Methode bottleSplash auf
+            enemy.hit(20);
+            enemy.isHurtAnimation();
+            bottle.bottleSplash();
         }
     }
 
     /**
-     * Überprüft, ob die Flasche den Boden berührt.
+     * Checks if the bottle has hit the ground.
      */
     checkBottleHitGround() {
         this.bottle.forEach((bottle, index) => {
@@ -225,117 +215,94 @@ class World {
     }
 
     /**
-     * Überprüft, ob eine Flasche mit einem Feind kollidiert.
-     * @param {ThrowableObject} bottle - Die zu überprüfende Flasche.
-     * @returns {boolean} - Gibt true zurück, wenn eine Kollision vorliegt, andernfalls false.
+     * Checks if a bottle is colliding with an enemy.
+     * @param {ThrowableObject} bottle - The bottle to check.
+     * @returns {boolean} - Returns true if a collision occurs, otherwise false.
      */
     isBottleCollidingWithEnemy(bottle) {
-        return this.enemies.some((enemy) => {
-            if (bottle.isColliding(enemy)) {
-                if (enemy instanceof Chicken || enemy instanceof brownChicken) {
-                    this.handleChickenHit(enemy, bottle);
-                } else if (enemy instanceof Endboss &amp;&amp; enemy.notHurtable) {
-                    this.handleEndbossHit(enemy, bottle);
-                }
-                return true; // Kollision gefunden
-            }
-            return false; // Keine Kollision
-        });
+        return this.enemies.some(enemy => bottle.isColliding(enemy));
     }
 
     /**
-     * Entfernt die Flasche nach einer Verzögerung.
-     * @param {number} index - Der Index der zu entfernenden Flasche.
+     * Removes the bottle after a delay.
+     * @param {number} index - The index of the bottle to remove.
      */
     removeBottleAfterDelay(index) {
-        setTimeout(() => {
-            this.bottle.splice(index, 1); // Entfernt die Flasche aus dem Array
-        }, 250); // 250 Millisekunden
+        setTimeout(() => this.bottle.splice(index, 1), 250);
     }
 
     /**
-     * Überprüft Kollisionen mit sammelbaren Flaschen.
+     * Checks for collisions with collectable bottles.
      */
-    checkEnemyCollisionWithBottle() {
-        if (!this.collectableBottles) return; // Beendet die Methode, wenn collectableBottles null ist
-        this.collectableBottles.forEach((bottle) => {
+    checkCollisionsWithCollectableBottles() {
+        this.collectableBottles?.forEach(bottle => {
             if (this.character.isColliding(bottle)) {
-                bottle.collectBottle(this.collectableBottles, this.bottlebar); // Ruft collectBottle auf dem kollidierenden Flaschenobjekt auf
+                bottle.collectBottle(this.collectableBottles, this.bottlebar);
             }
         });
     }
 
     /**
-     * Überprüft Kollisionen mit sammelbaren Münzen.
+     * Checks for collisions with collectable coins.
      */
     checkCollisionsWithCollectableCoins() {
-        if (!this.collectableCoins) return; // Beendet die Methode, wenn collectableCoins null ist
-        this.collectableCoins.forEach((coin) => {
+        this.collectableCoins?.forEach(coin => {
             if (this.character.isColliding(coin)) {
-                coin.collectCoin(this.collectableCoins, this.coinbar); // Ruft collectCoin auf dem kollidierenden Münzobjekt auf
+                coin.collectCoin(this.collectableCoins, this.coinbar);
             }
         });
     }
 
     /**
-     * Überprüft, ob der Endboss getriggert werden soll.
+     * Checks if the endboss should be triggered.
      */
     checkEndbossTrigger() {
-        if (this.character &amp;&amp; this.character.x > 5450) {
-            this.level.enemies.forEach(enemy => {
+        if (this.character.x > 5450) {
+            this.enemies.forEach(enemy => {
                 if (enemy instanceof Endboss &amp;&amp; !enemy.animationTriggered) {
                     enemy.startAnimation();
-                    enemy.animationTriggered = true; // Setzt die Zustandsvariable, um erneutes Starten zu verhindern
+                    enemy.animationTriggered = true;
                 }
             });
         }
     }
 
     /**
-     * Aktualisiert die Lebenspunkteanzeige des Endbosses.
+     * Updates the health bar of the endboss.
      */
     updateEndbossBar() {
         this.level.enemies.forEach(enemy => {
             if (enemy instanceof Endboss) {
-                const percentage = enemy.lifepoints // Annahme: Endboss startet mit 100 Lifepoints
-                this.endbossbar.setPercentage(percentage);
+                this.endbossbar.setPercentage(enemy.lifepoints);
             }
         });
     }
 
     /**
-     * Entfernt tote Feinde aus dem Spiel.
+     * Removes dead enemies from the game.
      */
     handleDeadEnemies() {
-        for (let i = this.enemies.length - 1; i >= 0; i--) {
-            if (this.enemies[i].isDead) {
-                this.enemies.splice(i, 1); // Entfernt den toten Feind sicher
-            }
-        }
+        this.enemies = this.enemies.filter(enemy => !enemy.isDead);
     }
 
     /**
-     * Überprüft, ob der Spieler verloren hat.
+     * Checks if the player has lost.
      */
     checkIfLose() {
         if (this.character.lifepoints &lt;= 0) {
             this.loseScreen = true;
             showMobileButtonsStatus = false;
-            if (this.loseScreen) {
-                setTimeout(() => {
-                    this.stoppAllAnimations();
-                }, 1500);
-                setTimeout(() => {
-                    soundManager.pauseSound('gamemusic');
-                    soundManager.playnormalSound('loselevel');
-                    this.showLoseScreenEnd();
-                }, 2500);
-            }
+            setTimeout(() => this.stoppAllAnimations(), 1500);
+            setTimeout(() => {
+                soundManager.pauseSound('gamemusic');
+                soundManager.playnormalSound('loselevel');
+                this.showLoseScreenEnd();
+            }, 2500);
         }
     }
 
     /**
-     * Zeigt den Verliererscreen an.
+     * Shows the lose screen.
      */
     showLoseScreenEnd() {
         this.canvas.classList.remove('display-block');
@@ -343,44 +310,34 @@ class World {
     }
 
     /**
-     * Überprüft, ob der Spieler gewonnen hat.
+     * Checks if the player has won.
      */
     checkIfWin() {
-        this.enemies.forEach((enemy) => {
-            if (enemy instanceof Endboss &amp;&amp; enemy.lifepoints &lt;= 0) {
-                this.winScreen = true;
-                showMobileButtonsStatus = false;
-            }
-        });
-        if (this.winScreen) {
-            setTimeout(() => {
-                this.stoppAllAnimations();
-            }, 1500);
+        if (this.enemies.some(enemy => enemy instanceof Endboss &amp;&amp; enemy.lifepoints &lt;= 0)) {
+            this.winScreen = true;
+            showMobileButtonsStatus = false;
+            setTimeout(() => this.stoppAllAnimations(), 1500);
             setTimeout(() => {
                 soundManager.pauseSound('gamemusic');
                 soundManager.playnormalSound('winlevel');
                 this.showWinScreenEnd();
-            }, 2500); 
+            }, 2500);
         }
     }
 
     /**
-     * Stoppt alle Animationen im Spiel.
+     * Stops all animations in the game.
      */
     stoppAllAnimations() {
         this.winScreen = true;
-        this.enemies.forEach(enemy => {
-            if (enemy instanceof Endboss || enemy instanceof Chicken || enemy instanceof brownChicken) {
-                enemy.stopAllAnimations();
-            }
-        });
+        this.enemies.forEach(enemy => enemy.stopAllAnimations());
         this.character.stoppAllAnimations();
-        clearInterval(this.runInterval); // Stoppt die Run Funktionen
+        clearInterval(this.runInterval);
         this.runInterval = false;
     }
 
     /**
-     * Zeigt den Gewinnerscreen an.
+     * Shows the win screen.
      */
     showWinScreenEnd() {
         this.canvas.classList.remove('display-block');
@@ -388,102 +345,100 @@ class World {
     }
 
     /**
-     * Überprüft Kollisionen des Charakters mit Feinden und dem Endboss.
+     * Checks for character collisions with enemies and the endboss.
      */
     checkCollisionsCharacter() {
         setInterval(() => {
-            this.checkCollisionsWithChicken(); // Überprüft Kollisionen mit Feinden
-            this.checkCollisionsWithEndboss(); // Überprüft Kollisionen mit dem Endboss
-        }, 250); // Überprüft Kollisionen alle 250 Millisekunden
+            this.checkCollisionsWithChicken();
+            this.checkCollisionsWithEndboss();
+        }, 10);
     }
 
     /**
-     * Überprüft Kollisionen des Charakters mit Hühnern.
+     * Checks for character collisions with chickens.
      */
     checkCollisionsWithChicken() {
-        this.enemies.forEach((enemy) => {
-            if (enemy instanceof Chicken &amp;&amp; enemy.lifepoints > 0 &amp;&amp; this.character.isColliding(enemy) || enemy instanceof brownChicken &amp;&amp; enemy.lifepoints > 0 &amp;&amp; this.character.isColliding(enemy)) {
-                this.character.hit(5);
-                this.statusbar.setPercentage(this.character.lifepoints);
+        this.enemies.forEach(enemy => {
+            if (enemy instanceof Chicken || enemy instanceof brownChicken) {
+                if (this.character.speedY &lt; 0 &amp;&amp; this.character.isAboveGround() &amp;&amp; this.character.isColliding(enemy) &amp;&amp; (this.character.y + this.character.height - this.character.offsetHeight) &lt; (enemy.y + enemy.height / 2)) {
+                    this.character.speedY = 17;
+                    this.character.unHurtable();
+                    enemy.hit(100);
+                    if (enemy.lifepoints &lt;= 0) {
+                        enemy.deadAnimation();
+                    }
+                } else if (enemy.lifepoints > 0 &amp;&amp; this.character.isColliding(enemy)) {
+                    if (!this.character.CharacterIsUnhurtable) {
+                        this.character.hit(5);
+                        this.character.unHurtable();
+                        this.statusbar.setPercentage(this.character.lifepoints);
+                    }
+                }
             }
         });
     }
 
     /**
-     * Überprüft Kollisionen des Charakters mit dem Endboss.
+     * Checks for character collisions with the endboss.
      */
     checkCollisionsWithEndboss() {
-        this.enemies.forEach((enemy) => {
+        this.enemies.forEach(enemy => {
             if (enemy instanceof Endboss &amp;&amp; !enemy.isAttacking &amp;&amp; enemy.isColliding(this.character)) {
-                enemy.startAttack(); // Startet die Angriffsanimation nur, wenn der Endboss nicht bereits angreift
+                enemy.startAttack();
                 this.character.hit(5);
                 this.statusbar.setPercentage(this.character.lifepoints);
             }
         });
     }
 
-    // Zeichnen und Aktualisieren
     /**
-     * Zeichnet die Spielwelt.
+     * Draws the game world.
      */
     draw() {
-        if (this.isClearing || !this.ctx) return; // Beendet die Methode, wenn die Welt gelöscht wird oder ctx null ist
-
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); // Löscht das Canvas
-        this.ctx.translate(this.camera_x, 0); // Verschiebt die Kamera
-
-        this.addObjectsToMap(this.BackGroundObjects); // Fügt Hintergrundobjekte zur Karte hinzu
-        this.ctx.translate(-this.camera_x, 0); // Verschiebt die Kamera zurück
-        this.addToMap(this.statusbar); // Fügt die Statusleiste zur Karte hinzu
-        this.addToMap(this.coinbar); // Fügt die Münzleiste zur Karte hinzu
-        this.addToMap(this.bottlebar); // Fügt die Flaschenleiste zur Karte hinzu
-        this.addToMap(this.endbossbar); // Fügt die Endbossleiste zur Karte hinzu
-        this.ctx.translate(this.camera_x, 0); // Verschiebt die Kamera
-        this.addToMap(this.character); // Fügt den Charakter zur Karte hinzu
-        this.addObjectsToMap(this.collectableCoins); // Fügt die sammelbaren Münzen zur Karte hinzu
-        this.addObjectsToMap(this.collectableBottles); // Fügt die sammelbaren Flaschen zur Karte hinzu
-        this.addObjectsToMap(this.bottle); // Fügt die Flasche zur Karte hinzu
-        this.addObjectsToMap(this.enemies); // Fügt die Feinde zur Karte hinzu
-        this.addObjectsToMap(this.clouds); // Fügt die Wolken zur Karte hinzu
-        this.ctx.translate(-this.camera_x, 0); // Setzt die Kamera zurück
-        let self = this;
-        requestAnimationFrame(function () {
-            self.draw(); // Ruft draw() wiederholt auf, um Animation zu erstellen
-        });
+        if (this.isClearing || !this.ctx) return;
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.translate(this.camera_x, 0);
+        this.addObjectsToMap(this.BackGroundObjects);
+        this.ctx.translate(-this.camera_x, 0);
+        this.addObjectsToMap(this.clouds);
+        this.addToMap(this.statusbar);
+        this.addToMap(this.coinbar);
+        this.addToMap(this.bottlebar);
+        this.addToMap(this.endbossbar);
+        this.ctx.translate(this.camera_x, 0);
+        this.addToMap(this.character);
+        this.addObjectsToMap(this.collectableCoins);
+        this.addObjectsToMap(this.collectableBottles);
+        this.addObjectsToMap(this.bottle);
+        this.addObjectsToMap(this.enemies);
+        this.ctx.translate(-this.camera_x, 0);
+        requestAnimationFrame(() => this.draw());
     }
 
     /**
-     * Fügt ein bewegliches Objekt zur Karte hinzu.
-     * @param {MoveableObject} movableObject - Das hinzuzufügende Objekt.
+     * Adds a moveable object to the map.
+     * @param {MoveableObject} movableObject - The object to add.
      */
     addToMap(movableObject) {
-        if (movableObject instanceof Character &amp;&amp; movableObject.direction === 'left') {
-            this.ctx.save(); // Speichert den aktuellen Zustand des Canvas
-            this.ctx.scale(-1, 1); // Spiegelt das Bild horizontal
-            this.ctx.drawImage(
-                movableObject.img,
-                -movableObject.x - movableObject.width, // Negative x-Position zum Spiegeln
-                movableObject.y,
-                movableObject.width,
-                movableObject.height
-            );
-            this.ctx.restore(); // Stellt den gespeicherten Zustand wieder her
+        if ((movableObject instanceof Character || movableObject instanceof Endboss) &amp;&amp; movableObject.direction === 'left') {
+            this.ctx.save();
+            this.ctx.scale(-1, 1);
+            this.ctx.drawImage(movableObject.img, -movableObject.x - movableObject.width, movableObject.y, movableObject.width, movableObject.height);
+            this.ctx.restore();
         } else {
-            movableObject.draw(this.ctx); // Zeichnet das Objekt
+            movableObject.draw(this.ctx);
         }
         if (typeof movableObject.drawFrame === 'function') {
-            movableObject.drawFrame(this.ctx); // Zeichnet den Rahmen
+            movableObject.drawFrame(this.ctx);
         }
     }
 
     /**
-     * Fügt eine Liste von Objekten zur Karte hinzu.
-     * @param {Array&lt;MoveableObject>} objects - Die hinzuzufügenden Objekte.
+     * Adds a list of objects to the map.
+     * @param {Array&lt;MoveableObject>} objects - The objects to add.
      */
     addObjectsToMap(objects) {
-        objects.forEach(object => {
-            this.addToMap(object); // Fügt jedes Objekt zur Karte hinzu
-        });
+        objects.forEach(object => this.addToMap(object));
     }
 }
 </code></pre>
@@ -496,13 +451,13 @@ class World {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BackGroundObject.html">BackGroundObject</a></li><li><a href="Bottlebar.html">Bottlebar</a></li><li><a href="Character.html">Character</a></li><li><a href="Chicken.html">Chicken</a></li><li><a href="Cloud.html">Cloud</a></li><li><a href="Coinbar.html">Coinbar</a></li><li><a href="Coins.html">Coins</a></li><li><a href="CollectableBottles.html">CollectableBottles</a></li><li><a href="DrawableObject.html">DrawableObject</a></li><li><a href="Endboss.html">Endboss</a></li><li><a href="Endbossbar.html">Endbossbar</a></li><li><a href="Keyboard.html">Keyboard</a></li><li><a href="Level.html">Level</a></li><li><a href="MoveableObject.html">MoveableObject</a></li><li><a href="SoundManager.html">SoundManager</a></li><li><a href="Statusbar.html">Statusbar</a></li><li><a href="ThrowableObject.html">ThrowableObject</a></li><li><a href="WinScreen.html">WinScreen</a></li><li><a href="World.html">World</a></li><li><a href="brownChicken.html">brownChicken</a></li></ul><h3>Global</h3><ul><li><a href="global.html#checkOrientation">checkOrientation</a></li><li><a href="global.html#closeKeyboardMenu">closeKeyboardMenu</a></li><li><a href="global.html#controlMobileButtons">controlMobileButtons</a></li><li><a href="global.html#hideMobileButtons">hideMobileButtons</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#loadBackGroundMusic">loadBackGroundMusic</a></li><li><a href="global.html#loadBottleSounds">loadBottleSounds</a></li><li><a href="global.html#loadCharacterSounds">loadCharacterSounds</a></li><li><a href="global.html#loadChickenSounds">loadChickenSounds</a></li><li><a href="global.html#loadCollectSounds">loadCollectSounds</a></li><li><a href="global.html#loadEndScreenSounds">loadEndScreenSounds</a></li><li><a href="global.html#loadEndbossSounds">loadEndbossSounds</a></li><li><a href="global.html#loadMusic">loadMusic</a></li><li><a href="global.html#mobileEventListener">mobileEventListener</a></li><li><a href="global.html#openKeyboardMenu">openKeyboardMenu</a></li><li><a href="global.html#restartGame">restartGame</a></li><li><a href="global.html#showMobileButtons">showMobileButtons</a></li><li><a href="global.html#startGame">startGame</a></li><li><a href="global.html#toggleSound">toggleSound</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BackGroundObject.html">BackGroundObject</a></li><li><a href="Bottlebar.html">Bottlebar</a></li><li><a href="Character.html">Character</a></li><li><a href="Chicken.html">Chicken</a></li><li><a href="Cloud.html">Cloud</a></li><li><a href="Coinbar.html">Coinbar</a></li><li><a href="Coins.html">Coins</a></li><li><a href="CollectableBottles.html">CollectableBottles</a></li><li><a href="DrawableObject.html">DrawableObject</a></li><li><a href="Endboss.html">Endboss</a></li><li><a href="Endbossbar.html">Endbossbar</a></li><li><a href="Keyboard.html">Keyboard</a></li><li><a href="Level.html">Level</a></li><li><a href="MoveableObject.html">MoveableObject</a></li><li><a href="SoundManager.html">SoundManager</a></li><li><a href="Statusbar.html">Statusbar</a></li><li><a href="ThrowableObject.html">ThrowableObject</a></li><li><a href="WinScreen.html">WinScreen</a></li><li><a href="World.html">World</a></li><li><a href="brownChicken.html">brownChicken</a></li></ul><h3>Global</h3><ul><li><a href="global.html#checkOrientation">checkOrientation</a></li><li><a href="global.html#closeInfoBox">closeInfoBox</a></li><li><a href="global.html#closeKeyboardMenu">closeKeyboardMenu</a></li><li><a href="global.html#controlMobileButtons">controlMobileButtons</a></li><li><a href="global.html#hideMobileButtons">hideMobileButtons</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initLevel">initLevel</a></li><li><a href="global.html#loadBackGroundMusic">loadBackGroundMusic</a></li><li><a href="global.html#loadBottleSounds">loadBottleSounds</a></li><li><a href="global.html#loadCharacterSounds">loadCharacterSounds</a></li><li><a href="global.html#loadChickenSounds">loadChickenSounds</a></li><li><a href="global.html#loadCollectSounds">loadCollectSounds</a></li><li><a href="global.html#loadEndScreenSounds">loadEndScreenSounds</a></li><li><a href="global.html#loadEndbossSounds">loadEndbossSounds</a></li><li><a href="global.html#loadMusic">loadMusic</a></li><li><a href="global.html#mobileEventListener">mobileEventListener</a></li><li><a href="global.html#openDatenschutz">openDatenschutz</a></li><li><a href="global.html#openImpressum">openImpressum</a></li><li><a href="global.html#openKeyboardMenu">openKeyboardMenu</a></li><li><a href="global.html#restartGame">restartGame</a></li><li><a href="global.html#showMobileButtons">showMobileButtons</a></li><li><a href="global.html#startGame">startGame</a></li><li><a href="global.html#toggleSound">toggleSound</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Mon Jul 15 2024 14:52:42 GMT+0200 (Mitteleuropäische Sommerzeit)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Tue Jul 16 2024 11:21:20 GMT+0200 (Mitteleuropäische Sommerzeit)
 </footer>
 
 <script> prettyPrint(); </script>

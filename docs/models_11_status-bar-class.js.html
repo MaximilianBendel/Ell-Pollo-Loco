@@ -27,19 +27,19 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Repräsentiert die Statusleiste im Spiel.
+ * Represents the status bar in the game.
  * @extends DrawableObject
  */
 class Statusbar extends DrawableObject {
 
     /**
-     * Der Prozentsatz der Statusleiste.
+     * The percentage of the status bar.
      * @type {number}
      */
     percentage = 100;
 
     /**
-     * Die Bilder der Gesundheitsleiste.
+     * The images of the health bar.
      * @type {Array&lt;string>}
      */
     Images_healthbar = [
@@ -52,7 +52,7 @@ class Statusbar extends DrawableObject {
     ];
 
     /**
-     * Erstellt eine Instanz von Statusbar.
+     * Creates an instance of Statusbar.
      */
     constructor() {
         super();
@@ -65,24 +65,24 @@ class Statusbar extends DrawableObject {
     }
 
     /**
-     * Setzt den Prozentsatz der Statusleiste und aktualisiert das Bild.
-     * @param {number} percentage - Der neue Prozentsatz der Statusleiste.
+     * Sets the percentage of the status bar and updates the image.
+     * @param {number} percentage - The new percentage of the status bar.
      */
     setPercentage(percentage) {
-        this.percentage = percentage; // Setzt den Prozentsatz
+        this.percentage = percentage;
 
         if (this.percentage >= 100) {
-            this.img = this.imageCache[this.Images_healthbar[5]]; // Setzt das Bild auf 100%
+            this.img = this.imageCache[this.Images_healthbar[5]];
         } else if (this.percentage >= 80) {
-            this.img = this.imageCache[this.Images_healthbar[4]]; // Setzt das Bild auf 80%
+            this.img = this.imageCache[this.Images_healthbar[4]];
         } else if (this.percentage >= 60) {
-            this.img = this.imageCache[this.Images_healthbar[3]]; // Setzt das Bild auf 60%
+            this.img = this.imageCache[this.Images_healthbar[3]];
         } else if (this.percentage >= 40) {
-            this.img = this.imageCache[this.Images_healthbar[2]]; // Setzt das Bild auf 40%
+            this.img = this.imageCache[this.Images_healthbar[2]];
         } else if (this.percentage >= 20) {
-            this.img = this.imageCache[this.Images_healthbar[1]]; // Setzt das Bild auf 20%
+            this.img = this.imageCache[this.Images_healthbar[1]];
         } else {
-            this.img = this.imageCache[this.Images_healthbar[0]]; // Setzt das Bild auf 0%
+            this.img = this.imageCache[this.Images_healthbar[0]];
         }
     }
 }
@@ -96,13 +96,13 @@ class Statusbar extends DrawableObject {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BackGroundObject.html">BackGroundObject</a></li><li><a href="Bottlebar.html">Bottlebar</a></li><li><a href="Character.html">Character</a></li><li><a href="Chicken.html">Chicken</a></li><li><a href="Cloud.html">Cloud</a></li><li><a href="Coinbar.html">Coinbar</a></li><li><a href="Coins.html">Coins</a></li><li><a href="CollectableBottles.html">CollectableBottles</a></li><li><a href="DrawableObject.html">DrawableObject</a></li><li><a href="Endboss.html">Endboss</a></li><li><a href="Endbossbar.html">Endbossbar</a></li><li><a href="Keyboard.html">Keyboard</a></li><li><a href="Level.html">Level</a></li><li><a href="MoveableObject.html">MoveableObject</a></li><li><a href="SoundManager.html">SoundManager</a></li><li><a href="Statusbar.html">Statusbar</a></li><li><a href="ThrowableObject.html">ThrowableObject</a></li><li><a href="WinScreen.html">WinScreen</a></li><li><a href="World.html">World</a></li><li><a href="brownChicken.html">brownChicken</a></li></ul><h3>Global</h3><ul><li><a href="global.html#checkOrientation">checkOrientation</a></li><li><a href="global.html#closeKeyboardMenu">closeKeyboardMenu</a></li><li><a href="global.html#controlMobileButtons">controlMobileButtons</a></li><li><a href="global.html#hideMobileButtons">hideMobileButtons</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#loadBackGroundMusic">loadBackGroundMusic</a></li><li><a href="global.html#loadBottleSounds">loadBottleSounds</a></li><li><a href="global.html#loadCharacterSounds">loadCharacterSounds</a></li><li><a href="global.html#loadChickenSounds">loadChickenSounds</a></li><li><a href="global.html#loadCollectSounds">loadCollectSounds</a></li><li><a href="global.html#loadEndScreenSounds">loadEndScreenSounds</a></li><li><a href="global.html#loadEndbossSounds">loadEndbossSounds</a></li><li><a href="global.html#loadMusic">loadMusic</a></li><li><a href="global.html#mobileEventListener">mobileEventListener</a></li><li><a href="global.html#openKeyboardMenu">openKeyboardMenu</a></li><li><a href="global.html#restartGame">restartGame</a></li><li><a href="global.html#showMobileButtons">showMobileButtons</a></li><li><a href="global.html#startGame">startGame</a></li><li><a href="global.html#toggleSound">toggleSound</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BackGroundObject.html">BackGroundObject</a></li><li><a href="Bottlebar.html">Bottlebar</a></li><li><a href="Character.html">Character</a></li><li><a href="Chicken.html">Chicken</a></li><li><a href="Cloud.html">Cloud</a></li><li><a href="Coinbar.html">Coinbar</a></li><li><a href="Coins.html">Coins</a></li><li><a href="CollectableBottles.html">CollectableBottles</a></li><li><a href="DrawableObject.html">DrawableObject</a></li><li><a href="Endboss.html">Endboss</a></li><li><a href="Endbossbar.html">Endbossbar</a></li><li><a href="Keyboard.html">Keyboard</a></li><li><a href="Level.html">Level</a></li><li><a href="MoveableObject.html">MoveableObject</a></li><li><a href="SoundManager.html">SoundManager</a></li><li><a href="Statusbar.html">Statusbar</a></li><li><a href="ThrowableObject.html">ThrowableObject</a></li><li><a href="WinScreen.html">WinScreen</a></li><li><a href="World.html">World</a></li><li><a href="brownChicken.html">brownChicken</a></li></ul><h3>Global</h3><ul><li><a href="global.html#checkOrientation">checkOrientation</a></li><li><a href="global.html#closeInfoBox">closeInfoBox</a></li><li><a href="global.html#closeKeyboardMenu">closeKeyboardMenu</a></li><li><a href="global.html#controlMobileButtons">controlMobileButtons</a></li><li><a href="global.html#hideMobileButtons">hideMobileButtons</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initLevel">initLevel</a></li><li><a href="global.html#loadBackGroundMusic">loadBackGroundMusic</a></li><li><a href="global.html#loadBottleSounds">loadBottleSounds</a></li><li><a href="global.html#loadCharacterSounds">loadCharacterSounds</a></li><li><a href="global.html#loadChickenSounds">loadChickenSounds</a></li><li><a href="global.html#loadCollectSounds">loadCollectSounds</a></li><li><a href="global.html#loadEndScreenSounds">loadEndScreenSounds</a></li><li><a href="global.html#loadEndbossSounds">loadEndbossSounds</a></li><li><a href="global.html#loadMusic">loadMusic</a></li><li><a href="global.html#mobileEventListener">mobileEventListener</a></li><li><a href="global.html#openDatenschutz">openDatenschutz</a></li><li><a href="global.html#openImpressum">openImpressum</a></li><li><a href="global.html#openKeyboardMenu">openKeyboardMenu</a></li><li><a href="global.html#restartGame">restartGame</a></li><li><a href="global.html#showMobileButtons">showMobileButtons</a></li><li><a href="global.html#startGame">startGame</a></li><li><a href="global.html#toggleSound">toggleSound</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Mon Jul 15 2024 14:52:42 GMT+0200 (Mitteleuropäische Sommerzeit)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Tue Jul 16 2024 11:21:20 GMT+0200 (Mitteleuropäische Sommerzeit)
 </footer>
 
 <script> prettyPrint(); </script>

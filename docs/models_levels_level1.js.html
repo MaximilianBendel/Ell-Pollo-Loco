@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: models/04_cloud.class.js</title>
+    <title>JSDoc: Source: models/levels/level1.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: models/04_cloud.class.js</h1>
+    <h1 class="page-title">Source: models/levels/level1.js</h1>
 
     
 
@@ -27,37 +27,72 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Represents a cloud in the game.
- * @extends MoveableObject
+ * Initializes the first level of the game.
  */
-class Cloud extends MoveableObject {
-    /**
-     * Creates an instance of Cloud.
-     * @param {number} x - The x-position of the cloud.
-     * @param {number} y - The y-position of the cloud.
-     */
-    constructor(x, y) {
-        super().loadImg('img_pollo_locco/img/5_background/layers/4_clouds/1.png');
-        this.x = x;
-        this.y = y;
-        this.width = 500;
-        this.height = 250;
-        this.startMovingClouds();
-    }
+function initLevel() {
+    level1 = new Level(
+        [ 
+            new Chicken(),
+            new brownChicken(300),
+            new brownChicken(400),
+            new brownChicken(500),
+            new Chicken(800),
+            new Chicken(1000),
+            new Chicken(1200),
+            new brownChicken(1600),
+            new brownChicken(1700),
+            new Chicken(2000),
+            new Chicken(2200),
+            new Chicken(2400),
+            new brownChicken(2900),
+            new brownChicken(3000),
+            new Chicken(3500),
+            new Chicken(3600),
+            new Chicken(3700),
+            new brownChicken(4200),
+            new brownChicken(4300),
+            new Chicken(4700),
+            new Chicken(4800),
+            new Endboss()
+        ],
 
-    /**
-     * Starts the movement of the clouds.
-     * The clouds move from right to left and reappear on the right side when they leave the left edge of the canvas.
-     */
-    startMovingClouds() {
-        setInterval(() => {
-            this.x -= 0.5;
-            if (this.x + this.width &lt; 0) {
-                this.x = canvas.width;
-                this.y = 20 + Math.random() * 100;
-            }
-        }, 16.6666666); // 60 FPS
-    }
+        [ 
+            new Cloud(250, 25),
+            new Cloud(500, 50),
+            new Cloud(800, 25),
+            new Cloud(1200, 50),
+            new Cloud(1700, 25),
+            new Cloud(2300, 50),
+        ],
+
+        [], 
+
+        [ 
+            new CollectableBottles(300, 400),
+            new CollectableBottles(700, 200),
+            new CollectableBottles(1100, 400),
+            new CollectableBottles(1500, 400),
+            new CollectableBottles(1900, 200),
+            new CollectableBottles(2300, 400),
+            new CollectableBottles(2700, 400),
+            new CollectableBottles(3200, 150),
+            new CollectableBottles(3800, 400),
+            new CollectableBottles(4600, 400)
+        ],
+
+        [ 
+            new Coins(200, 150),
+            new Coins(500, 200),
+            new Coins(1000, 125),
+            new Coins(1400, 150),
+            new Coins(1900, 200),
+            new Coins(2300, 150),
+            new Coins(2700, 200),
+            new Coins(3300, 150),
+            new Coins(3900, 200),
+            new Coins(4400, 150)
+        ]
+    );
 }
 </code></pre>
         </article>

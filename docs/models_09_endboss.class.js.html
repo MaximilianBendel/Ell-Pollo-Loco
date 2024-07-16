@@ -27,31 +27,28 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Repräsentiert den Endboss im Spiel.
+ * Represents the endboss in the game.
  * @extends MoveableObject
  */
 class Endboss extends MoveableObject {
-      // Eigenschaften
-      speed = 1;
-      lifepoints = 100;
-  
-      // Statusvariablen
-      firstContact = false;
-      startAttackAnimation = false;
-      animationTriggered = false;
-      isAnimating = false;
-      isMoving = false;
-      isAttacking = false;
-      alertAnimationPlayed = false;
-      isHurt = false;
-      notHurtable = false;
-      isHitCooldown = false;
-      isDead = false;
-    // Bild-Arrays
-    /**
-     * Die Bilder des Endbosses im Alarmmodus.
-     * @type {string[]}
-     */
+    // Properties
+    speed = 2;
+    lifepoints = 100;
+
+    // Status variables
+    firstContact = false;
+    startAttackAnimation = false;
+    animationTriggered = false;
+    isAnimating = false;
+    isMoving = false;
+    isAttacking = false;
+    alertAnimationPlayed = false;
+    isHurt = false;
+    notHurtable = false;
+    isHitCooldown = false;
+    isDead = false;
+
+    // Image arrays
     alertImages = [
         'img_pollo_locco/img/4_enemie_boss_chicken/2_alert/G5.png',
         'img_pollo_locco/img/4_enemie_boss_chicken/2_alert/G6.png',
@@ -63,10 +60,6 @@ class Endboss extends MoveableObject {
         'img_pollo_locco/img/4_enemie_boss_chicken/2_alert/G12.png'
     ];
 
-    /**
-     * Die Bilder des Endbosses im Gehenmodus.
-     * @type {string[]}
-     */
     walkingImages = [
         'img_pollo_locco/img/4_enemie_boss_chicken/1_walk/G1.png',
         'img_pollo_locco/img/4_enemie_boss_chicken/1_walk/G2.png',
@@ -74,10 +67,6 @@ class Endboss extends MoveableObject {
         'img_pollo_locco/img/4_enemie_boss_chicken/1_walk/G4.png'
     ];
 
-    /**
-     * Die Bilder des Endbosses im Angriffsmodus.
-     * @type {string[]}
-     */
     attackImages = [
         'img_pollo_locco/img/4_enemie_boss_chicken/3_attack/G13.png',
         'img_pollo_locco/img/4_enemie_boss_chicken/3_attack/G14.png',
@@ -89,20 +78,12 @@ class Endboss extends MoveableObject {
         'img_pollo_locco/img/4_enemie_boss_chicken/3_attack/G20.png'
     ];
 
-    /**
-     * Die Bilder des Endbosses im Verletzungsmodus.
-     * @type {string[]}
-     */
     hurtImages = [
         'img_pollo_locco/img/4_enemie_boss_chicken/4_hurt/G21.png',
         'img_pollo_locco/img/4_enemie_boss_chicken/4_hurt/G22.png',
         'img_pollo_locco/img/4_enemie_boss_chicken/4_hurt/G23.png'
     ];
 
-    /**
-     * Die Bilder des Endbosses im Todesmodus.
-     * @type {string[]}
-     */
     deadImages = [
         'img_pollo_locco/img/4_enemie_boss_chicken/5_dead/G24.png',
         'img_pollo_locco/img/4_enemie_boss_chicken/5_dead/G25.png',
@@ -110,7 +91,7 @@ class Endboss extends MoveableObject {
     ];
 
     /**
-     * Erstellt eine Instanz von Endboss.
+     * Creates an instance of Endboss.
      */
     constructor() {
         super().loadImg('img_pollo_locco/img/4_enemie_boss_chicken/2_alert/G5.png');
@@ -123,14 +104,14 @@ class Endboss extends MoveableObject {
         this.height = 500;
         this.width = 300;
         this.y = -20;
-        this.offsetX = 70; // Beispiel: verkleinert die Hitbox an allen Seiten
+        this.offsetX = 70;
         this.offsetY = 40;
         this.offsetWidth = 120;
         this.offsetHeight = 0;
     }
 
     /**
-     * Startet die Alarm-Animation.
+     * Starts the alert animation.
      */
     startAnimation() {
         soundManager.playnormalSound('endbossIntroSound');
@@ -149,7 +130,7 @@ class Endboss extends MoveableObject {
     }
 
     /**
-     * Beendet die Alarm-Animation und startet die Bewegungs-Animation.
+     * Ends the alert animation and starts the walking animation.
      */
     endAlertAnimation() {
         clearInterval(this.animationInterval);
@@ -159,19 +140,17 @@ class Endboss extends MoveableObject {
     }
 
     /**
-     * Startet die Bewegung des Endbosses.
+     * Starts the movement of the endboss.
      */
     startMoving() {
         if (this.isMoving || !this.alertAnimationPlayed) return;
         this.isMoving = true;
         this.notHurtable = true;
-
+    
         this.moveInterval = setInterval(() => {
-            if (!this.isAttacking) {
-                this.moveLeft();
-            }
+            this.followCharacter();
         }, 1000 / 60);
-
+    
         this.walkingAnimationInterval = setInterval(() => {
             if (!this.isAttacking) {
                 this.animateImages(this.walkingImages);
@@ -179,8 +158,36 @@ class Endboss extends MoveableObject {
         }, 150);
     }
 
+    followCharacter() {
+        const minDistance = 5;
+        const distance = Math.abs(this.character.x - this.x);
+        if (distance > minDistance) {
+            if (this.character.x &lt; this.x) {
+                this.moveLeft();
+            } else if (this.character.x > this.x) {
+                this.moveRight();
+            }
+        }
+    }
+
     /**
-     * Stoppt die Bewegung des Endbosses.
+     * Moves the endboss to the left.
+     */
+    moveLeft() {
+        this.x -= this.speed;
+        this.direction = 'right';
+    }
+
+    /**
+     * Moves the endboss to the right.
+     */
+    moveRight() {
+        this.x += this.speed;
+        this.direction = 'left';
+    }
+
+    /**
+     * Stops the movement of the endboss.
      */
     stopMoving() {
         clearInterval(this.moveInterval);
@@ -189,7 +196,7 @@ class Endboss extends MoveableObject {
     }
 
     /**
-     * Stoppt den Angriff des Endbosses.
+     * Stops the attack of the endboss.
      */
     stopAttack() {
         clearInterval(this.attackInterval);
@@ -197,7 +204,7 @@ class Endboss extends MoveableObject {
     }
 
     /**
-     * Startet den Angriff des Endbosses.
+     * Starts the attack of the endboss.
      */
     startAttack() {
         if (this.isAttacking) return;
@@ -210,13 +217,15 @@ class Endboss extends MoveableObject {
             if (frameIndex >= this.attackImages.length) {
                 clearInterval(this.attackInterval);
                 this.isAttacking = false;
-                this.startMoving();
+                setTimeout(() => {
+                    this.startMoving();
+                }, 300);
             }
         }, 150);
     }
 
     /**
-     * Startet die Verletzungs-Animation.
+     * Starts the hurt animation.
      */
     isHurtAnimation() {
         if (this.isHurt) return;
@@ -226,18 +235,15 @@ class Endboss extends MoveableObject {
         let frameIndex = 0;
         soundManager.playnormalSound('endbosshitwithbottle');
         this.hurtInterval = setInterval(() => {
-            if (this.notHurtable) {
-                this.animateImages(this.hurtImages);
-                frameIndex++;
-                console.log('Hurt frame:', frameIndex);
-            }
+            this.animateImages(this.hurtImages);
+            frameIndex++;
 
             if (frameIndex >= this.hurtImages.length) {
                 clearInterval(this.hurtInterval);
                 this.isHurt = false;
-                console.log('Endboss finished hurting!');
-                this.startMoving();
-                if (this.lifepoints &lt;= 0) {
+                if (this.lifepoints > 0) {
+                    this.startMoving();
+                } else {
                     this.isDeadAnimation();
                 }
             }
@@ -245,7 +251,7 @@ class Endboss extends MoveableObject {
     }
 
     /**
-     * Startet die Todes-Animation.
+     * Starts the death animation.
      */
     isDeadAnimation() {
         this.stopMoving();
@@ -261,27 +267,27 @@ class Endboss extends MoveableObject {
                 clearInterval(this.deadInterval);
                 this.loadImg('img_pollo_locco/img/4_enemie_boss_chicken/5_dead/G26.png');
                 this.notHurtable = false;
+                this.stopAllAnimations();
             }
         }, 150);
     }
 
     /**
-     * Verursacht Schaden beim Endboss.
-     * @param {number} damage - Der zugefügte Schaden.
+     * Causes damage to the endboss.
+     * @param {number} damage - The amount of damage inflicted.
      */
     hit(damage) {
         if (!this.isHitCooldown) {
             this.lifepoints -= damage;
-            console.log('Endboss lifepoints:', this.lifepoints);
             this.isHitCooldown = true;
             setTimeout(() => {
                 this.isHitCooldown = false;
-            }, 1000); // Cooldown-Zeit von 1 Sekunde
+            }, 1000);
         }
     }
 
     /**
-     * Stoppt alle Animationen des Endbosses.
+     * Stops all animations of the endboss.
      */
     stopAllAnimations() {
         clearInterval(this.animationInterval);
@@ -307,13 +313,13 @@ class Endboss extends MoveableObject {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BackGroundObject.html">BackGroundObject</a></li><li><a href="Bottlebar.html">Bottlebar</a></li><li><a href="Character.html">Character</a></li><li><a href="Chicken.html">Chicken</a></li><li><a href="Cloud.html">Cloud</a></li><li><a href="Coinbar.html">Coinbar</a></li><li><a href="Coins.html">Coins</a></li><li><a href="CollectableBottles.html">CollectableBottles</a></li><li><a href="DrawableObject.html">DrawableObject</a></li><li><a href="Endboss.html">Endboss</a></li><li><a href="Endbossbar.html">Endbossbar</a></li><li><a href="Keyboard.html">Keyboard</a></li><li><a href="Level.html">Level</a></li><li><a href="MoveableObject.html">MoveableObject</a></li><li><a href="SoundManager.html">SoundManager</a></li><li><a href="Statusbar.html">Statusbar</a></li><li><a href="ThrowableObject.html">ThrowableObject</a></li><li><a href="WinScreen.html">WinScreen</a></li><li><a href="World.html">World</a></li><li><a href="brownChicken.html">brownChicken</a></li></ul><h3>Global</h3><ul><li><a href="global.html#checkOrientation">checkOrientation</a></li><li><a href="global.html#closeKeyboardMenu">closeKeyboardMenu</a></li><li><a href="global.html#controlMobileButtons">controlMobileButtons</a></li><li><a href="global.html#hideMobileButtons">hideMobileButtons</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#loadBackGroundMusic">loadBackGroundMusic</a></li><li><a href="global.html#loadBottleSounds">loadBottleSounds</a></li><li><a href="global.html#loadCharacterSounds">loadCharacterSounds</a></li><li><a href="global.html#loadChickenSounds">loadChickenSounds</a></li><li><a href="global.html#loadCollectSounds">loadCollectSounds</a></li><li><a href="global.html#loadEndScreenSounds">loadEndScreenSounds</a></li><li><a href="global.html#loadEndbossSounds">loadEndbossSounds</a></li><li><a href="global.html#loadMusic">loadMusic</a></li><li><a href="global.html#mobileEventListener">mobileEventListener</a></li><li><a href="global.html#openKeyboardMenu">openKeyboardMenu</a></li><li><a href="global.html#restartGame">restartGame</a></li><li><a href="global.html#showMobileButtons">showMobileButtons</a></li><li><a href="global.html#startGame">startGame</a></li><li><a href="global.html#toggleSound">toggleSound</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BackGroundObject.html">BackGroundObject</a></li><li><a href="Bottlebar.html">Bottlebar</a></li><li><a href="Character.html">Character</a></li><li><a href="Chicken.html">Chicken</a></li><li><a href="Cloud.html">Cloud</a></li><li><a href="Coinbar.html">Coinbar</a></li><li><a href="Coins.html">Coins</a></li><li><a href="CollectableBottles.html">CollectableBottles</a></li><li><a href="DrawableObject.html">DrawableObject</a></li><li><a href="Endboss.html">Endboss</a></li><li><a href="Endbossbar.html">Endbossbar</a></li><li><a href="Keyboard.html">Keyboard</a></li><li><a href="Level.html">Level</a></li><li><a href="MoveableObject.html">MoveableObject</a></li><li><a href="SoundManager.html">SoundManager</a></li><li><a href="Statusbar.html">Statusbar</a></li><li><a href="ThrowableObject.html">ThrowableObject</a></li><li><a href="WinScreen.html">WinScreen</a></li><li><a href="World.html">World</a></li><li><a href="brownChicken.html">brownChicken</a></li></ul><h3>Global</h3><ul><li><a href="global.html#checkOrientation">checkOrientation</a></li><li><a href="global.html#closeInfoBox">closeInfoBox</a></li><li><a href="global.html#closeKeyboardMenu">closeKeyboardMenu</a></li><li><a href="global.html#controlMobileButtons">controlMobileButtons</a></li><li><a href="global.html#hideMobileButtons">hideMobileButtons</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initLevel">initLevel</a></li><li><a href="global.html#loadBackGroundMusic">loadBackGroundMusic</a></li><li><a href="global.html#loadBottleSounds">loadBottleSounds</a></li><li><a href="global.html#loadCharacterSounds">loadCharacterSounds</a></li><li><a href="global.html#loadChickenSounds">loadChickenSounds</a></li><li><a href="global.html#loadCollectSounds">loadCollectSounds</a></li><li><a href="global.html#loadEndScreenSounds">loadEndScreenSounds</a></li><li><a href="global.html#loadEndbossSounds">loadEndbossSounds</a></li><li><a href="global.html#loadMusic">loadMusic</a></li><li><a href="global.html#mobileEventListener">mobileEventListener</a></li><li><a href="global.html#openDatenschutz">openDatenschutz</a></li><li><a href="global.html#openImpressum">openImpressum</a></li><li><a href="global.html#openKeyboardMenu">openKeyboardMenu</a></li><li><a href="global.html#restartGame">restartGame</a></li><li><a href="global.html#showMobileButtons">showMobileButtons</a></li><li><a href="global.html#startGame">startGame</a></li><li><a href="global.html#toggleSound">toggleSound</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Mon Jul 15 2024 14:52:42 GMT+0200 (Mitteleuropäische Sommerzeit)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Tue Jul 16 2024 11:21:20 GMT+0200 (Mitteleuropäische Sommerzeit)
 </footer>
 
 <script> prettyPrint(); </script>
