@@ -1,35 +1,35 @@
 /**
- * Repräsentiert eine sammelbare Flasche im Spiel.
+ * Represents a collectable bottle in the game.
  * @extends DrawableObject
  */
 class CollectableBottles extends DrawableObject {
     /**
-     * Speichert alle Instanzen von CollectableBottles.
+     * Stores all instances of CollectableBottles.
      * @type {Array<CollectableBottles>}
      */
-    static allBottles = []; // Speichert alle Instanzen
+    static allBottles = [];
 
     /**
-     * Erstellt eine Instanz von CollectableBottles.
-     * @param {number} x - Die x-Position der sammelbaren Flasche.
-     * @param {number} y - Die y-Position der sammelbaren Flasche.
+     * Creates an instance of CollectableBottles.
+     * @param {number} x - The x-position of the collectable bottle.
+     * @param {number} y - The y-position of the collectable bottle.
      */
-    constructor(x, y) { 
+    constructor(x, y) {
         super().loadImg('img_pollo_locco/img/6_salsa_bottle/salsa_bottle.png');
         this.height = 40;
         this.width = 50;
         this.x = x;
         this.y = y;
-        this.offsetX = 0; // Beispiel: verkleinert die Hitbox an allen Seiten
+        this.offsetX = 0;
         this.offsetY = 0;
         this.offsetWidth = 5;
         this.offsetHeight = 5;
     }
 
     /**
-     * Sammelt die Flasche ein und aktualisiert die Flaschenleiste.
-     * @param {Array<CollectableBottles>} collectableBottles - Das Array der sammelbaren Flaschen.
-     * @param {Bottlebar} bottlebar - Die Flaschenleiste.
+     * Collects the bottle and updates the bottle bar.
+     * @param {Array<CollectableBottles>} collectableBottles - The array of collectable bottles.
+     * @param {Bottlebar} bottlebar - The bottle bar.
      */
     collectBottle(collectableBottles, bottlebar) {
         soundManager.playSound('collectBottle', 300);

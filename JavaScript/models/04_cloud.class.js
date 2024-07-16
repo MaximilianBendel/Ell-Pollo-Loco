@@ -1,32 +1,32 @@
 /**
- * Repräsentiert eine Wolke im Spiel.
+ * Represents a cloud in the game.
  * @extends MoveableObject
  */
 class Cloud extends MoveableObject {
     /**
-     * Erstellt eine Instanz von Cloud.
-     * @param {number} x - Die x-Position der Wolke.
-     * @param {number} y - Die y-Position der Wolke.
+     * Creates an instance of Cloud.
+     * @param {number} x - The x-position of the cloud.
+     * @param {number} y - The y-position of the cloud.
      */
     constructor(x, y) {
-        super().loadImg('img_pollo_locco/img/5_background/layers/4_clouds/1.png'); // Lädt das Bild der Wolke
+        super().loadImg('img_pollo_locco/img/5_background/layers/4_clouds/1.png');
         this.x = x;
         this.y = y;
         this.width = 500;
         this.height = 250;
-        this.startMovingClouds(); // Startet die Bewegung der Wolken
+        this.startMovingClouds();
     }
 
     /**
-     * Startet die Bewegung der Wolken.
-     * Die Wolken bewegen sich von rechts nach links und erscheinen wieder auf der rechten Seite, wenn sie den linken Rand des Canvas verlassen.
+     * Starts the movement of the clouds.
+     * The clouds move from right to left and reappear on the right side when they leave the left edge of the canvas.
      */
     startMovingClouds() {
         setInterval(() => {
-            this.x -= 0.5; // Verringert die x-Position der Wolke
+            this.x -= 0.5;
             if (this.x + this.width < 0) {
-                this.x = canvas.width; // Setzt die Wolke an den rechten Rand des Canvas zurück
-                this.y = 20 + Math.random() * 100; // Generiert eine neue zufällige y-Position
+                this.x = canvas.width;
+                this.y = 20 + Math.random() * 100;
             }
         }, 16.6666666); // 60 FPS
     }

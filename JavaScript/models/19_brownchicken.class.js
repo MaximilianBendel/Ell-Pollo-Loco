@@ -1,11 +1,11 @@
 /**
- * Repräsentiert ein braunes Huhn im Spiel.
+ * Represents a brown chicken in the game.
  * @extends Chicken
  */
 class brownChicken extends Chicken {
 
     /**
-     * Die Bilder des braunen Huhns im Laufmodus.
+     * The images of the brown chicken in walking mode.
      * @type {Array<string>}
      */
     Images_walking_brown = [
@@ -15,7 +15,7 @@ class brownChicken extends Chicken {
     ];
 
     /**
-     * Die Bilder des braunen Huhns im Todesmodus.
+     * The images of the brown chicken in dead mode.
      * @type {Array<string>}
      */
     Images_dead_brown = [
@@ -23,68 +23,68 @@ class brownChicken extends Chicken {
     ];
 
     /**
-     * Erstellt eine Instanz von brownChicken.
-     * @param {number} x - Die x-Position des braunen Huhns.
+     * Creates an instance of brownChicken.
+     * @param {number} x - The x-position of the brown chicken.
      */
     constructor(x) {
-        super().loadImg('img_pollo_locco/img/3_enemies_chicken/chicken_normal/1_walk/1_w.png'); // Lädt das Standbild des Huhns
-        this.loadImages(this.Images_walking_brown); // Lädt die Laufbilder des Huhns
-        this.loadImages(this.Images_dead_brown); // Lädt die Todesbilder des Huhns
-        this.x = x; // Setzt die x-Position
+        super().loadImg('img_pollo_locco/img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
+        this.loadImages(this.Images_walking_brown);
+        this.loadImages(this.Images_dead_brown);
+        this.x = x;
         this.height = 70;
         this.width = 60;
-        this.y = 445 - this.height; // Setzt die y-Position
-        this.offsetX = 0; // Beispiel: verkleinert die Hitbox an allen Seiten
+        this.y = 445 - this.height;
+        this.offsetX = 0;
         this.offsetY = 0;
         this.offsetWidth = 0;
         this.offsetHeight = 30;
     }
 
     /**
-     * Startet die Animation des braunen Huhns.
+     * Starts the animation of the brown chicken.
      */
     animate() {
         this.moveLeftInterval = setInterval(() => {
-            this.moveLeft(); // Startet die Bewegung nach links
-        }, 1000 / 60); // 60 FPS für flüssigere Bewegung
-    
+            this.moveLeft();
+        }, 1000 / 60);
+
         this.walkingImagesInterval = setInterval(() => {
-            this.animateImages(this.Images_walking_brown); // Startet die Laufanimation
-        }, 1000 / 6); // 6 FPS für Animation
+            this.animateImages(this.Images_walking_brown);
+        }, 1000 / 6);
     }
     
     /**
-     * Stoppt alle Animationen des braunen Huhns.
+     * Stops all animations of the brown chicken.
      */
     stopAllAnimations() {
-        clearInterval(this.moveLeftInterval); // Stoppt die Bewegung
-        clearInterval(this.walkingImagesInterval); // Stoppt die Laufanimation
+        clearInterval(this.moveLeftInterval);
+        clearInterval(this.walkingImagesInterval);
     }
 
     /**
-     * Aktiviert alle Animationen des braunen Huhns.
+     * Activates all animations of the brown chicken.
      */
     activateAllAnimations() {
-        this.animate(); // Startet die Animation
+        this.animate();
     }
 
     /**
-     * Startet die Todesanimation des braunen Huhns.
+     * Starts the death animation of the brown chicken.
      */
     deadAnimation() {
         if (this.lifepoints === 0) {
-            this.stopAllAnimations(); // Stoppt alle Animationen
-            soundManager.playSound('smallchickendies'); // Spielt den Soundeffekt ab
-            this.img = this.imageCache[this.Images_dead_brown[0]]; // Setzt das Todesbild
+            this.stopAllAnimations();
+            soundManager.playSound('smallchickendies');
+            this.img = this.imageCache[this.Images_dead_brown[0]];
             setTimeout(() => {
-                this.isDead = true; // Markiert das Objekt als tot
-            }, 300); // 1 Sekunde Verzögerung
+                this.isDead = true;
+            }, 300);
         }
     }
 
     /**
-     * Verursacht Schaden beim braunen Huhn.
-     * @param {number} damage - Der zugefügte Schaden.
+     * Causes damage to the brown chicken.
+     * @param {number} damage - The damage inflicted.
      */
     hit(damage) {
         if (!this.isHitCooldown) {
@@ -92,7 +92,7 @@ class brownChicken extends Chicken {
             this.isHitCooldown = true;
             setTimeout(() => {
                 this.isHitCooldown = false;
-            }, 1000); // Cooldown-Zeit von 1 Sekunde
+            }, 1000);
         }
     }
 }

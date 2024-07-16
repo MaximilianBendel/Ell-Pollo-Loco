@@ -1,16 +1,16 @@
 /**
- * Repräsentiert die Münzleiste im Spiel.
+ * Represents the coin bar in the game.
  * @extends DrawableObject
  */
 class Coinbar extends DrawableObject {
     /**
-     * Die Anzahl der Münzen in der Leiste.
+     * The number of coins in the bar.
      * @type {number}
      */
     coins = 0;
 
     /**
-     * Die Bilder der Münzleiste.
+     * The images of the coin bar.
      * @type {Array<string>}
      */
     Images_statusbar_coins = [
@@ -23,7 +23,7 @@ class Coinbar extends DrawableObject {
     ];
 
     /**
-     * Erstellt eine Instanz von Coinbar.
+     * Creates an instance of Coinbar.
      */
     constructor() {
         super();
@@ -36,30 +36,30 @@ class Coinbar extends DrawableObject {
     }
 
     /**
-     * Setzt die Anzahl der Münzen und aktualisiert die Bildanzeige.
-     * @param {number} coins - Die Anzahl der Münzen.
+     * Sets the number of coins and updates the image display.
+     * @param {number} coins - The number of coins.
      */
     setCoins(coins) {
-        this.coins = coins; // Setzt die Anzahl der Münzen
-        this.updateStatusBarImage(); // Aktualisiert die Bildanzeige basierend auf der Anzahl
+        this.coins = coins;
+        this.updateStatusBarImage();
     }
 
     /**
-     * Aktualisiert das Bild der Münzleiste basierend auf der Anzahl der Münzen.
+     * Updates the coin bar image based on the number of coins.
      */
     updateStatusBarImage() {
-        if (this.coins === 10) {
-            this.img = this.imageCache[this.Images_statusbar_coins[5]]; // Setzt das Bild auf 10 Münzen
-        } else if (this.coins === 8) {
-            this.img = this.imageCache[this.Images_statusbar_coins[4]]; // Setzt das Bild auf 8 Münzen
-        } else if (this.coins === 6) {
-            this.img = this.imageCache[this.Images_statusbar_coins[3]]; // Setzt das Bild auf 6 Münzen
-        } else if (this.coins === 3) {
-            this.img = this.imageCache[this.Images_statusbar_coins[2]]; // Setzt das Bild auf 3 Münzen
-        } else if (this.coins === 2) {
-            this.img = this.imageCache[this.Images_statusbar_coins[1]]; // Setzt das Bild auf 2 Münzen
-        } else if (this.coins === 0) {
-            this.img = this.imageCache[this.Images_statusbar_coins[0]]; // Setzt das Bild auf 0 Münzen
+        if (this.coins >= 10) {
+            this.img = this.imageCache[this.Images_statusbar_coins[5]];
+        } else if (this.coins >= 8) {
+            this.img = this.imageCache[this.Images_statusbar_coins[4]];
+        } else if (this.coins >= 6) {
+            this.img = this.imageCache[this.Images_statusbar_coins[3]];
+        } else if (this.coins >= 3) {
+            this.img = this.imageCache[this.Images_statusbar_coins[2]];
+        } else if (this.coins >= 2) {
+            this.img = this.imageCache[this.Images_statusbar_coins[1]];
+        } else {
+            this.img = this.imageCache[this.Images_statusbar_coins[0]];
         }
     }
 }

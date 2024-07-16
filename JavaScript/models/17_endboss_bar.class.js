@@ -1,17 +1,17 @@
 /**
- * Repräsentiert die Gesundheitsleiste des Endbosses im Spiel.
+ * Represents the health bar of the endboss in the game.
  * @extends DrawableObject
  */
 class Endbossbar extends DrawableObject {
 
     /**
-     * Der Prozentsatz der Gesundheitsleiste.
+     * The percentage of the health bar.
      * @type {number}
      */
     percentage = 100;
 
     /**
-     * Die Bilder der Gesundheitsleiste des Endbosses.
+     * The images of the endboss's health bar.
      * @type {Array<string>}
      */
     healthbarImages = [
@@ -24,7 +24,7 @@ class Endbossbar extends DrawableObject {
     ];
 
     /**
-     * Erstellt eine Instanz von Endbossbar.
+     * Creates an instance of Endbossbar.
      */
     constructor() {
         super();
@@ -37,16 +37,16 @@ class Endbossbar extends DrawableObject {
     }
 
     /**
-     * Setzt den Prozentsatz der Gesundheitsleiste und aktualisiert das Bild.
-     * @param {number} percentage - Der neue Prozentsatz der Gesundheitsleiste.
+     * Sets the percentage of the health bar and updates the image.
+     * @param {number} percentage - The new percentage of the health bar.
      */
-    setPercentage(percentage) { 
-        this.percentage = percentage; // Setzt den Prozentsatz
-        this.updateStatusBarImage(); // Aktualisiert das Bild basierend auf dem Prozentsatz
+    setPercentage(percentage) {
+        this.percentage = percentage;
+        this.updateStatusBarImage();
     }
 
     /**
-     * Aktualisiert das Bild der Gesundheitsleiste basierend auf dem Prozentsatz.
+     * Updates the health bar image based on the percentage.
      */
     updateStatusBarImage() {
         if (this.percentage >= 100) {

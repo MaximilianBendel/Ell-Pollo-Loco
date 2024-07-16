@@ -1,21 +1,21 @@
 /**
- * Repräsentiert ein Hintergrundobjekt im Spiel.
+ * Represents a background object in the game.
  * @extends MoveableObject
  */
 class BackGroundObject extends MoveableObject {
-   
+
     width = 720;
     height = 480;
 
     /**
-     * Erstellt eine Instanz von BackGroundObject.
-     * @param {string} path - Der Pfad zum Bild des Hintergrundobjekts.
-     * @param {number} x - Die x-Position des Hintergrundobjekts.
-     * @param {number} y - Die y-Position des Hintergrundobjekts.
+     * Creates an instance of BackGroundObject.
+     * @param {string} path - The path to the background object's image.
+     * @param {number} x - The x-position of the background object.
+     * @param {number} y - The y-position of the background object.
      */
     constructor(path, x, y) {
-        super().loadImg(path); // Lädt das Bild des Hintergrundobjekts
+        super().loadImg(path);
         this.x = x;
-        this.y = 480 - this.height; // Setzt die y-Position des Hintergrundobjekts
+        this.y = 480 - this.height;
     }
 }

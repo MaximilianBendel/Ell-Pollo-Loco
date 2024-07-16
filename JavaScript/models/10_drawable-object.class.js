@@ -1,36 +1,37 @@
 /**
- * Repräsentiert ein zeichnbares Objekt im Spiel.
+ * Represents a drawable object in the game.
  */
 class DrawableObject {
     images;
     imageCache = {};
     currentImage = 0;
+
     /**
-     * Lädt ein einzelnes Bild.
-     * @param {string} path - Der Pfad des zu ladenden Bildes.
+     * Loads a single image.
+     * @param {string} path - The path of the image to load.
      */
     loadImg(path) {
-        this.img = new Image(); // Erstellt ein neues Bild-Objekt
-        this.img.src = path; // Setzt den Pfad des Bildes
+        this.img = new Image();
+        this.img.src = path;
     }
 
     /**
-     * Lädt mehrere Bilder und speichert sie im Cache.
-     * @param {Array<string>} images - Die Pfade der zu ladenden Bilder.
+     * Loads multiple images and stores them in the cache.
+     * @param {Array<string>} images - The paths of the images to load.
      */
     loadImages(images) {
         images.forEach(path => {
-            let img = new Image(); // Erstellt ein neues Bild-Objekt
-            img.src = path; // Setzt den Pfad des Bildes
-            this.imageCache[path] = img; // Speichert das Bild im Cache
+            let img = new Image();
+            img.src = path;
+            this.imageCache[path] = img;
         });
     }
 
     /**
-     * Zeichnet das aktuelle Bild des Objekts auf das Canvas.
-     * @param {CanvasRenderingContext2D} ctx - Der 2D-Kontext des Canvas.
+     * Draws the object's current image on the canvas.
+     * @param {CanvasRenderingContext2D} ctx - The 2D context of the canvas.
      */
     draw(ctx) {
-        ctx.drawImage(this.img, this.x, this.y, this.width, this.height); // Zeichnet das Bild normal
+        ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }    
 }

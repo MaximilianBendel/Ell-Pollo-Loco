@@ -1,13 +1,13 @@
 /**
- * Repräsentiert den Endboss im Spiel.
+ * Represents the endboss in the game.
  * @extends MoveableObject
  */
 class Endboss extends MoveableObject {
-    // Eigenschaften
+    // Properties
     speed = 2;
     lifepoints = 100;
 
-    // Statusvariablen
+    // Status variables
     firstContact = false;
     startAttackAnimation = false;
     animationTriggered = false;
@@ -20,7 +20,7 @@ class Endboss extends MoveableObject {
     isHitCooldown = false;
     isDead = false;
 
-    // Bild-Arrays
+    // Image arrays
     alertImages = [
         'img_pollo_locco/img/4_enemie_boss_chicken/2_alert/G5.png',
         'img_pollo_locco/img/4_enemie_boss_chicken/2_alert/G6.png',
@@ -63,7 +63,7 @@ class Endboss extends MoveableObject {
     ];
 
     /**
-     * Erstellt eine Instanz von Endboss.
+     * Creates an instance of Endboss.
      */
     constructor() {
         super().loadImg('img_pollo_locco/img/4_enemie_boss_chicken/2_alert/G5.png');
@@ -76,14 +76,14 @@ class Endboss extends MoveableObject {
         this.height = 500;
         this.width = 300;
         this.y = -20;
-        this.offsetX = 70; // Beispiel: verkleinert die Hitbox an allen Seiten
+        this.offsetX = 70;
         this.offsetY = 40;
         this.offsetWidth = 120;
         this.offsetHeight = 0;
     }
 
     /**
-     * Startet die Alarm-Animation.
+     * Starts the alert animation.
      */
     startAnimation() {
         soundManager.playnormalSound('endbossIntroSound');
@@ -102,7 +102,7 @@ class Endboss extends MoveableObject {
     }
 
     /**
-     * Beendet die Alarm-Animation und startet die Bewegungs-Animation.
+     * Ends the alert animation and starts the walking animation.
      */
     endAlertAnimation() {
         clearInterval(this.animationInterval);
@@ -112,7 +112,7 @@ class Endboss extends MoveableObject {
     }
 
     /**
-     * Startet die Bewegung des Endbosses.
+     * Starts the movement of the endboss.
      */
     startMoving() {
         if (this.isMoving || !this.alertAnimationPlayed) return;
@@ -120,7 +120,7 @@ class Endboss extends MoveableObject {
         this.notHurtable = true;
     
         this.moveInterval = setInterval(() => {
-            this.followCharacter(); // Überprüft die Position des Charakters und bewegt den Endboss entsprechend
+            this.followCharacter();
         }, 1000 / 60);
     
         this.walkingAnimationInterval = setInterval(() => {
@@ -131,7 +131,7 @@ class Endboss extends MoveableObject {
     }
 
     followCharacter() {
-        const minDistance = 5; // Minimale Distanz zwischen Endboss und Charakter
+        const minDistance = 5;
         const distance = Math.abs(this.character.x - this.x);
         if (distance > minDistance) {
             if (this.character.x < this.x) {
@@ -143,7 +143,7 @@ class Endboss extends MoveableObject {
     }
 
     /**
-     * Bewegt den Endboss nach links.
+     * Moves the endboss to the left.
      */
     moveLeft() {
         this.x -= this.speed;
@@ -151,7 +151,7 @@ class Endboss extends MoveableObject {
     }
 
     /**
-     * Bewegt den Endboss nach rechts.
+     * Moves the endboss to the right.
      */
     moveRight() {
         this.x += this.speed;
@@ -159,7 +159,7 @@ class Endboss extends MoveableObject {
     }
 
     /**
-     * Stoppt die Bewegung des Endbosses.
+     * Stops the movement of the endboss.
      */
     stopMoving() {
         clearInterval(this.moveInterval);
@@ -168,7 +168,7 @@ class Endboss extends MoveableObject {
     }
 
     /**
-     * Stoppt den Angriff des Endbosses.
+     * Stops the attack of the endboss.
      */
     stopAttack() {
         clearInterval(this.attackInterval);
@@ -176,7 +176,7 @@ class Endboss extends MoveableObject {
     }
 
     /**
-     * Startet den Angriff des Endbosses.
+     * Starts the attack of the endboss.
      */
     startAttack() {
         if (this.isAttacking) return;
@@ -197,7 +197,7 @@ class Endboss extends MoveableObject {
     }
 
     /**
-     * Startet die Verletzungs-Animation.
+     * Starts the hurt animation.
      */
     isHurtAnimation() {
         if (this.isHurt) return;
@@ -223,7 +223,7 @@ class Endboss extends MoveableObject {
     }
 
     /**
-     * Startet die Todes-Animation.
+     * Starts the death animation.
      */
     isDeadAnimation() {
         this.stopMoving();
@@ -245,8 +245,8 @@ class Endboss extends MoveableObject {
     }
 
     /**
-     * Verursacht Schaden beim Endboss.
-     * @param {number} damage - Der zugefügte Schaden.
+     * Causes damage to the endboss.
+     * @param {number} damage - The amount of damage inflicted.
      */
     hit(damage) {
         if (!this.isHitCooldown) {
@@ -254,12 +254,12 @@ class Endboss extends MoveableObject {
             this.isHitCooldown = true;
             setTimeout(() => {
                 this.isHitCooldown = false;
-            }, 1000); // Cooldown-Zeit von 1 Sekunde
+            }, 1000);
         }
     }
 
     /**
-     * Stoppt alle Animationen des Endbosses.
+     * Stops all animations of the endboss.
      */
     stopAllAnimations() {
         clearInterval(this.animationInterval);

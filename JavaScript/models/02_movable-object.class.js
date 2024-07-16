@@ -1,10 +1,10 @@
 /**
- * Klasse, die bewegliche Objekte darstellt, die von Drawableobject erben.
- * Diese Klasse enthält Methoden zur Bewegung, Animation und Kollisionsabfrage.
+ * Class representing moveable objects that inherit from DrawableObject.
+ * This class includes methods for movement, animation, and collision detection.
  * 
- * @extends Drawableobject
+ * @extends DrawableObject
  */
-class MoveableObject extends DrawableObject { 
+class MoveableObject extends DrawableObject {
 
     speed = 0.15;
     speedY = 0;
@@ -16,71 +16,70 @@ class MoveableObject extends DrawableObject {
     offsetWidth = 0;
     offsetHeight = 0;
 
-
     /**
-     * Bewegt das Objekt nach rechts.
+     * Moves the object to the right.
      */
     moveRight() {
-            this.x += this.speed; // Verringert die x-Position für Bewegung nach links
+        this.x += this.speed;
     }
 
     /**
-     * Bewegt das Objekt nach links.
+     * Moves the object to the left.
      */
     moveLeft() {
-        this.x -= this.speed; // Verringert die x-Position für Bewegung nach links
+        this.x -= this.speed;
     }
 
     /**
-     * Animiert die Bilder des Objekts.
+     * Animates the object's images.
      * 
-     * @param {string[]} images - Array von Bildpfaden zur Animation.
+     * @param {string[]} images - Array of image paths for animation.
      */
     animateImages(images) {
-        this.currentImage = (this.currentImage + 1) % images.length; // Zirkuläre Animation
+        this.currentImage = (this.currentImage + 1) % images.length;
         let path = images[this.currentImage];
-        this.img = this.imageCache[path]; // Aktualisiere das aktuelle Bild
+        this.img = this.imageCache[path];
     }
 
     /**
-     * Wendet die Schwerkraft auf das Objekt an.
+     * Applies gravity to the object.
      */
     applyGravity() {
         setInterval(() => {
-            if (this.isAboveGround() || this.speedY > 0) { // || Bedeutet ODER
-                this.y -= this.speedY; // Verringert die y-Position für die Fallgeschwindigkeit
-                this.speedY -= this.acceleration; // Verringert die Fallgeschwindigkeit
+            if (this.isAboveGround() || this.speedY > 0) {
+                this.y -= this.speedY;
+                this.speedY -= this.acceleration;
             } else {
-                this.speedY = 0; // Stellt sicher, dass die Geschwindigkeit auf 0 gesetzt wird, wenn der Charakter den Boden berührt
-                this.y = 210; // Setzt die y-Position auf den Boden zurück
+                this.speedY = 0;
+                this.y = 210;
             }
-        }, 1000 / 60); // 60 FPS
+        }, 1000 / 60);
     }
 
     /**
-     * Überprüft, ob das Objekt über dem Boden ist.
+     * Checks if the object is above the ground.
      * 
-     * @returns {boolean} Wahr, wenn das Objekt über dem Boden ist.
+     * @returns {boolean} True if the object is above the ground.
      */
     isAboveGround() {
         if (this instanceof ThrowableObject) {
             return true;
         }
-        return this.y < 210; // Gibt zurück, ob der Charakter über dem Boden ist
+        return this.y < 210;
     }
 
     /**
-     * Lässt das Objekt springen.
+     * Makes the object jump.
      */
     jump() {
-        this.speedY = 17; // Setzt die Sprunggeschwindigkeit
+        this.speedY = 17;
     }
 
     /**
-     * Überprüft, ob das Objekt mit einem anderen beweglichen Objekt kollidiert.
+     * Checks if the object is colliding with another moveable object.
      * 
-     * @param {MoveableObject} movableObject - Das andere bewegliche Objekt.
-     * @returns {boolean} Wahr, wenn eine Kollision vorliegt.
+     * @param {MoveableObject} movableObject - The other moveable object.
+     * @returns {boolean} True if there is a collision.
      */
     isColliding(movableObject) {
         const collision = this.x + this.width - this.offsetWidth > movableObject.x + movableObject.offsetX &&
@@ -89,39 +88,38 @@ class MoveableObject extends DrawableObject {
                           this.y + this.offsetY < movableObject.y + movableObject.height - movableObject.offsetHeight;
         return collision;
     }
-    
 
     /**
-     * Verursacht Schaden am Objekt.
+     * Causes damage to the object.
      * 
-     * @param {number} damage - Die Höhe des Schadens.
+     * @param {number} damage - The amount of damage.
      */
     hit(damage) {
         this.lifepoints -= damage;
         if (this.lifepoints <= 0) {
             this.lifepoints = 0;
         } else {
-            this.lastHit = new Date().getTime(); // Setzt den Zeitpunkt des letzten Treffers
+            this.lastHit = new Date().getTime();
         }
     }
 
     /**
-     * Überprüft, ob das Objekt tot ist.
+     * Checks if the object is dead.
      * 
-     * @returns {boolean} Wahr, wenn das Objekt keine Lebenspunkte mehr hat.
+     * @returns {boolean} True if the object has no lifepoints left.
      */
     isDead() {
         return this.lifepoints === 0;
     }
 
     /**
-     * Überprüft, ob das Objekt verletzt ist.
+     * Checks if the object is hurt.
      * 
-     * @returns {boolean} Wahr, wenn das Objekt in den letzten 3 Sekunden getroffen wurde.
+     * @returns {boolean} True if the object was hit in the last 3 seconds.
      */
     isHurt() {
-        let timepassed = new Date().getTime() - this.lastHit; // Berechnet die Zeit seit dem letzten Treffer
-        timepassed = timepassed / 1000; // Teilt die Zeit durch 1000, um Sekunden zu erhalten
-        return timepassed < 0.5; // Gibt zurück, ob der Charakter in der letzten 1 Sekunde getroffen wurde
+        let timepassed = new Date().getTime() - this.lastHit;
+        timepassed = timepassed / 1000;
+        return timepassed < 0.5;
     }
 }

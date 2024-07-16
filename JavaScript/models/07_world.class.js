@@ -1,34 +1,34 @@
 /**
- * Repräsentiert die Spielwelt.
+ * Represents the game world.
  */
 class World {
-    character = new Character(); // Initialisiert einen neuen Charakter
-    statusbar = new Statusbar(); // Initialisiert die Statusleiste
-    coinbar = new Coinbar(); // Initialisiert die Münzleiste
-    bottlebar = new Bottlebar(); // Initialisiert die Flaschenleiste
-    endbossbar = new Endbossbar(); // Initialisiert die Endbossleiste
-    enemies = level1.enemies; // Initialisiert Feinde
-    clouds = level1.clouds; // Initialisiert eine Wolke
-    BackGroundObjects = level1.BackGroundObjects; // Initialisiert die Hintergrundobjekte
-    level = level1; // Initialisiert das Level
-    bottle = []; // Initialisiert die Flasche
-    collectableBottles = level1.collectableBottles; // Initialisiert die sammelbaren Flaschen
-    collectableCoins = level1.collectableCoins; // Initialisiert die sammelbaren Münzen
+    character = new Character();
+    statusbar = new Statusbar();
+    coinbar = new Coinbar();
+    bottlebar = new Bottlebar();
+    endbossbar = new Endbossbar();
+    enemies = level1.enemies;
+    clouds = level1.clouds;
+    BackGroundObjects = level1.BackGroundObjects;
+    level = level1;
+    bottle = [];
+    collectableBottles = level1.collectableBottles;
+    collectableCoins = level1.collectableCoins;
     WinEndScreen = document.getElementById('WinScreenEnd');
     LoseEndScreen = document.getElementById('LoseScreenEnd');
     canvas = document.getElementById('canvas');
     ctx;
     keyboard;
     camera_x = 0;
-    lastThrowTime = 0; // Zeitpunkt des letzten Wurfs
+    lastThrowTime = 0;
     winScreen = false;
     loseScreen = false;
     runInterval = true;
 
     /**
-     * Erstellt eine Instanz von World.
-     * @param {HTMLCanvasElement} canvas - Das Canvas-Element.
-     * @param {Keyboard} keyboard - Das Keyboard-Objekt zur Steuerung des Spiels.
+     * Creates an instance of World.
+     * @param {HTMLCanvasElement} canvas - The canvas element.
+     * @param {Keyboard} keyboard - The keyboard object for game controls.
      */
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -42,14 +42,14 @@ class World {
     }
 
     /**
-     * Verbindet den Charakter mit der Welt.
+     * Connects the character with the world.
      */
     setWorld() {
         this.character.world = this;
     }
 
     /**
-     * Setzt den Endboss und verbindet ihn mit dem Charakter.
+     * Sets the endboss and connects it with the character.
      */
     setEndboss() {
         this.enemies.forEach(enemy => {
@@ -60,7 +60,7 @@ class World {
     }
 
     /**
-     * Initialisiert die Hintergrundobjekte im Level.
+     * Initializes the background objects in the level.
      */
     initializeBackgroundObjects() {
         const layers = [
@@ -83,7 +83,7 @@ class World {
     }
 
     /**
-     * Startet die Hauptspiel-Schleife, die Kollisionen und andere Spielereignisse überprüft.
+     * Starts the main game loop, checking for collisions and other game events.
      */
     run() {
         if (this.runInterval) clearInterval(this.runInterval);
@@ -104,7 +104,7 @@ class World {
     }
 
     /**
-     * Aktualisiert die Bewegung des Endbosses.
+     * Updates the movement of the endboss.
      */
     updateEndbossMovement() {
         this.enemies.forEach(enemy => {
@@ -115,7 +115,7 @@ class World {
     }
 
     /**
-     * Überprüft, ob ein Wurfobjekt geworfen werden soll.
+     * Checks if a throwable object should be thrown.
      */
     checkThrowObject() {
         const currentTime = Date.now();
@@ -127,7 +127,7 @@ class World {
     }
 
     /**
-     * Überprüft Kollisionen zwischen Feinden und geworfenen Flaschen.
+     * Checks for collisions between enemies and thrown bottles.
      */
     checkEnemyCollisionWithBottle() {
         this.enemies.forEach(enemy => {
@@ -144,9 +144,9 @@ class World {
     }
 
     /**
-     * Behandelt die Kollision eines Huhns mit einer Flasche.
-     * @param {Chicken|brownChicken} enemy - Das kollidierende Huhn.
-     * @param {ThrowableObject} bottle - Die kollidierende Flasche.
+     * Handles the collision of a chicken with a bottle.
+     * @param {Chicken|brownChicken} enemy - The colliding chicken.
+     * @param {ThrowableObject} bottle - The colliding bottle.
      */
     handleChickenHit(enemy, bottle) {
         if (!enemy.isHitCooldown) {
@@ -159,9 +159,9 @@ class World {
     }
 
     /**
-     * Behandelt die Kollision des Endbosses mit einer Flasche.
-     * @param {Endboss} enemy - Der kollidierende Endboss.
-     * @param {ThrowableObject} bottle - Die kollidierende Flasche.
+     * Handles the collision of the endboss with a bottle.
+     * @param {Endboss} enemy - The colliding endboss.
+     * @param {ThrowableObject} bottle - The colliding bottle.
      */
     handleEndbossHit(enemy, bottle) {
         if (!enemy.isHitCooldown) {
@@ -172,7 +172,7 @@ class World {
     }
 
     /**
-     * Überprüft, ob die Flasche den Boden berührt.
+     * Checks if the bottle has hit the ground.
      */
     checkBottleHitGround() {
         this.bottle.forEach((bottle, index) => {
@@ -187,24 +187,24 @@ class World {
     }
 
     /**
-     * Überprüft, ob eine Flasche mit einem Feind kollidiert.
-     * @param {ThrowableObject} bottle - Die zu überprüfende Flasche.
-     * @returns {boolean} - Gibt true zurück, wenn eine Kollision vorliegt, andernfalls false.
+     * Checks if a bottle is colliding with an enemy.
+     * @param {ThrowableObject} bottle - The bottle to check.
+     * @returns {boolean} - Returns true if a collision occurs, otherwise false.
      */
     isBottleCollidingWithEnemy(bottle) {
         return this.enemies.some(enemy => bottle.isColliding(enemy));
     }
 
     /**
-     * Entfernt die Flasche nach einer Verzögerung.
-     * @param {number} index - Der Index der zu entfernenden Flasche.
+     * Removes the bottle after a delay.
+     * @param {number} index - The index of the bottle to remove.
      */
     removeBottleAfterDelay(index) {
         setTimeout(() => this.bottle.splice(index, 1), 250);
     }
 
     /**
-     * Überprüft Kollisionen mit sammelbaren Flaschen.
+     * Checks for collisions with collectable bottles.
      */
     checkCollisionsWithCollectableBottles() {
         this.collectableBottles?.forEach(bottle => {
@@ -215,7 +215,7 @@ class World {
     }
 
     /**
-     * Überprüft Kollisionen mit sammelbaren Münzen.
+     * Checks for collisions with collectable coins.
      */
     checkCollisionsWithCollectableCoins() {
         this.collectableCoins?.forEach(coin => {
@@ -226,7 +226,7 @@ class World {
     }
 
     /**
-     * Überprüft, ob der Endboss getriggert werden soll.
+     * Checks if the endboss should be triggered.
      */
     checkEndbossTrigger() {
         if (this.character.x > 5450) {
@@ -240,7 +240,7 @@ class World {
     }
 
     /**
-     * Aktualisiert die Lebenspunkteanzeige des Endbosses.
+     * Updates the health bar of the endboss.
      */
     updateEndbossBar() {
         this.level.enemies.forEach(enemy => {
@@ -251,14 +251,14 @@ class World {
     }
 
     /**
-     * Entfernt tote Feinde aus dem Spiel.
+     * Removes dead enemies from the game.
      */
     handleDeadEnemies() {
         this.enemies = this.enemies.filter(enemy => !enemy.isDead);
     }
 
     /**
-     * Überprüft, ob der Spieler verloren hat.
+     * Checks if the player has lost.
      */
     checkIfLose() {
         if (this.character.lifepoints <= 0) {
@@ -274,7 +274,7 @@ class World {
     }
 
     /**
-     * Zeigt den Verliererscreen an.
+     * Shows the lose screen.
      */
     showLoseScreenEnd() {
         this.canvas.classList.remove('display-block');
@@ -282,7 +282,7 @@ class World {
     }
 
     /**
-     * Überprüft, ob der Spieler gewonnen hat.
+     * Checks if the player has won.
      */
     checkIfWin() {
         if (this.enemies.some(enemy => enemy instanceof Endboss && enemy.lifepoints <= 0)) {
@@ -298,7 +298,7 @@ class World {
     }
 
     /**
-     * Stoppt alle Animationen im Spiel.
+     * Stops all animations in the game.
      */
     stoppAllAnimations() {
         this.winScreen = true;
@@ -309,7 +309,7 @@ class World {
     }
 
     /**
-     * Zeigt den Gewinnerscreen an.
+     * Shows the win screen.
      */
     showWinScreenEnd() {
         this.canvas.classList.remove('display-block');
@@ -317,7 +317,7 @@ class World {
     }
 
     /**
-     * Überprüft Kollisionen des Charakters mit Feinden und dem Endboss.
+     * Checks for character collisions with enemies and the endboss.
      */
     checkCollisionsCharacter() {
         setInterval(() => {
@@ -327,7 +327,7 @@ class World {
     }
 
     /**
-     * Überprüft Kollisionen des Charakters mit Hühnern.
+     * Checks for character collisions with chickens.
      */
     checkCollisionsWithChicken() {
         this.enemies.forEach(enemy => {
@@ -351,7 +351,7 @@ class World {
     }
 
     /**
-     * Überprüft Kollisionen des Charakters mit dem Endboss.
+     * Checks for character collisions with the endboss.
      */
     checkCollisionsWithEndboss() {
         this.enemies.forEach(enemy => {
@@ -364,7 +364,7 @@ class World {
     }
 
     /**
-     * Zeichnet die Spielwelt.
+     * Draws the game world.
      */
     draw() {
         if (this.isClearing || !this.ctx) return;
@@ -388,8 +388,8 @@ class World {
     }
 
     /**
-     * Fügt ein bewegliches Objekt zur Karte hinzu.
-     * @param {MoveableObject} movableObject - Das hinzuzufügende Objekt.
+     * Adds a moveable object to the map.
+     * @param {MoveableObject} movableObject - The object to add.
      */
     addToMap(movableObject) {
         if ((movableObject instanceof Character || movableObject instanceof Endboss) && movableObject.direction === 'left') {
@@ -406,8 +406,8 @@ class World {
     }
 
     /**
-     * Fügt eine Liste von Objekten zur Karte hinzu.
-     * @param {Array<MoveableObject>} objects - Die hinzuzufügenden Objekte.
+     * Adds a list of objects to the map.
+     * @param {Array<MoveableObject>} objects - The objects to add.
      */
     addObjectsToMap(objects) {
         objects.forEach(object => this.addToMap(object));

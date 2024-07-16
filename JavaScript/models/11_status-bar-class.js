@@ -1,17 +1,17 @@
 /**
- * Repräsentiert die Statusleiste im Spiel.
+ * Represents the status bar in the game.
  * @extends DrawableObject
  */
 class Statusbar extends DrawableObject {
 
     /**
-     * Der Prozentsatz der Statusleiste.
+     * The percentage of the status bar.
      * @type {number}
      */
     percentage = 100;
 
     /**
-     * Die Bilder der Gesundheitsleiste.
+     * The images of the health bar.
      * @type {Array<string>}
      */
     Images_healthbar = [
@@ -24,7 +24,7 @@ class Statusbar extends DrawableObject {
     ];
 
     /**
-     * Erstellt eine Instanz von Statusbar.
+     * Creates an instance of Statusbar.
      */
     constructor() {
         super();
@@ -37,24 +37,24 @@ class Statusbar extends DrawableObject {
     }
 
     /**
-     * Setzt den Prozentsatz der Statusleiste und aktualisiert das Bild.
-     * @param {number} percentage - Der neue Prozentsatz der Statusleiste.
+     * Sets the percentage of the status bar and updates the image.
+     * @param {number} percentage - The new percentage of the status bar.
      */
     setPercentage(percentage) {
-        this.percentage = percentage; // Setzt den Prozentsatz
+        this.percentage = percentage;
 
         if (this.percentage >= 100) {
-            this.img = this.imageCache[this.Images_healthbar[5]]; // Setzt das Bild auf 100%
+            this.img = this.imageCache[this.Images_healthbar[5]];
         } else if (this.percentage >= 80) {
-            this.img = this.imageCache[this.Images_healthbar[4]]; // Setzt das Bild auf 80%
+            this.img = this.imageCache[this.Images_healthbar[4]];
         } else if (this.percentage >= 60) {
-            this.img = this.imageCache[this.Images_healthbar[3]]; // Setzt das Bild auf 60%
+            this.img = this.imageCache[this.Images_healthbar[3]];
         } else if (this.percentage >= 40) {
-            this.img = this.imageCache[this.Images_healthbar[2]]; // Setzt das Bild auf 40%
+            this.img = this.imageCache[this.Images_healthbar[2]];
         } else if (this.percentage >= 20) {
-            this.img = this.imageCache[this.Images_healthbar[1]]; // Setzt das Bild auf 20%
+            this.img = this.imageCache[this.Images_healthbar[1]];
         } else {
-            this.img = this.imageCache[this.Images_healthbar[0]]; // Setzt das Bild auf 0%
+            this.img = this.imageCache[this.Images_healthbar[0]];
         }
     }
 }

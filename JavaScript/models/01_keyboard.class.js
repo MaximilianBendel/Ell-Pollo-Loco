@@ -1,5 +1,5 @@
 /**
- * Klasse, die die Tastatur- und mobile Steuerungseingaben verwaltet.
+ * Class that manages keyboard and mobile control inputs.
  */
 class Keyboard {
     constructor() {
@@ -18,10 +18,10 @@ class Keyboard {
     }
 
     /**
-     * Aktualisiert den Zustand der Tastatureingaben.
+     * Updates the state of keyboard inputs.
      * 
-     * @param {string} key - Der Name der Taste.
-     * @param {boolean} isPressed - Der Zustand der Taste (gedrückt oder nicht gedrückt).
+     * @param {string} key - The name of the key.
+     * @param {boolean} isPressed - The state of the key (pressed or not pressed).
      */
     updateKeyState(key, isPressed) {
         switch (key) {
@@ -59,10 +59,10 @@ class Keyboard {
     }
 
     /**
-     * Aktualisiert den Zustand der mobilen Steuereingaben.
+     * Updates the state of mobile control inputs.
      * 
-     * @param {string} button - Der Name der Taste.
-     * @param {boolean} isPressed - Der Zustand der Taste (gedrückt oder nicht gedrückt).
+     * @param {string} button - The name of the button.
+     * @param {boolean} isPressed - The state of the button (pressed or not pressed).
      */
     updateButtonState(button, isPressed) {
         switch (button) {

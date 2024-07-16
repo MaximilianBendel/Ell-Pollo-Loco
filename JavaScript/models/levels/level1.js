@@ -1,9 +1,9 @@
-let level1;
-
-
+/**
+ * Initializes the first level of the game.
+ */
 function initLevel() {
     level1 = new Level(
-        [ // enemies
+        [ 
             new Chicken(),
             new brownChicken(300),
             new brownChicken(400),
@@ -28,7 +28,7 @@ function initLevel() {
             new Endboss()
         ],
 
-        [ // clouds
+        [ 
             new Cloud(250, 25),
             new Cloud(500, 50),
             new Cloud(800, 25),
@@ -37,9 +37,9 @@ function initLevel() {
             new Cloud(2300, 50),
         ],
 
-        [], // BackGroundObjects
+        [], 
 
-        [
+        [ 
             new CollectableBottles(300, 400),
             new CollectableBottles(700, 200),
             new CollectableBottles(1100, 400),
@@ -50,9 +50,9 @@ function initLevel() {
             new CollectableBottles(3200, 150),
             new CollectableBottles(3800, 400),
             new CollectableBottles(4600, 400)
-        ], // collectableBottles
+        ],
 
-        [
+        [ 
             new Coins(200, 150),
             new Coins(500, 200),
             new Coins(1000, 125),
@@ -63,6 +63,6 @@ function initLevel() {
             new Coins(3300, 150),
             new Coins(3900, 200),
             new Coins(4400, 150)
-        ] // Coins
+        ]
     );
 }

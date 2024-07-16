@@ -1,13 +1,13 @@
 /**
- * Repräsentiert eine sammelbare Münze im Spiel.
+ * Represents a collectable coin in the game.
  * @extends DrawableObject
  */
 class Coins extends DrawableObject {
 
     /**
-     * Erstellt eine Instanz von Coins.
-     * @param {number} x - Die x-Position der Münze.
-     * @param {number} y - Die y-Position der Münze.
+     * Creates an instance of Coins.
+     * @param {number} x - The x-position of the coin.
+     * @param {number} y - The y-position of the coin.
      */
     constructor(x, y) {
         super().loadImg('img_pollo_locco/img/8_coin/coin_1.png');
@@ -15,16 +15,16 @@ class Coins extends DrawableObject {
         this.width = 100;
         this.x = x;
         this.y = y;
-        this.offsetX = 20; // Beispiel: verkleinert die Hitbox an allen Seiten
+        this.offsetX = 20;
         this.offsetY = 20;
         this.offsetWidth = 40;
         this.offsetHeight = 40;
     }
 
     /**
-     * Sammelt die Münze ein und aktualisiert die Münzleiste.
-     * @param {Array<Coins>} collectableCoins - Das Array der sammelbaren Münzen.
-     * @param {Coinbar} coinbar - Die Münzleiste.
+     * Collects the coin and updates the coin bar.
+     * @param {Array<Coins>} collectableCoins - The array of collectable coins.
+     * @param {Coinbar} coinbar - The coin bar.
      */
     collectCoin(collectableCoins, coinbar) {
         soundManager.playnormalSound('collectCoin');

@@ -1,29 +1,29 @@
 /**
- * Repräsentiert ein Wurfobjekt im Spiel.
+ * Represents a throwable object in the game.
  * @extends MoveableObject
  */
 class ThrowableObject extends MoveableObject {
 
     /**
-     * Die Geschwindigkeit in y-Richtung.
+     * The speed in the y-direction.
      * @type {number}
      */
     speedY = 30;
 
     /**
-     * Die Geschwindigkeit in x-Richtung.
+     * The speed in the x-direction.
      * @type {number}
      */
     speedX = 20;
 
     /**
-     * Statusvariable für die Flaschenrotation.
+     * Status variable for the bottle rotation.
      * @type {boolean}
      */
     Bottleisrotating = false;
 
     /**
-     * Die Bilder der rotierenden Flasche.
+     * The images of the rotating bottle.
      * @type {Array<string>}
      */
     Images_Bottle_rotating = [
@@ -34,7 +34,7 @@ class ThrowableObject extends MoveableObject {
     ];
 
     /**
-     * Die Bilder des Flaschenspritzers.
+     * The images of the bottle splash.
      * @type {Array<string>}
      */
     Images_Bottle_splash = [
@@ -47,20 +47,21 @@ class ThrowableObject extends MoveableObject {
     ];
 
     /**
-     * Erstellt eine Instanz von ThrowableObject.
-     * @param {number} x - Die x-Position des Wurfobjekts.
-     * @param {number} y - Die y-Position des Wurfobjekts.
+     * Creates an instance of ThrowableObject.
+     * @param {number} x - The x-position of the throwable object.
+     * @param {number} y - The y-position of the throwable object.
+     * @param {string} direction - The direction of the throw.
      */
     constructor(x, y, direction) {
-        super().loadImg('img_pollo_locco/img/6_salsa_bottle/salsa_bottle.png'); // Konstruktor der Elternklasse aufrufen
-        this.loadImages(this.Images_Bottle_rotating); // Lädt die Bilder
-        this.loadImages(this.Images_Bottle_splash); // Lädt die Bilder
-        this.x = x; // x-Position
-        this.y = y; // y-Position
-        this.direction = direction; // Richtung
+        super().loadImg('img_pollo_locco/img/6_salsa_bottle/salsa_bottle.png');
+        this.loadImages(this.Images_Bottle_rotating);
+        this.loadImages(this.Images_Bottle_splash);
+        this.x = x;
+        this.y = y;
+        this.direction = direction;
         this.height = 60;
         this.width = 50;
-        this.offsetX = 5; // Beispiel: verkleinert die Hitbox an allen Seiten
+        this.offsetX = 5;
         this.offsetY = 5;
         this.offsetWidth = 30;
         this.offsetHeight = 30;
@@ -68,48 +69,46 @@ class ThrowableObject extends MoveableObject {
     }
 
     /**
-     * Startet den Wurf der Flasche.
+     * Starts the throw of the bottle.
      */
     throw() {
-        if (this.Bottleisrotating) return; // Wenn die Flasche bereits rotiert, wird die Methode beendet
-        this.Bottleisrotating = true; // Setzt den Status der Flaschenrotation auf true
+        if (this.Bottleisrotating) return;
+        this.Bottleisrotating = true;
         this.speedY = 20;
         this.applyGravity();
         this.ThrowInterval = setInterval(() => {
-            this.x += this.direction === 'left' ? -12 : 12; // Bewegt die Flasche in die entsprechende Richtung
-            // Aufrufen der animateImages Methode um die Flaschenbilder zu animieren
+            this.x += this.direction === 'left' ? -12 : 12;
             this.animateImages(this.Images_Bottle_rotating);
-        }, 25); // Aktualisiere das Bild alle 25 Millisekunden
-        soundManager.playSound('throwbottle'); // Spielt den Soundeffekt ab
+        }, 25);
+        soundManager.playSound('throwbottle');
     }
 
     /**
-     * Stoppt die Rotation der Flasche.
+     * Stops the rotation of the bottle.
      */
     stopRotation() {
-        clearInterval(this.ThrowInterval); // Stoppt die Flaschenrotation
-        this.Bottleisrotating = false; // Setzt den Status der Flaschenrotation auf false
-        this.speedY = 0; // Stellt sicher, dass die Schwerkraft nicht mehr angewendet wird
+        clearInterval(this.ThrowInterval);
+        this.Bottleisrotating = false;
+        this.speedY = 0;
     }
 
     /**
-     * Startet die Spritzanimation der Flasche.
+     * Starts the splash animation of the bottle.
      */
     bottleSplash() {
-        this.stopRotation(); // Stoppt die Flaschenrotation
+        this.stopRotation();
         const splashInterval = setInterval(() => {
             if (!this.Bottleisrotating) {
-                this.animateImages(this.Images_Bottle_splash); // Animiere die Bilder
-                clearInterval(splashInterval); // Stoppt die Animation
+                this.animateImages(this.Images_Bottle_splash);
+                clearInterval(splashInterval);
             }
-        }, 100); // Aktualisiere das Bild alle 100 Millisekunden
+        }, 100);
     }
 
     /**
-     * Spielt den Klang des zerbrechenden Glases ab.
+     * Plays the sound of breaking glass.
      */
     playGlasSplashSound() {
-        soundManager.playnormalSound('glassbottlehit'); // Spielt den Soundeffekt ab
+        soundManager.playnormalSound('glassbottlehit');
     }
-
 }

@@ -1,28 +1,28 @@
 /**
- * @fileoverview Dieses Skript initialisiert und steuert das Spiel sowie die Benutzeroberfläche.
+ * @fileoverview This script initializes and controls the game and the user interface.
  */
 
 let canvas;
 let world;
-let keyboard = new Keyboard(); // Initialisiert ein neues Keyboard-Objekt
+let keyboard = new Keyboard(); // Initializes a new Keyboard object
 let Bosslife = false;
 let startScreen, WinEndScreen;
 let GamePlays = false;
 let showMobileButtonsStatus = false;
 
 /**
- * Startet das Spiel, initialisiert die notwendigen Elemente und zeigt das Spiel-Canvas an.
+ * Starts the game, initializes the necessary elements, and displays the game canvas.
  */
 function startGame() {
-    canvas = document.getElementById('canvas'); // Holt das Canvas-Element aus dem DOM
+    canvas = document.getElementById('canvas'); // Retrieves the canvas element from the DOM
     startScreen = document.getElementById('startMenuBox');
     WinEndScreen = document.getElementById('WinScreenEnd');
     WinEndScreen.classList.remove('display-block');
     startScreen.classList.add('display-none');
     canvas.classList.add('display-block');
     canvasContainer.classList.add('display-block');
-    initLevel(); // Initialisiert das Level
-    init(); // Initialisiert das Spiel
+    initLevel(); // Initializes the level
+    init(); // Initializes the game
     GamePlays = true;
     showMobileButtonsStatus = true;
     mobileEventListener();
@@ -30,39 +30,38 @@ function startGame() {
 }
 
 /**
- * Initialisiert das Spiel und die Welt.
+ * Initializes the game and the world.
  */
 function init() {
-    canvas = document.getElementById('canvas'); // Holt das Canvas-Element aus dem DOM
-    world = new World(canvas, keyboard); // Initialisiert die Welt mit Canvas und Keyboard
+    canvas = document.getElementById('canvas'); // Retrieves the canvas element from the DOM
+    world = new World(canvas, keyboard); // Initializes the world with canvas and keyboard
 }
 
 /**
- * Startet das Spiel neu, indem die Seite neu geladen wird.
+ * Restarts the game by reloading the page.
  */
 function restartGame() {
     location.reload();
 }
 
-
 /**
- * Aktualisiert den Tastaturzustand bei Tastendruck.
- * @param {KeyboardEvent} e - Das Keyboard-Event.
+ * Updates the keyboard state on keydown.
+ * @param {KeyboardEvent} e - The keyboard event.
  */
 window.addEventListener('keydown', function (e) {
-    keyboard.updateKeyState(e.key, true); // Aktualisiert den Tastaturzustand bei Tastendruck
+    keyboard.updateKeyState(e.key, true); // Updates the keyboard state on keydown
 });
 
 /**
- * Aktualisiert den Tastaturzustand bei Loslassen der Taste.
- * @param {KeyboardEvent} e - Das Keyboard-Event.
+ * Updates the keyboard state on keyup.
+ * @param {KeyboardEvent} e - The keyboard event.
  */
 window.addEventListener('keyup', function (e) {
-    keyboard.updateKeyState(e.key, false); // Aktualisiert den Tastaturzustand bei Loslassen der Taste
+    keyboard.updateKeyState(e.key, false); // Updates the keyboard state on keyup
 });
 
 /**
- * Öffnet das Keyboard-Menü.
+ * Opens the keyboard menu.
  */
 function openKeyboardMenu() {
     document.getElementById('startMenuBox').classList.add('display-none');
@@ -70,23 +69,32 @@ function openKeyboardMenu() {
 }
 
 /**
- * Schließt das Keyboard-Menü.
+ * Closes the keyboard menu.
  */
 function closeKeyboardMenu() {
     document.getElementById('startMenuBox').classList.remove('display-none');
     document.getElementById('keyboardMenu').style.display = 'none';
 }
 
+/**
+ * Opens the Impressum information.
+ */
 function openImpressum() {
     document.getElementById('startMenuBox').style.display = 'none';
     document.getElementById('impressumBox').style.display = 'block';
 }
 
+/**
+ * Opens the data protection information.
+ */
 function openDatenschutz() {
     document.getElementById('startMenuBox').style.display = 'none';
     document.getElementById('datenschutzBox').style.display = 'block';
 }
 
+/**
+ * Closes the information boxes.
+ */
 function closeInfoBox() {
     document.getElementById('impressumBox').style.display = 'none';
     document.getElementById('datenschutzBox').style.display = 'none';
@@ -94,7 +102,7 @@ function closeInfoBox() {
 }
 
 /**
- * Überprüft die Ausrichtung des Geräts und passt die Anzeige entsprechend an.
+ * Checks the device orientation and adjusts the display accordingly.
  */
 function checkOrientation() {
     const rotateMessage = document.getElementById('rotateDeviceMessage');
@@ -111,7 +119,7 @@ function checkOrientation() {
 }
 
 /**
- * Zeigt die mobilen Steuerungstasten an.
+ * Shows the mobile control buttons.
  */
 function showMobileButtons() {
     if (showMobileButtonsStatus) {
@@ -123,7 +131,7 @@ function showMobileButtons() {
 }
 
 /**
- * Versteckt die mobilen Steuerungstasten.
+ * Hides the mobile control buttons.
  */
 function hideMobileButtons() {
     if (!showMobileButtonsStatus || window.innerHeight >= 1025) {
@@ -135,7 +143,7 @@ function hideMobileButtons() {
 }
 
 /**
- * Steuert das Ein- und Ausblenden der mobilen Steuerungstasten.
+ * Controls the display of the mobile control buttons.
  */
 function controlMobileButtons() {
     setInterval(() => {
@@ -145,16 +153,15 @@ function controlMobileButtons() {
 }
 
 /**
- * Fügt Event-Listener für die Größenänderung und Ausrichtungsänderung des Fensters hinzu.
+ * Adds event listeners for window resize and orientation change.
  */
 window.addEventListener('resize', checkOrientation);
 window.addEventListener('orientationchange', checkOrientation);
 
 /**
- * Fügt Event-Listener für die mobilen Buttons hinzu.
+ * Adds event listeners for the mobile buttons.
  */
 function mobileEventListener() {
-    // Event-Listener für mobile Buttons hinzufügen
     document.getElementById('leftButton').addEventListener('touchstart', () => keyboard.updateButtonState('LEFT', true));
     document.getElementById('leftButton').addEventListener('touchend', () => keyboard.updateButtonState('LEFT', false));
     document.getElementById('rightButton').addEventListener('touchstart', () => keyboard.updateButtonState('RIGHT', true));
@@ -183,5 +190,3 @@ document.addEventListener('DOMContentLoaded', () => {
         if (canvasButton) canvasButton.src = './img_pollo_locco/img/MusicUnmute.png';
     }
 });
-
-

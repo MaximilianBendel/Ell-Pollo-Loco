@@ -1,17 +1,17 @@
 /**
- * Repräsentiert den Gewinnbildschirm im Spiel.
+ * Represents the win screen in the game.
  * @extends DrawableObject
  */
-class WinScreen extends DrawableObject { 
+class WinScreen extends DrawableObject {
 
     /**
-     * Zeigt an, ob der Gewinnbildschirm angezeigt werden soll.
+     * Indicates whether the win screen should be displayed.
      * @type {boolean}
      */
     ShowWinScreen = false;
 
     /**
-     * Das Bild des Gewinnbildschirms.
+     * The image of the win screen.
      * @type {Array<string>}
      */
     WinScreenImage = [
@@ -19,9 +19,9 @@ class WinScreen extends DrawableObject {
     ];
 
     /**
-     * Erstellt eine Instanz von WinScreen.
+     * Creates an instance of WinScreen.
      */
-    constructor() { 
+    constructor() {
         super();
         this.loadImg('img_pollo_locco/img/9_intro_outro_screens/win/won_2.png');
         this.x = 100;
@@ -31,8 +31,8 @@ class WinScreen extends DrawableObject {
     }
 
     /**
-     * Zeichnet den Gewinnbildschirm, wenn ShowWinScreen auf true gesetzt ist.
-     * @param {CanvasRenderingContext2D} ctx - Der 2D-Kontext des Canvas.
+     * Draws the win screen if ShowWinScreen is set to true.
+     * @param {CanvasRenderingContext2D} ctx - The 2D context of the canvas.
      */
     draw(ctx) {
         if (this.ShowWinScreen) {

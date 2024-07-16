@@ -1,5 +1,5 @@
 /**
- * Repräsentiert ein Level im Spiel.
+ * Represents a level in the game.
  */
 class Level {
     enemies;
@@ -7,16 +7,16 @@ class Level {
     BackGroundObjects;
     collectableBottles;
     collectableCoins;
-    level_end_x = 5500; // Das Ende des Levels
-    levelGround = 410; // Die Höhe des Bodens
+    level_end_x = 5500;
+    levelGround = 410;
 
     /**
-     * Erstellt eine Instanz von Level.
-     * @param {Array<MoveableObject>} enemies - Die Feinde im Level.
-     * @param {Array<Cloud>} clouds - Die Wolken im Level.
-     * @param {Array<BackGroundObject>} BackGroundObjects - Die Hintergrundobjekte im Level.
-     * @param {Array<CollectableBottle>} collectableBottles - Die sammelbaren Flaschen im Level.
-     * @param {Array<CollectableCoin>} collectableCoins - Die sammelbaren Münzen im Level.
+     * Creates an instance of Level.
+     * @param {Array<MoveableObject>} enemies - The enemies in the level.
+     * @param {Array<Cloud>} clouds - The clouds in the level.
+     * @param {Array<BackGroundObject>} BackGroundObjects - The background objects in the level.
+     * @param {Array<CollectableBottle>} collectableBottles - The collectable bottles in the level.
+     * @param {Array<CollectableCoin>} collectableCoins - The collectable coins in the level.
      */
     constructor(enemies, clouds, BackGroundObjects, collectableBottles, collectableCoins) {
         this.enemies = enemies;

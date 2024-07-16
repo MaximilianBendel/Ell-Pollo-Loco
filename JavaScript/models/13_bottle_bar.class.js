@@ -1,16 +1,16 @@
 /**
- * Repräsentiert die Flaschenleiste im Spiel.
+ * Represents the bottle bar in the game.
  * @extends DrawableObject
  */
 class Bottlebar extends DrawableObject {
     /**
-     * Die Anzahl der Flaschen in der Leiste.
+     * The number of bottles in the bar.
      * @type {number}
      */
     bottles = 0;
 
     /**
-     * Die Bilder der Flaschenleiste.
+     * The images of the bottle bar.
      * @type {Array<string>}
      */
     Images_statusbar_bottle = [
@@ -23,7 +23,7 @@ class Bottlebar extends DrawableObject {
     ];
 
     /**
-     * Erstellt eine Instanz von Bottlebar.
+     * Creates an instance of Bottlebar.
      */
     constructor() {
         super();
@@ -36,30 +36,30 @@ class Bottlebar extends DrawableObject {
     }
 
     /**
-     * Setzt die Anzahl der Flaschen und aktualisiert die Bildanzeige.
-     * @param {number} bottles - Die Anzahl der Flaschen.
+     * Sets the number of bottles and updates the image display.
+     * @param {number} bottles - The number of bottles.
      */
     setBottles(bottles) {
-        this.bottles = bottles; // Setzt die Anzahl der Flaschen
-        this.updateStatusBarImage(); // Aktualisiert die Bildanzeige basierend auf der Anzahl
+        this.bottles = bottles;
+        this.updateStatusBarImage();
     }
     
     /**
-     * Aktualisiert das Bild der Flaschenleiste basierend auf der Anzahl der Flaschen.
+     * Updates the bottle bar image based on the number of bottles.
      */
     updateStatusBarImage() {
-        if (this.bottles === 10) {
-            this.img = this.imageCache[this.Images_statusbar_bottle[5]]; 
-        } else if (this.bottles >= 8) { 
+        if (this.bottles >= 10) {
+            this.img = this.imageCache[this.Images_statusbar_bottle[5]];
+        } else if (this.bottles >= 8) {
             this.img = this.imageCache[this.Images_statusbar_bottle[4]];
         } else if (this.bottles >= 6) {
-            this.img = this.imageCache[this.Images_statusbar_bottle[3]]; 
+            this.img = this.imageCache[this.Images_statusbar_bottle[3]];
         } else if (this.bottles >= 4) {
-            this.img = this.imageCache[this.Images_statusbar_bottle[2]]; 
+            this.img = this.imageCache[this.Images_statusbar_bottle[2]];
         } else if (this.bottles >= 2) {
-            this.img = this.imageCache[this.Images_statusbar_bottle[1]]; 
+            this.img = this.imageCache[this.Images_statusbar_bottle[1]];
         } else {
-            this.img = this.imageCache[this.Images_statusbar_bottle[0]]; 
+            this.img = this.imageCache[this.Images_statusbar_bottle[0]];
         }
     }
 }
