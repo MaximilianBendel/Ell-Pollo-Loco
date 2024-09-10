@@ -19,6 +19,76 @@ body {
     display: none;
 }
 
+@media (min-width: 1440px) {
+    #canvas {
+        width: 1080px;
+        height: 720px;
+    }
+
+    .startMenuBox {
+        width: 1080px !important;
+        height: 720px !important;
+    }
+
+    .impressumFLexBox {
+        font-size: 22px;
+    }
+
+    .keyboardMenu {
+        width: 1080px !important;
+        height: 720px !important;
+    }
+
+    .KeyBoardIntroductionWrapper div {
+        font-size: 22px;
+    }
+}
+
+@media (min-width: 2560px) {
+    #canvas {
+        width: 1920px;
+        /* 1.5-fache Breite von 1080px */
+        height: 1280px;
+        /* Proportional zur Breite, 1.5-fache Höhe von 720px */
+    }
+
+    .startMenuBox {
+        width: 1920px !important;
+        /* Entsprechend dem Canvas */
+        height: 1280px !important;
+        /* Entsprechend dem Canvas */
+    }
+
+    .impressumFLexBox {
+        font-size: 40px;
+    }
+
+    .startImg {
+        width: 90% !important;
+    }
+
+    .keyboardMenu {
+        width: 1920px !important;
+        /* Entsprechend dem Canvas */
+        height: 1280px !important;
+        /* Entsprechend dem Canvas */
+    }
+
+    .KeyBoardIntroductionWrapper {
+        padding: 0px 100px;
+        box-sizing: border-box;
+    }
+
+    .KeyBoardIntroductionWrapper div {
+        font-size: 28px;
+    }
+
+    .keyboardMenuButtons {
+        right: -14% !important;
+    }
+}
+
+
 .control-button {
     width: 50px;
     height: 50px;
@@ -73,6 +143,7 @@ canvas {
 
 .startMenuBox {
     display: flex;
+    position: relative;
     width: 720px;
     height: 480px;
     background-image: url(./img_pollo_locco/img/9_intro_outro_screens/start/startscreen_1.png);
@@ -91,18 +162,23 @@ canvas {
 }
 
 .startImg {
-    width: 154px;
+    width: 45%;
     cursor: pointer;
     transition: transform 0.3s;
 }
 
 .keyboardImg {
-    width: 50px;
+    width: 25%;
+    cursor: pointer;
+}
+
+.keyboardImg2 {
+    width: 15%;
     cursor: pointer;
 }
 
 .unmuteImg {
-    width: 52px;
+    width: 25%;
     cursor: pointer;
 }
 
@@ -175,41 +251,40 @@ canvas {
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
+    position: relative;
 }
 
 .settingsButtonsWrapper {
-    display: flex;
-    justify-content: end;
-    margin-right: 50px;
-    margin-top: 25px;
+    position: absolute;
+    left: 73%;
+    top: 4%;
 }
 
 .settingsButtonsFlexBox {
     display: flex;
-    justify-content: space-between;
-    width: 150px;
+    gap: 52px;
 }
 
 .startButtonWrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    height: 720px - 51px;
-    margin-top: 30%;
-    margin-left: 22%;
+    position: absolute;
+    bottom: 8%;
+    left: 13%;
 }
 
 .keyboardMenuButtons {
-    display: flex;
-    justify-content: end;
-    margin-right: 50px;
-    margin-top: 25px;
+    position: absolute;
+    right: -31%;
+    top: 4%;
 }
 
 .KeyBoardIntroductionWrapper {
     display: flex;
-    margin: 20px 70px 0px 70px;
     flex-direction: column;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    width: 100%;
+    transform: translate(-50%);
 }
 
 .AnimationKeybindingsBox span {
@@ -220,8 +295,8 @@ canvas {
 
 .KeyBoardIntroductionWrapper div {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    gap: 30%;
 }
 
 .KeyBoardIntroductionWrapper img {
@@ -375,9 +450,10 @@ canvas {
 }
 
 .impressumFLexBox {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
+    position: absolute;
+    bottom: 3%;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .impressumFLexBox span {
@@ -404,8 +480,6 @@ canvas {
 /* Style for the info boxes (Impressum and Datenschutz) */
 .infoBox {
     position: absolute;
-    width: 100%;
-    height: 100%;
     background: rgba(255, 255, 255, 0.9);
     top: 0;
     left: 0;
