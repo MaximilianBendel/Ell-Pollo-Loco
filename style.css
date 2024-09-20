@@ -42,21 +42,29 @@ body {
     .KeyBoardIntroductionWrapper div {
         font-size: 22px;
     }
+
+    .WinScreenEndImageBox img,
+    .LoseScreenEndImageBox img {
+        width: 1080px !important;
+        height: 720px !important;
+    }
 }
 
 @media (min-width: 2560px) {
     #canvas {
         width: 1920px;
-        /* 1.5-fache Breite von 1080px */
         height: 1280px;
-        /* Proportional zur Breite, 1.5-fache Höhe von 720px */
+    }
+
+    .WinScreenEndImageBox img,
+    .LoseScreenEndImageBox img {
+        width: 1920px !important;
+        height: 1280px !important;
     }
 
     .startMenuBox {
         width: 1920px !important;
-        /* Entsprechend dem Canvas */
         height: 1280px !important;
-        /* Entsprechend dem Canvas */
     }
 
     .impressumFLexBox {
@@ -474,7 +482,14 @@ canvas {
     font-size: 12px;
     text-align: center;
     white-space: pre-line;
-    padding: 50px;
+}
+
+.infoBoxContent h2 {
+    font-size: 52px;
+}
+
+.infoBoxContent p {
+    font-size: 22px;
 }
 
 /* Style for the info boxes (Impressum and Datenschutz) */
@@ -487,16 +502,20 @@ canvas {
     justify-content: center;
     align-items: center;
     z-index: 10;
+    padding: 5%;
+    width: 100vw;
+    height: 100vh;
+    box-sizing: border-box;
 }
 
 .infoBoxHeader {
     position: absolute;
-    top: 10px;
-    left: 10px;
+    top: 2%;
+    left: 2%;
 }
 
 .closeImg {
-    width: 30px;
-    height: 30px;
+    width: 13%;
+    height: auto;
     cursor: pointer;
 }
