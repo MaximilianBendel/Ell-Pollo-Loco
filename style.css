@@ -42,24 +42,12 @@ body {
     .KeyBoardIntroductionWrapper div {
         font-size: 22px;
     }
-
-    .WinScreenEndImageBox img,
-    .LoseScreenEndImageBox img {
-        width: 1080px !important;
-        height: 720px !important;
-    }
 }
 
 @media (min-width: 2560px) {
     #canvas {
         width: 1920px;
         height: 1280px;
-    }
-
-    .WinScreenEndImageBox img,
-    .LoseScreenEndImageBox img {
-        width: 1920px !important;
-        height: 1280px !important;
     }
 
     .startMenuBox {
